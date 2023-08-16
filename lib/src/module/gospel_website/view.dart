@@ -1,0 +1,49 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:gosperadioapp/src/utils/extensions.dart';
+
+import '../../utils/constants/colors.dart';
+import 'components/gospelList.dart';
+import 'components/videos.dart';
+import 'logic.dart';
+
+class GospelWebsitePage extends StatelessWidget {
+  GospelWebsitePage({Key? key}) : super(key: key);
+
+  final logic = Get.put(GospelWebsiteLogic());
+  final state = Get.find<GospelWebsiteLogic>().state;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.custombackgroundColor,
+      appBar: AppBar(
+        backgroundColor: AppColors.custombackgroundColor,
+        scrolledUnderElevation: 0,
+        centerTitle: true,
+        title: Text(
+          "Gospel Website",
+          style: context.text.bodySmall?.copyWith(
+              color: AppColors.customWhiteTextColor, fontSize: 14.sp),
+        ),
+        leading: IconButton(
+            onPressed: () {
+              Get.back();
+              // if(bottomNav.isFancyDrawer.isTrue){
+              //   bottomNav.advancedDrawerController.showDrawer();
+              // } else {
+              //   bottomNav.navScaffoldKey.currentState?.openDrawer();
+              // }
+            },
+            icon: Icon(Icons.arrow_back, color: AppColors.customBlackTextColor,)
+        ),
+      ),
+      body: GospelWebsiteSection(),
+      bottomNavigationBar: Container(
+        margin: EdgeInsets.only(bottom: 10),
+          height: 120,
+          child: HorizontalVideoList()),
+    );
+  }
+}
