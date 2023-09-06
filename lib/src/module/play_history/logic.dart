@@ -12,6 +12,16 @@ class PlayHistoryLogic extends GetxController {
   RxString listMusicPlayhistory = ''.obs;
   Map<String, dynamic> responseDataMusicPlayhistory = Map<String, dynamic>();
   RxList<dynamic> historyMusicPlay = [].obs;
+  Rx<dynamic> dataPlayNow = Rx<dynamic>(null);
+  Rx<dynamic> playNext = Rx<dynamic>(null);
+  dynamic hostImage;
+  RxBool loadingAir = false.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    onAirFunction();
+  }
 
   getMusicPlayhistory(BuildContext context) async {
     var dio = Dio();
@@ -32,5 +42,36 @@ class PlayHistoryLogic extends GetxController {
     } else {
       print(response.statusMessage);
     }
+  }
+
+  onAirFunction() async{
+   try{
+     loadingAir.value = true;
+     var dio = Dio();
+     var response = await dio.request(
+       'https://hgcradio.org/api/on-air',
+       options: Options(
+         method: 'GET',
+       ),
+     );
+
+     if (response.statusCode == 200 && response.data['status'] == 'Success') {
+       print(json.encode(response.data));
+       loadingAir.value = false;
+       hostImage = response.data['data']['show']['host_image'];
+       dataPlayNow.value = response.data['data']['now_playing'];
+       playNext.value = response.data['data']['next'];
+
+       print("ffffff: ${dataPlayNow}");
+       print("fffgggffffffff: ${playNext}");
+     }
+     else {
+       loadingAir.value = false;
+       print(response.statusMessage);
+     }
+   }catch(e){
+     loadingAir.value = false;
+     print('error: $e');
+   }
   }
 }

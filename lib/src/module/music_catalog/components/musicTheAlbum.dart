@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:gosperadioapp/src/module/music_play/view_demo.dart';
 import 'package:gosperadioapp/src/utils/extensions.dart';
 
 import '../../../utils/constants/colors.dart';
@@ -51,13 +52,21 @@ class _MusicTheAlbumSectionState extends State<MusicTheAlbumSection> {
                     onTap: () {
                       // logic2.getMusicPlaySong(context, logic.albumsListMusic[index]['id']);
 
-                      Get.to(() => MusicPlayPage(
-                            name: logic.albumsListMusic.value[index]['title'],
-                            albumName: logic.albumsListMusic.value[index]
-                                ['artist_name'],
-                            musicUrl: logic.albumsListMusic.value[index]
-                                ['sample_url'],
-                          ));
+                      // Get.to(() => MusicPlayPage(
+                      //       name: logic.albumsListMusic.value[index]['title'],
+                      //       albumName: logic.albumsListMusic.value[index]
+                      //           ['artist_name'],
+                      //       musicUrl: logic.albumsListMusic.value[index]
+                      //           ['sample_url'],
+                      //     ));
+
+                      Get.to(() => MusicDemo(
+                        name: logic.albumsListMusic.value[index]['title'],
+                        artistName: logic.albumsListMusic.value[index]['artist_name'],
+                        albumName: logic.albumsListMusic.value[index]['album_name'],
+                        musicUrl: logic.albumsListMusic.value[index]['sample_url'],
+                        duration: logic.albumsListMusic.value[index]['duration'],
+                      ));
                     },
                     child: Padding(
                       padding: EdgeInsets.symmetric(

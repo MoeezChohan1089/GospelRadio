@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,6 +12,7 @@ import '../../../utils/constants/margins_spacnings.dart';
 import '../../../utils/skeleton_loaders/shimmerLoader.dart';
 import '../../music_catalog/logic.dart';
 import '../../music_play/view.dart';
+import '../../music_play/view_demo.dart';
 
 class ListVerticalScreen extends StatefulWidget {
   ListVerticalScreen({Key? key}) : super(key: key);
@@ -21,9 +23,11 @@ class ListVerticalScreen extends StatefulWidget {
 
 class _ListVerticalScreenState extends State<ListVerticalScreen> {
   final logic = Get.find<HomeLogic>();
+  AudioPlayer player = AudioPlayer();
 
   @override
   void initState() {
+    player = AudioPlayer();
     super.initState();
   }
 
@@ -61,17 +65,27 @@ class _ListVerticalScreenState extends State<ListVerticalScreen> {
                             .albumsListMusicConstant.length, (index) {
                       return
                         InkWell(
-                          onTap: () {
+                          onTap: () async{
                             // logic2.getMusicPlaySong(context, logic.albumsListMusic[index]['id']);
 
-                            Get.to(() =>
-                                MusicPlayPage(
-                                  name: logic.albumsListMusicConstant
-                                      .value[index]['title'],
-                                  albumName: logic.albumsListMusicConstant
-                                      .value[index]['artist_name'],
-                                  musicUrl: logic.albumsListMusicConstant
-                                      .value[index]['sample_url'],));
+                            // AudioPlayer player = AudioPlayer();
+                            // // Preload the audio sample URL
+                            // await player.setUrl(logic.albumsListMusicConstant.value[index]['sample_url']);
+                            //
+                            // // Navigate to the music play screen
+                            // Get.to(() => MusicPlayPage(
+                            //   name: logic.albumsListMusicConstant.value[index]['title'],
+                            //   albumName: logic.albumsListMusicConstant.value[index]['artist_name'],
+                            //   musicUrl: logic.albumsListMusicConstant.value[index]['sample_url'],
+                            // ));
+
+                            Get.to(() => MusicDemo(
+                              name: logic.albumsListMusicConstant.value[index]['title'],
+                              artistName: logic.albumsListMusicConstant.value[index]['artist_name'],
+                              albumName: logic.albumsListMusicConstant.value[index]['album_name'],
+                              musicUrl: logic.albumsListMusicConstant.value[index]['sample_url'],
+                              duration: logic.albumsListMusicConstant.value[index]['duration'],
+                            ));
                           },
                           child: Padding(
                             padding: EdgeInsets.symmetric(
@@ -152,7 +166,20 @@ class _ListVerticalScreenState extends State<ListVerticalScreen> {
               Container(
                   margin: EdgeInsets.only(bottom: 10),
                   height: 130,
-                  child: HorizontalVideoList1()),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Advertise us",
+                        style: context.text.titleMedium?.copyWith(
+                            color: AppColors.customWhiteTextColor,
+                            fontSize: 18.sp),
+                      ),
+                      Container(
+                          height: 100,
+                          child: HorizontalVideoList1()),
+                    ],
+                  )),
             ],
           ),
         ),

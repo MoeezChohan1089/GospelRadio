@@ -19,7 +19,7 @@ void showCustomDialog(BuildContext context, String dataPass) {
             Text(
               "new password: ",
               style: context.text.titleMedium?.copyWith(
-                  color: AppColors.customBlackTextColor, fontSize: 18.sp),
+                  color: Colors.black, fontSize: 18.sp),
             ),
             Text(
               "$dataPass",

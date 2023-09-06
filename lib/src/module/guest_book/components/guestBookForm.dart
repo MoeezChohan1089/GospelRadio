@@ -55,7 +55,13 @@ class _GuestBookFormSectionState extends State<GuestBookFormSection> {
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body.toString());
       print(data['status']);
-      sncbr('Successfull', 'Submitted Successfully');
+      final snackBar = SnackBar(
+        content: Text('Submitted Successfully'),
+      );
+
+// Find the ScaffoldMessenger in the widget tree
+// and use it to show a SnackBar.
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } else {
       var data = jsonDecode(response.body.toString());
       print('Failed');

@@ -79,6 +79,14 @@ class EngineersPage extends StatelessWidget {
         ),
       ),
       body: GridViewScreenEnginners(),
+      bottomNavigationBar: Wrap(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12),
+            child: Image.asset('assets/images/ban.png', height: 85, width: double.maxFinite,),
+          ),
+        ],
+      ),
     );
   }
 }

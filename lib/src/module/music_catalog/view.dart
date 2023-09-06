@@ -45,16 +45,16 @@ class MusicCatalogPage extends StatelessWidget {
               Icons.menu,
               color: AppColors.customBlackTextColor,
             )),
-        actions: [
-          IconButton(
-              onPressed: () {
-                // Get.to(() => CartPage());
-              },
-              icon: Icon(
-                Icons.search,
-                color: AppColors.customBlackTextColor,
-              )),
-        ],
+        // actions: [
+        //   IconButton(
+        //       onPressed: () {
+        //         // Get.to(() => CartPage());
+        //       },
+        //       icon: Icon(
+        //         Icons.search,
+        //         color: AppColors.customBlackTextColor,
+        //       )),
+        // ],
       ),
       body: GridViewScreen(),
     );

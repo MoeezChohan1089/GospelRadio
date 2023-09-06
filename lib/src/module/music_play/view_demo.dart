@@ -1,6 +1,5 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,36 +12,83 @@ import '../../custom_widgets/custom_dialogue.dart';
 import '../../utils/constants/assets.dart';
 import '../../utils/constants/colors.dart';
 import 'logic.dart';
+import 'package:just_audio/just_audio.dart';
+import 'package:just_audio_cache/just_audio_cache.dart';
 
-class MusicPlayPage extends StatefulWidget {
+
+class MusicDemo extends StatefulWidget {
   String? name;
+  String? artistName;
   String? albumName;
   String? musicUrl;
-  MusicPlayPage({Key? key, this.name, this.albumName, this.musicUrl})
+  String? duration;
+  MusicDemo({Key? key, this.name, this.artistName, this.albumName, this.musicUrl, this.duration})
       : super(key: key);
 
   @override
-  State<MusicPlayPage> createState() => _MusicPlayPageState();
+  State<MusicDemo> createState() => _MusicDemoState();
 }
 
-class _MusicPlayPageState extends State<MusicPlayPage> {
+class _MusicDemoState extends State<MusicDemo> {
   final logic = Get.put(MusicPlayLogic());
   final logic1 = Get.put(HomeLogic());
 
-  final state = Get.find<MusicPlayLogic>().state;
-  int maxduration = 100;
-  String maxDurationToShow = "00:00";
-  int currentpos = 0;
-  String currentpostlabel = "00:00";
-  // String audioasset = "assets/audio/unstoppable.mp3";
-  bool isPlaying = false;
-  bool audioPlayed = false;
-  late Uint8List audiobytes;
-  String time = '00:00';
-  AudioPlayer player = AudioPlayer();
+  AudioPlayer player =  AudioPlayer();
   bool manuallyStopped = false;
   int currentSongIndex = 0;
   bool isAudioPreloaded = false;
+  PlayerState? _state;
+  bool isPlaying = false;
+
+  Widget _audioStateWidget() {
+    if (_state == null) {
+      isPlaying = true;
+      return _playButton;
+    }
+    if (_state!.playing) {
+      isPlaying = false;
+      return _pauseButton;
+    } else {
+      isPlaying = true;
+      return _playButton;
+    }
+  }
+
+  Widget get _pauseButton => GestureDetector(
+    onTap: () {
+      isPlaying = false;
+      player.pause();
+    },
+    child: Container(
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+          color: AppColors.customPinkColor,
+          shape: BoxShape.circle),
+      child:  Icon(
+        Icons.pause,
+        size: 35,
+        color: Colors.white,
+      ),
+    ),
+  );
+
+  Widget get _playButton => GestureDetector(
+    onTap: () {
+      isPlaying = true;
+      _playAudio();
+    },
+    child: Container(
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+          color: AppColors.customPinkColor,
+          shape: BoxShape.circle),
+      child:  Icon(
+        Icons.play_arrow,
+        size: 35,
+        color: Colors.white,
+      ),
+    ),
+  );
 
   void _updateSongDetails() {
     if (currentSongIndex >= 0 &&
@@ -50,13 +96,15 @@ class _MusicPlayPageState extends State<MusicPlayPage> {
       setState(() {
         widget.name = logic1.albumsListMusicConstant[currentSongIndex]['title'];
         widget.albumName =
-            logic1.albumsListMusicConstant[currentSongIndex]['artist_name'];
+        logic1.albumsListMusicConstant[currentSongIndex]['artist_name'];
+        widget.musicUrl = logic1.albumsListMusicConstant[currentSongIndex]['sample_url'];
       });
     }
   }
 
   void _forwardMusic() async {
     if (currentSongIndex < logic1.albumsListMusicConstant.length - 1) {
+      player.pause();
       currentSongIndex++;
     } else {
       // Optional: Handle if you want to loop to the first song again or stop at the last song
@@ -68,6 +116,7 @@ class _MusicPlayPageState extends State<MusicPlayPage> {
 
   void _backwardMusic() async {
     if (currentSongIndex > 0) {
+      player.pause();
       currentSongIndex--;
     } else {
       // Optional: Handle if you want to loop to the last song again or stop at the first song
@@ -79,15 +128,41 @@ class _MusicPlayPageState extends State<MusicPlayPage> {
 
   Future<void> _playCurrentSong() async {
     String musicUrl =
-        logic1.albumsListMusicConstant[currentSongIndex]['sample_url'];
-    int result = await player.play(musicUrl);
-    if (result == 1) {
+    logic1.albumsListMusicConstant[currentSongIndex]['sample_url'];
+    player = AudioPlayer();
+    player.dynamicSet(url: musicUrl);
+    //_player.dynamicSetAll(sources);
+    player.playerStateStream.listen((state) {
       setState(() {
-        isPlaying = true;
-        audioPlayed = true;
+        _state = state;
       });
-    } else {
-      print("Error while playing audio.");
+      print(state);
+    });
+  }
+
+  void _playAudio() async {
+    player.play();
+  }
+
+  Future<void> _preloadAudio() async {
+    player.dynamicSet(url: widget.musicUrl!);
+    isPlaying = true;
+    //_player.dynamicSetAll(sources);
+
+    Future.delayed(Duration(seconds: 1),(){
+      _playAudio();
+      _pauseButton;
+    });
+    if(LocalDatabase.to.box.read('token') == null){
+      Future.delayed(Duration(seconds: 15),(){
+        setState(() {
+          isPlaying = false;
+          player.pause();
+          _playButton;
+        });
+        customDialogueBox(context);
+
+      });
     }
   }
 
@@ -95,66 +170,14 @@ class _MusicPlayPageState extends State<MusicPlayPage> {
   void initState() {
     player = AudioPlayer();
     _preloadAudio();
-
-    player.onPlayerStateChanged.listen((PlayerState state) {
-      if (state == PlayerState.STOPPED && !manuallyStopped) {
-        setState(() {
-          isPlaying = false;
-        });
-      }
+    player.dynamicSet(url: widget.musicUrl!);
+    //_player.dynamicSetAll(sources);
+    player.playerStateStream.listen((state) {
+      setState(() {
+        _state = state;
+      });
+      print(state);
     });
-
-
-//     Future.delayed(Duration.zero, () async {
-//
-//       ByteData bytes = await rootBundle.load(widget.musicUrl!); //load audio from assets
-//       audiobytes = bytes.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
-//       //convert ByteData to Uint8List
-//
-//       player.onDurationChanged.listen((Duration d) { //get the duration of audio
-//         maxduration = d.inMilliseconds;
-//
-//         setState(() {
-//
-//           ///----- New Implementation
-//           int minutes = d.inMinutes;
-//           int seconds = d.inSeconds.remainder(60); // Get the remainder of seconds after minutes are subtracted.
-//
-// // Format the minutes and seconds as a string in the format "mm:ss".
-//           String time = "${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}";
-//           maxDurationToShow = time;
-//           print("now total time is $time");
-//
-//
-//
-//           // // Convert maxduration to minutes and seconds for display.
-//           // int minutes = (maxduration / 60).truncate();
-//           // int seconds = maxduration % 60;
-//           // time = "${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}";
-//           // print(" fromatted time is $time");  // Prints the time as "mm:ss"
-//         });
-//       });
-//
-//       player.onAudioPositionChanged.listen((Duration  p){
-//         currentpos = p.inMilliseconds; //get the current position of playing audio
-//
-//         //generating the duration label
-//         int shours = Duration(milliseconds:currentpos).inHours;
-//         int sminutes = Duration(milliseconds:currentpos).inMinutes;
-//         int sseconds = Duration(milliseconds:currentpos).inSeconds;
-//
-//         int rhours = shours;
-//         int rminutes = sminutes - (shours * 60);
-//         int rseconds = sseconds - (sminutes * 60 + shours * 60 * 60);
-//
-//         currentpostlabel = "${rminutes.toString().padLeft(2, '0')}:${rseconds.toString().padLeft(2, '0')}";
-//
-//         setState(() {
-//           //refresh the UI
-//         });
-//       });
-//
-//     });
     super.initState();
   }
 
@@ -162,39 +185,6 @@ class _MusicPlayPageState extends State<MusicPlayPage> {
   void dispose() {
     player.dispose();
     super.dispose();
-  }
-
-  Future<void> _preloadAudio() async {
-
-    await player.setUrl(widget.musicUrl!);
-    setState(() {
-      isAudioPreloaded = true;
-    });
-    Future.delayed(Duration(seconds: 7),(){
-      setState(() {
-        isAudioPreloaded = false;
-      });
-    });
-    int result =
-    await player.play(widget.musicUrl!);
-    if (result == 1) {
-      setState(() {
-        isPlaying = true;
-        audioPlayed = true;
-      });
-     if(LocalDatabase.to.box.read('token') == null){
-       Future.delayed(Duration(seconds: 15),(){
-         setState(() {
-           isPlaying = false;
-         });
-         player.pause();
-         customDialogueBox(context);
-
-       });
-     }
-    } else {
-      print("Error while playing audio.");
-    }
   }
 
   @override
@@ -268,7 +258,7 @@ class _MusicPlayPageState extends State<MusicPlayPage> {
                           child: Container(
                             alignment: Alignment.center,
                             child: Text(
-                              'Playing now',
+                              '${widget.albumName}',
                               textAlign: TextAlign.center,
                               style: context.text.titleMedium?.copyWith(
                                   fontSize: 20.sp,
@@ -302,7 +292,7 @@ class _MusicPlayPageState extends State<MusicPlayPage> {
                     Container(
                       alignment: Alignment.center,
                       child: Text(
-                        "${widget.albumName}",
+                        "${widget.artistName}",
                         style: context.text.titleMedium?.copyWith(
                             fontSize: 16.sp,
                             color: AppColors.customMusicTextColor,
@@ -345,6 +335,12 @@ class _MusicPlayPageState extends State<MusicPlayPage> {
                       ),
                     ),
                     100.heightBox,
+                    Container(
+                      width: double.maxFinite,
+                      alignment: Alignment.center,
+                      child: Text("${widget.duration}", style: context.text.bodyMedium?.copyWith(color: AppColors.customWhiteTextColor),),
+                    ),
+                    20.heightBox,
                     Row(
                       children: [
                         Expanded(
@@ -368,74 +364,7 @@ class _MusicPlayPageState extends State<MusicPlayPage> {
                             ),
                           ),
                         ),
-                        Expanded(
-                          child: GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            onTap: () async {
-                              // _playCurrentSong();
-                              // setState(() {});
-                              if (!isPlaying && !audioPlayed) {
-                                int result =
-                                    await player.play(widget.musicUrl!);
-                                if (result == 1) {
-                                  setState(() {
-                                    isPlaying = true;
-                                    audioPlayed = true;
-                                  });
-                                  if(LocalDatabase.to.box.read('token') == null){
-                                    Future.delayed(Duration(seconds: 15),(){
-                                      setState(() {
-                                        isPlaying = false;
-                                      });
-                                      player.pause();
-                                      customDialogueBox(context);
-
-                                    });
-                                  }
-                                } else {
-                                  print("Error while playing audio.");
-                                }
-                              } else if (audioPlayed && !isPlaying) {
-                                int result = await player.resume();
-                                if (result == 1) {
-                                  setState(() {
-                                    isPlaying = true;
-                                    audioPlayed = true;
-                                  });
-                                } else {
-                                  print("Error on resume audio.");
-                                }
-                              } else {
-                                int result = await player.pause();
-                                if (result == 1) {
-                                  setState(() {
-                                    isPlaying = false;
-                                  });
-                                } else {
-                                  print("Error on pause audio.");
-                                }
-                              }
-                              // int result = await player.play(widget.musicUrl!);
-                              // if (result == 1) {
-                              //   setState(() {
-                              //     isPlaying = true;
-                              //     audioPlayed = true;
-                              //   });
-                              // }
-                            },
-                            child: Container(
-                              padding: EdgeInsets.all(16),
-                              decoration: BoxDecoration(
-                                  color: AppColors.customPinkColor,
-                                  shape: BoxShape.circle),
-                              child:  Icon(
-                                isPlaying ? Icons.pause : Icons.play_arrow,
-                                size: 35,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
+                        Expanded(child: _audioStateWidget()),
                         Expanded(
                           child: InkWell(
                             onTap: () {
@@ -472,7 +401,7 @@ class _MusicPlayPageState extends State<MusicPlayPage> {
     if (ModalRoute.of(context)?.isCurrent == true && isPlaying) {
       // Check the flag to determine if the music was manually stopped
       if (!manuallyStopped) {
-        player.resume();
+        player.pause();
         setState(() {
           isPlaying = false;
         });

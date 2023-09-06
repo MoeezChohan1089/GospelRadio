@@ -62,7 +62,7 @@ class _GridViewScreenEnginnersState extends State<GridViewScreenEnginners> {
           itemCount: logic.albumsList.value.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            childAspectRatio: 0.65,
+            childAspectRatio: 0.70,
             // crossAxisSpacing: 0.4.w,
             // mainAxisSpacing: 0.8.h,
           ),
@@ -94,8 +94,8 @@ class _GridViewScreenEnginnersState extends State<GridViewScreenEnginners> {
                         topRight: Radius.circular(8),
                       ),
                       child: SizedBox(
-                        height: 150,
-                        width: 150,
+                        height: 100.h,
+                        width: 170.w,
                         child: CachedNetworkImage(
                           imageUrl: logic.albumsList.value[index]['avatar_url'],
 
@@ -125,6 +125,17 @@ class _GridViewScreenEnginnersState extends State<GridViewScreenEnginners> {
                         color: AppColors.customPinkColor, fontSize: 16.sp),
                   ),
                   3.heightBox,
+                  Container(
+                    width: 100,
+                    child: Text(
+                      logic.albumsList.value[index]['about'] ?? '',
+                      maxLines: 1,
+                      style: context.text.titleMedium?.copyWith(
+                        overflow: TextOverflow.ellipsis,
+                          color: AppColors.customWhiteTextColor, fontSize: 14.sp),
+                    ),
+                  ),
+                  8.heightBox,
                 ],
               ),
             );

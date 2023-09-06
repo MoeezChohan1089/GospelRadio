@@ -13,9 +13,11 @@ import '../utils/constants/colors.dart';
 import '../utils/constants/margins_spacnings.dart';
 import 'auth/view.dart';
 import 'contact/view.dart';
+import 'downloads_album/view.dart';
 import 'engineers/view.dart';
 import 'gospel_website/view.dart';
 import 'guest_book/view.dart';
+import 'music_radio/view.dart';
 import 'play_history/view.dart';
 import 'schedule/view.dart';
 
@@ -134,6 +136,38 @@ class _AppDrawerState extends State<AppDrawer> {
             ),
             InkWell(
               onTap: () {
+                Navigator.pop(context);
+                Get.to(()=> Music_radioPage());
+                // launch(
+                //     "https://play.google.com/store/apps/details?id=health.calculator.and.weight.loss.tracker");
+                // if (Platform.isIOS) {
+                //   launch("https://apps.apple.com/us/app/1608350899");
+                // }
+                // // // Android
+                // if (Platform.isAndroid) {
+                //   launch(
+                //       "https://play.google.com/store/apps/details?id=com.pdf.photos.converter.image.pic");
+                // }
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                child: Row(
+                  children: [
+                   Icon(Icons.music_note, size: 20, color: AppColors.customPinkColor,),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text("Music Radio",
+                        style: context.text.titleMedium?.copyWith(
+                            color: AppColors.customWhiteTextColor,
+                            fontSize: 16.sp))
+                  ],
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
                 Navigator.of(context).pop();
                 Get.to(() => PlayHistoryPage());
                 // Navigator.of(context).pop();
@@ -165,6 +199,36 @@ class _AppDrawerState extends State<AppDrawer> {
                 ),
               ),
             ),
+          LocalDatabase.to.box.read('token') != null?  InkWell(
+              onTap: () {
+                Navigator.of(context).pop();
+                Get.to(() => DownloadsAlbumPage());
+                // Navigator.of(context).pop();
+                // final Uri params = Uri(
+                //   scheme: 'mailto',
+                //   path: 'advancetechnology982@gmail.com',
+                //   query:
+                //   'subject=Health Calculator & Weight Loss Tracker Feedback', //add subject and body here
+                // );
+                // launchUrl(params);
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                child: Row(
+                  children: [
+                    Icon(Icons.download, color: AppColors.customPinkColor, size: 20,),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text("Downloads",
+                        style: context.text.titleMedium?.copyWith(
+                            color: AppColors.customWhiteTextColor,
+                            fontSize: 16.sp))
+                  ],
+                ),
+              ),
+            ):SizedBox(),
             InkWell(
               onTap: () {
                 Get.to(() => SchedulePage());
@@ -344,7 +408,14 @@ class _AppDrawerState extends State<AppDrawer> {
                           await SharedPreferences.getInstance();
                       LocalDatabase.to.box.remove('token');
                       Get.off(() => HomePage());
-                      Get.snackbar('logout', 'Logout Sussessfully..');
+                      final snackBar = SnackBar(
+                        content: Text('Logout Sussessfully..'),
+                      );
+
+// Find the ScaffoldMessenger in the widget tree
+// and use it to show a SnackBar.
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
                     },
                     child: Container(
                       padding:

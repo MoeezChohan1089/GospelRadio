@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gosperadioapp/src/globalVariable/global_variable.dart';
 
+import '../../globalVariable/database_controller.dart';
 import '../../utils/constants/colors.dart';
 import 'state.dart';
 
@@ -48,27 +49,46 @@ class Music_catalogLogic extends GetxController {
   }
 
   downloadSong(context, id) async{
-    customLoaderGlobal.showLoader(context);
-    var dio = Dio();
-    var response = await dio.request(
-      'https://hgcradio.org/api/purhcased/album/$id',
-      options: Options(
-        method: 'GET',
-      ),
-    );
+   try{
+     customLoaderGlobal.showLoader(context);
+     var headers = {
+       'Authorization': 'Bearer ${LocalDatabase.to.box.read('token')}'
+     };
+     var data = {
+       'type': 'Album',
+       'type_id': '$id'
+     };
 
-    if (response.statusCode == 200) {
-      print(json.encode(response.data));
-      customLoaderGlobal.hideLoader();
-      Get.snackbar('Message', 'Download Successfully..!!',
-          backgroundColor: Colors.black,
-          colorText: AppColors.customWhiteTextColor);
+     var dio = Dio();
+     var response = await dio.request(
+       'https://hgcradio.org/api/payment-token',
+       options: Options(
+         method: 'POST',
+         headers: headers,
+       ),
+       data: data,
+     );
 
-      print(
-          "fssfsfsdfsdfsdfsdfsfsdfs: ${responseDataMusicList['data']['album']['title']}");
-    } else {
-      customLoaderGlobal.hideLoader();
-      print(response.statusMessage);
-    }
+     if (response.statusCode == 200) {
+       print(json.encode(response.data));
+       customLoaderGlobal.hideLoader();
+       final snackBar = SnackBar(
+         content: Text('Download Successfully..!!'),
+       );
+
+       ScaffoldMessenger.of(context).showSnackBar(snackBar);
+     }
+     else {
+       customLoaderGlobal.hideLoader();
+       print(response.statusMessage);
+     }
+   }catch(e){
+     customLoaderGlobal.hideLoader();
+     final snackBar = SnackBar(
+       content: Text('Something went wrong'),
+     );
+
+     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+   }
   }
 }

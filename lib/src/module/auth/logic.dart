@@ -34,14 +34,19 @@ class AuthLogic extends GetxController {
   TextEditingController emailSignInController = TextEditingController();
   TextEditingController passwordSignInController = TextEditingController();
   TextEditingController emailForgotController = TextEditingController();
+  TextEditingController forgotNewPasswordController = TextEditingController();
+  TextEditingController forgotConfirmNewPasswordController = TextEditingController();
   GlobalKey<FormState> formKeyValue = GlobalKey<FormState>();
   GlobalKey<FormState> formKeyValue1 = GlobalKey<FormState>();
-  GlobalKey<FormState> formKeyValue2 = GlobalKey<FormState>();
+  // GlobalKey<FormState> formKeyValue2 = GlobalKey<FormState>();
   GlobalKey<FormState> formKeyValue3 = GlobalKey<FormState>();
   GlobalKey<FormState> formKeyValue4 = GlobalKey<FormState>();
   GlobalKey<FormState> formKeyValue5 = GlobalKey<FormState>();
+  GlobalKey<FormState> formKeyValue6 = GlobalKey<FormState>();
   RxBool obscureText = true.obs;
-  RxString newPassGet = ''.obs;
+  RxBool obscureText2 = true.obs;
+  RxBool obscureText3 = true.obs;
+  RxString newPassToken = ''.obs;
 
   RxList<TextEditingController> listOfController = RxList<TextEditingController>([]);
 
@@ -49,6 +54,7 @@ class AuthLogic extends GetxController {
     customLoaderGlobal.showLoader(context);
 
     if (await createSignupApiService(
+      context: context,
       // user: userGet,
         name: nameController.text,
         password: passwordController.text,
@@ -57,7 +63,20 @@ class AuthLogic extends GetxController {
       ///----- API Successful
 
       customLoaderGlobal.hideLoader();
+      final snackBar = SnackBar(
+        content: Text('OTP has been sent in your email.'),
+      );
+
+// Find the ScaffoldMessenger in the widget tree
+// and use it to show a SnackBar.
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      // Get.snackbar('Message', 'OTP has been sent in your email.',
+      //     backgroundColor: Colors.black,
+      //     colorText: AppColors.customWhiteTextColor);
       Get.to(()=>OTPScreen(email: emailController.text,));
+      nameController.clear();
+      passwordController.clear();
+      emailController.clear();
     } else {
       // ssdf@gmail.com
       // Get.showSnackbar(
@@ -97,16 +116,15 @@ class AuthLogic extends GetxController {
       print("value of OTP4: ${OTPController3.text}");
       Get.off(()=>LoginScreen());
     } else {
-      // Get.showSnackbar(
-      //   const GetSnackBar(
-      //     isDismissible: true,
-      //     message: 'Error in creating account.',
-      //     duration: Duration(seconds: 2),
-      //     backgroundColor: Colors.black,
-      //   ),
-      // );
       print("error");
       customLoaderGlobal.hideLoader();
+      final snackBar = SnackBar(
+        content: Text('Error in creating account'),
+      );
+
+// Find the ScaffoldMessenger in the widget tree
+// and use it to show a SnackBar.
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 
@@ -121,10 +139,32 @@ class AuthLogic extends GetxController {
       ///----- API Successful
 
       customLoaderGlobal.hideLoader();
+      final snackBar = SnackBar(
+        content: Text('Login Successfully..'),
+      );
+
+// Find the ScaffoldMessenger in the widget tree
+// and use it to show a SnackBar.
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      // Get.snackbar('Message', 'Login Successfully..',
+      //     backgroundColor: Colors.black,
+      //     colorText: AppColors.customWhiteTextColor);
       Get.off(()=>HomePage());
+      emailSignInController.clear();
+      passwordSignInController.clear();
     } else {
       print("error");
       customLoaderGlobal.hideLoader();
+      final snackBar = SnackBar(
+        content: Text('Your email or password is wrong.'),
+      );
+
+// Find the ScaffoldMessenger in the widget tree
+// and use it to show a SnackBar.
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      // Get.snackbar('Message', '',
+      //     backgroundColor: Colors.black,
+      //     colorText: AppColors.customWhiteTextColor);
     }
   }
 
@@ -133,15 +173,27 @@ class AuthLogic extends GetxController {
 
     if (await forgotApiService(
       // user: userGet,
+      context: context,
         email: emailForgotController.text
     )) {
       ///----- API Successful
 
       customLoaderGlobal.hideLoader();
+      // Get.snackbar('Message', 'Password reset link has been sent.',
+      //     backgroundColor: Colors.black,
+      //     colorText: AppColors.customWhiteTextColor);
+      emailForgotController.clear();
      Get.off(()=>ForgotOTPScreen());
     } else {
       print("error");
-      customLoaderGlobal.hideLoader();
+      final snackBar = SnackBar(
+        content: Text('Your email is wrong'),
+      );
+
+// Find the ScaffoldMessenger in the widget tree
+// and use it to show a SnackBar.
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    customLoaderGlobal.hideLoader();
     }
   }
 
@@ -159,11 +211,35 @@ class AuthLogic extends GetxController {
       ///----- API Successful
 
       customLoaderGlobal.hideLoader();
-      Get.off(() => LoginScreen());
-      showCustomDialog(context, apiResponse.dataPass);
+      Get.off(() => NewPassordScreen());
+      newPassToken.value = apiResponse.dataPass;
     } else {
-      print("error");
       customLoaderGlobal.hideLoader();
+      final snackBar = SnackBar(
+        content: Text('Your OTP is wrong'),
+      );
+
+// Find the ScaffoldMessenger in the widget tree
+// and use it to show a SnackBar.
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      print("error");
     }
+  }
+
+  forgotResetPassword({required BuildContext context}) async {
+    customLoaderGlobal.showLoader(context);
+    print("token after forgot: ${newPassToken.value}");
+    final response = await forgotApiResetPassword(token: newPassToken.value, newPassword: forgotNewPasswordController.text, confirmPassword: forgotConfirmNewPasswordController.text);
+    forgotNewPasswordController.clear();
+    forgotConfirmNewPasswordController.clear();
+    customLoaderGlobal.hideLoader();
+    final snackBar = SnackBar(
+      content: Text('Your Password has been updated..'),
+    );
+
+// Find the ScaffoldMessenger in the widget tree
+// and use it to show a SnackBar.
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    Get.off(() => LoginScreen());
   }
 }

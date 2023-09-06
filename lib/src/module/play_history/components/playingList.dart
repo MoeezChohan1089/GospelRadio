@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -44,6 +45,8 @@ class PlayingListSection extends StatefulWidget {
 
 class _PlayingListSectionState extends State<PlayingListSection> {
   // final logic = Get.put(PlayHistoryLogic());
+
+  final logic = Get.put(PlayHistoryLogic());
   String artistname = '';
   List<UModel> glist = [];
   Future<List<UModel>> userApi() async {
@@ -141,16 +144,35 @@ class _PlayingListSectionState extends State<PlayingListSection> {
                             Expanded(
                               flex: 3,
                               child: ListTile(
-                                leading: Image.asset(
+                                contentPadding: EdgeInsets.only(left: 8),
+                                leading: logic.hostImage != null?   ClipRRect(
+                                  borderRadius: BorderRadius.circular(10.r),
+                                  child: CachedNetworkImage(
+                                    imageUrl: logic.hostImage ?? "",
+
+                                    height: 90.h,
+                                    width: 90.w,
+                                    // imageUrl: (productDetail?.images ?? []).isNotEmpty
+                                    //     ? productDetail!.images[0].originalSrc
+                                    //     : "",
+                                    fit: BoxFit.cover,
+                                    placeholder: (context, url) =>
+                                        productShimmer(),
+                                    errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                                  ),
+                                ): Image.asset(
                                   'assets/images/hgc.png',
                                   width: 77,
                                   height: 60,
                                 ),
                                 title: Container(
                                   child: Text(
-                                    item.title ?? 'Unknown Title',
+                                    "Title: ${item.title ?? 'Unknown Title'}",
+                                    maxLines: 1,
                                     style: context.text.titleMedium?.copyWith(
                                       color: AppColors.customMusicTextColor,
+                                      overflow: TextOverflow.ellipsis,
                                       fontSize: 16.sp,
                                     ),
                                   ),
@@ -158,7 +180,7 @@ class _PlayingListSectionState extends State<PlayingListSection> {
                                 subtitle: Container(
                                   width: 190,
                                   child: Text(
-                                    item.album ?? "",
+                                   "Artist: ${ item.artist ?? ""}",
                                     style: context.text.titleMedium?.copyWith(
                                       color:
                                           AppColors.customMusicTextDescriptionColor,

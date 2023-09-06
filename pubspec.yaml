@@ -70,6 +70,10 @@ dependencies:
   video_player: ^2.7.0
   permission_handler:
   path_provider:
+  just_audio_cache:
+  flutter_downloader: ^1.11.1
+  lottie: ^2.6.0
+  just_audio: ^0.9.34
  
 
 dev_dependencies:

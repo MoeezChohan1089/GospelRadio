@@ -41,9 +41,23 @@ class GospelWebsitePage extends StatelessWidget {
       ),
       body: GospelWebsiteSection(),
       bottomNavigationBar: Container(
-        margin: EdgeInsets.only(bottom: 10),
-          height: 120,
-          child: HorizontalVideoList()),
+        margin: EdgeInsets.only(bottom: 10, left: 10),
+          height: 130,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                "Website Platforms",
+                style: context.text.titleMedium?.copyWith(
+                    color: AppColors.customWhiteTextColor,
+                    fontSize: 18.sp),
+              ),
+              Container(
+                  height: 100,
+                  child: HorizontalVideoList()),
+            ],
+          )),
     );
   }
 }

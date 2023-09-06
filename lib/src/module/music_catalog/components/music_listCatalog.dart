@@ -77,16 +77,16 @@ class _MusicListCatalogScreenState extends State<MusicListCatalogScreen> {
               Icons.arrow_back,
               color: AppColors.customWhiteTextColor,
             )),
-        actions: [
-          IconButton(
-              onPressed: () {
-                // Get.to(() => CartPage());
-              },
-              icon: Icon(
-                Icons.search,
-                color: Colors.white,
-              )),
-        ],
+        // actions: [
+        //   IconButton(
+        //       onPressed: () {
+        //         // Get.to(() => CartPage());
+        //       },
+        //       icon: Icon(
+        //         Icons.search,
+        //         color: Colors.white,
+        //       )),
+        // ],
       ),
       body: Obx(() {
         return logic1.loadingCatalog.value == true
@@ -341,8 +341,8 @@ class _MusicListCatalogScreenState extends State<MusicListCatalogScreen> {
           body: body,
           headers: {
             'Authorization':
-            'Bearer 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',
-            // 'Bearer sk_test_51N9OPdFZIhHk42tPLiBXDrXHcA9ZbQnUFMP9MhTt9c3Kk8WzHIm08BM1MKmjAIK74ZRUVuQDgXu2geZbN4heuNjK008pIo1pXk',
+            // 'Bearer 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',
+            'Bearer sk_test_51N9OPdFZIhHk42tPLiBXDrXHcA9ZbQnUFMP9MhTt9c3Kk8WzHIm08BM1MKmjAIK74ZRUVuQDgXu2geZbN4heuNjK008pIo1pXk',
             'Content-Type': 'application/x-www-form-urlencoded'
           });
       return json.decode(response.body.toString());

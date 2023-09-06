@@ -70,6 +70,7 @@ class _ListHorizontalScreenState extends State<ListHorizontalScreen> {
                       : logic.albumsList.value.length, (index) {
                 return GestureDetector(
                   onTap: () async {
+                    print("ffffdddddd: ${logic.albumsList.value[index]['id']}");
                     Get.to(() => MusicListCatalogScreen(
                       ID: logic.albumsList.value[index]['id'],
                     ));

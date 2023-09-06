@@ -19,6 +19,9 @@ class EngineersLogic extends GetxController with GetSingleTickerProviderStateMix
   RxList<dynamic> albumsList = [].obs;
   Map<String, dynamic> responseDataMusicListConstant = Map<String, dynamic>();
   Rx<int> currentImageIndex = 0.obs;
+  RxList getComment = [].obs;
+  RxBool getLoadComment = false.obs;
+
 
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -66,6 +69,33 @@ class EngineersLogic extends GetxController with GetSingleTickerProviderStateMix
     }).toList();
   }
 
+  getCommentFromApiService(int id) async{
+   try{
+     getLoadComment.value = true;
+     var dio = Dio();
+     var response = await dio.request(
+       'https://hgcradio.org/api/host/$id',
+       options: Options(
+         method: 'GET',
+       ),
+     );
+
+     if (response.statusCode == 200) {
+       print(json.encode(response.data));
+       getLoadComment.value = false;
+       getComment.value = response.data['data']['comments'];
+     }
+     else {
+       getLoadComment.value = false;
+       print(response.statusMessage);
+     }
+   }catch(e){
+     getLoadComment.value = false;
+     print("error: $e");
+   }
+  }
+
+
   sendComment(
       BuildContext context, String name, String email, String city, String state, String country, String hostID, String message) async {
     try {
@@ -94,9 +124,13 @@ class EngineersLogic extends GetxController with GetSingleTickerProviderStateMix
       if (response.statusCode == 200) {
         print("result: ${json.encode(response.data)}");
         customLoaderGlobal.hideLoader();
-        Get.snackbar('Message', 'Your comment is being proceed.',
-            backgroundColor: Colors.black,
-            colorText: AppColors.customWhiteTextColor);
+        final snackBar = SnackBar(
+          content: Text('Your comment is being proceed.'),
+        );
+
+// Find the ScaffoldMessenger in the widget tree
+// and use it to show a SnackBar.
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       } else {
         // Request failed
         customLoaderGlobal.hideLoader();

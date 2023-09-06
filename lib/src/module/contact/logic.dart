@@ -73,9 +73,14 @@ class ContactLogic extends GetxController
       if (response.statusCode == 200) {
         print("result: ${json.encode(response.data)}");
         customLoaderGlobal.hideLoader();
-        Get.snackbar('Message', 'Message sent successfully..',
-            backgroundColor: Colors.black,
-            colorText: AppColors.customWhiteTextColor);
+        final snackBar = SnackBar(
+          content: Text('Message sent successfully..'),
+        );
+
+// Find the ScaffoldMessenger in the widget tree
+// and use it to show a SnackBar.
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
       } else {
         // Request failed
         customLoaderGlobal.hideLoader();

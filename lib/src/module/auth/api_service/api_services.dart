@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../utils/constants/colors.dart';
 import 'getData.dart';
 
-createSignupApiService({required String name, email, password}) async {
+createSignupApiService({required BuildContext context, required String name, email, password}) async {
   try {
     Dio dio = Dio();
 
@@ -41,17 +41,25 @@ createSignupApiService({required String name, email, password}) async {
       return true;
     } else if(response.statusCode == 401 && responseData["status"] == "Error"){
       // Request failed
-      Get.snackbar('Alert', '${responseData['message']['email']}',
-          backgroundColor: Colors.black,
-          colorText: AppColors.customWhiteTextColor);
+      final snackBar = SnackBar(
+        content: Text('${responseData['message']['email']}'),
+      );
+
+// Find the ScaffoldMessenger in the widget tree
+// and use it to show a SnackBar.
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       return false;
     }
   } catch (error) {
     // Handle any Dio errors or exceptions
     debugPrint("==>> SIGN UP ERROR : $error =====");
-    Get.snackbar('Alert', 'The email has already been taken',
-        backgroundColor: Colors.black,
-        colorText: AppColors.customWhiteTextColor);
+    final snackBar = SnackBar(
+      content: Text('The email has already been taken'),
+    );
+
+// Find the ScaffoldMessenger in the widget tree
+// and use it to show a SnackBar.
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
     return false;
   }
 }
@@ -132,7 +140,7 @@ signInApiService({required String email, password}) async {
   }
 }
 
-forgotApiService({required String email}) async {
+forgotApiService({required BuildContext context, required String email}) async {
   try {
     Dio dio = Dio();
 
@@ -154,9 +162,14 @@ forgotApiService({required String email}) async {
       // Process the response data as needed
 
       log("==>> Forgot response data -> $responseData =====");
-      Get.snackbar('Message', '${responseData['data']}',
-          backgroundColor: Colors.black,
-          colorText: AppColors.customWhiteTextColor);
+
+      final snackBar = SnackBar(
+        content: Text('${responseData['data']}'),
+      );
+
+// Find the ScaffoldMessenger in the widget tree
+// and use it to show a SnackBar.
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
       return true;
     } else {
@@ -205,5 +218,46 @@ Future<ApiResponse> forgotOTPApiService(
     // Handle any Dio errors or exceptions
     debugPrint("==>> Forgot OTP ERROR : $error =====");
     return ApiResponse(dataPass: '');
+  }
+}
+
+forgotApiResetPassword({required String token, required String newPassword, required String confirmPassword}) async {
+  try {
+    Dio dio = Dio();
+
+    final data = {
+      'token': token,
+      'password': newPassword,
+      'password_confirmation': confirmPassword
+    };
+
+    final response = await dio.post(
+      'https://hgcradio.org/api/auth/reset-password',
+      data: data,
+    );
+
+    Map<String, dynamic> responseData = response.data;
+
+    // Handle the response
+    if (response.statusCode == 200 && responseData["status"] == "Success") {
+      // Request succeeded
+
+      // Process the response data as needed
+
+      log("==>> Rest Password response data -> $responseData =====");
+      // Get.snackbar('Message', '${responseData['data']}',
+      //     backgroundColor: Colors.black,
+      //     colorText: AppColors.customWhiteTextColor);
+
+      return true;
+    } else {
+      // Request failed
+      debugPrint("==>> Forgot ERROR : Not 200 --> ${response.data} =====");
+      return false;
+    }
+  } catch (error) {
+    // Handle any Dio errors or exceptions
+    debugPrint("==>> Forgot ERROR : $error =====");
+    return false;
   }
 }

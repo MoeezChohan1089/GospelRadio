@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gosperadioapp/src/module/music_play/view_demo.dart';
 
 import 'state.dart';
 import 'view.dart';
@@ -29,7 +30,7 @@ class MusicPlayLogic extends GetxController {
       responseDataMusicPlay = json.decode(listMusicPlay.value);
       albumsMusicPlay.value = responseDataMusicPlay['data']['music_in_album'];
 
-      Get.to(() => MusicPlayPage());
+      Get.to(() => MusicDemo());
       print(
           "abcdefgh: ${responseDataMusicPlay['data']['music_in_album']['id']}");
     } else {

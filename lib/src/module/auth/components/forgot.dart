@@ -17,6 +17,7 @@ class ForgotPasswordScreen extends StatelessWidget {
 
   final logic = Get.put(AuthLogic());
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

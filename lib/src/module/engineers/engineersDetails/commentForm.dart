@@ -301,12 +301,13 @@ class _CommentFormScreenState extends State<CommentFormScreen> {
                                 logic.countryController.text,
                                 widget.idHost.toString(),
                                 logic.messageController.text);
-                            // logic.nameController.clear();
-                            // logic.emailController.clear();
-                            // logic.cityController.clear();
-                            // logic.stateController.clear();
-                            // logic.countryController.clear();
-                            // logic.messageController.clear();
+                            logic.nameController.clear();
+                            logic.emailController.clear();
+                            logic.cityController.clear();
+                            logic.stateController.clear();
+                            logic.countryController.clear();
+                            logic.messageController.clear();
+                            logic.getCommentFromApiService(widget.idHost!);
                           }
                         },
                         style: ElevatedButton.styleFrom(

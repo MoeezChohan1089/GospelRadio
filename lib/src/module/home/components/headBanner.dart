@@ -18,7 +18,7 @@ class BannerSection extends StatelessWidget {
   List imagesList = [
     {'image': 'assets/images/radio-main-banner.jpeg',
       'name': 'Gospel Radio',
-      'description': 'Hallelujah Gospel Globaly Radio'},
+      'description': 'Hallelujah Gospel Globally Radio'},
     {'image': 'assets/images/Microphone-background-sound-waves-energy-Music.webp',
       'name': 'Gospel Radio',
       'description': 'Hallelujah Gospel Worldwide Search Radio'},
@@ -34,7 +34,7 @@ class BannerSection extends StatelessWidget {
     return Obx(() {
       return Padding(
         padding: EdgeInsets.symmetric(
-            horizontal: pageMarginHorizontal, vertical: pageMarginVertical),
+            vertical: 10),
         child: SizedBox(
           height: 180,
           child: Stack(
@@ -60,28 +60,31 @@ class BannerSection extends StatelessWidget {
                           //   fit: BoxFit.cover,
                           // ),
                           Positioned(
-                              top: 10,
+                              top: 0,
                               bottom: 0,
-                              left: 10,
-                              right: 10,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment
-                                    .start,
-                                mainAxisAlignment: MainAxisAlignment
-                                    .start,
-                                children: [
-                                  SizedBox(width: 158,
-                                      child: Text(imagesList[index]['name'],
-                                        style: context.text.titleMedium?.copyWith(
-                                            color: AppColors.customWhiteTextColor,
-                                            fontSize: 18.sp),)),
-                                  10.heightBox,
-                                  SizedBox(width: 200,
-                                      child: Text(imagesList[index]['description'],
-                                        style: context.text.titleMedium?.copyWith(
-                                            color: AppColors.customWhiteTextColor,
-                                            fontSize: 14.sp),)),
-                                ],
+                              left: 0,
+                              right: 0,
+                              child: Container(
+                                color: Colors.black.withOpacity(0.4),
+                                height: double.maxFinite,
+                                width: double.maxFinite,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment
+                                      .center,
+                                  mainAxisAlignment: MainAxisAlignment
+                                      .center,
+                                  children: [
+                                    Text(imagesList[index]['name'],
+                                      style: context.text.titleMedium?.copyWith(
+                                          color: AppColors.customWhiteTextColor,
+                                          fontSize: 24.sp),),
+                                    10.heightBox,
+                                    Text(imagesList[index]['description'],
+                                      style: context.text.titleMedium?.copyWith(
+                                          color: AppColors.customWhiteTextColor,
+                                          fontSize: 18.sp),),
+                                  ],
+                                ),
                               )),
                         ],
                       );
@@ -109,7 +112,7 @@ class BannerSection extends StatelessWidget {
                     height: context.deviceHeight / 2,
                     viewportFraction: 1.0,
                     enlargeCenterPage: false,
-                    enableInfiniteScroll: false,
+                    enableInfiniteScroll: true,
                     reverse: false,
                     scrollDirection: Axis.horizontal,
                     onPageChanged: (index, _) {

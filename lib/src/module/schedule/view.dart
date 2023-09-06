@@ -38,19 +38,27 @@ class SchedulePage extends StatelessWidget {
             },
             icon: Icon(Icons.arrow_back, color: AppColors.customBlackTextColor,)
         ),
-        actions: [
-          IconButton(
-              onPressed: () {
-                // Get.to(() => CartPage());
-              },
-              icon: Icon(Icons.search, color: AppColors.customBlackTextColor,)
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //       onPressed: () {
+        //         // Get.to(() => CartPage());
+        //       },
+        //       icon: Icon(Icons.search, color: AppColors.customBlackTextColor,)
+        //   ),
+        // ],
       ),
       body: Column(
         children: [
           TodayEventSection(),
           UpcomingEventSection(),
+        ],
+      ),
+      bottomNavigationBar: Wrap(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12),
+            child: Image.asset('assets/images/ban.png', height: 85, width: double.maxFinite,),
+          ),
         ],
       ),
     );

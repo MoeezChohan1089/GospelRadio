@@ -11,9 +11,11 @@ class Video {
   Video(this.url);
 }
 
-List<Video> videos = [Video('https://hgcradio.org/storage/app/public/ads/your_ad_here_redone_1.mp4'),
-  Video('https://hgcradio.org/storage/app/public/ads/your_ad_here_redone_2.mp4'),
-  Video('https://hgcradio.org/storage/app/public/ads/your_ad_here_redone_3.mp4')];
+List<Video> videos =
+[Video('https://hgcradio.org/storage/app/public/ads/scroll_pages.mp4'),
+  Video('https://hgcradio.org/storage/app/public/ads/hg.mp4'),
+  Video('https://hgcradio.org/storage/app/public/ads/singalong.mp4'),
+  Video('https://hgcradio.org/storage/app/public/ads/pipeline.mp4')];
 
 
 class HorizontalVideoList extends StatelessWidget {
@@ -74,39 +76,29 @@ class _VideoCardState extends State<VideoCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          widget.video == videos[0]? Text(
-            "Website Platforms",
-            style: context.text.titleMedium?.copyWith(
-                color: AppColors.customWhiteTextColor,
-                fontSize: 18.sp),
-          ):Text(
-            "",
-            style: context.text.titleMedium?.copyWith(
-                color: AppColors.customWhiteTextColor,
-                fontSize: 18.sp),
-          ),
-          Container(
+    return Column(
+      children: [
+        10.heightBox,
+        Padding(
+          padding: const EdgeInsets.only(right: 14),
+          child: Container(
             height: 100,
-            width: 120,
+            width: 160,
             child: AspectRatio(
               aspectRatio: _controller.value.aspectRatio,
               child: VideoPlayer(_controller),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
 
-List<Video> videos11 = [Video('https://hgcradio.org/storage/app/public/ads/singalong.mp4'),
-  Video('https://hgcradio.org/storage/app/public/ads/singalong.mp4'),
-  Video('https://hgcradio.org/storage/app/public/ads/scroll_pages.mp4'),
-  Video('https://hgcradio.org/storage/app/public/ads/hg.mp4')];
+List<Video> videos11 = [Video('https://hgcradio.org/storage/app/public/ads/your_ad_here_redone_1.mp4'),
+  Video('https://hgcradio.org/storage/app/public/ads/your_ad_here_redone_2.mp4'),
+  Video('https://hgcradio.org/storage/app/public/ads/your_ad_here_redone_3.mp4')];
+
 
 
 class HorizontalVideoList1 extends StatelessWidget {
@@ -172,31 +164,21 @@ class _VideoCard1State extends State<VideoCard1> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          widget.video1 == videos11[0]? Text(
-            "Advertise us",
-            style: context.text.titleMedium?.copyWith(
-                color: AppColors.customWhiteTextColor,
-                fontSize: 18.sp),
-          ):Text(
-            "",
-            style: context.text.titleMedium?.copyWith(
-                color: AppColors.customWhiteTextColor,
-                fontSize: 18.sp),
-          ),
-          Container(
+    return Column(
+      children: [
+        10.heightBox,
+        Padding(
+          padding: const EdgeInsets.only(right: 14),
+          child: Container(
             height: 100,
-            width: 120,
+            width: 170,
             child: AspectRatio(
               aspectRatio: _controller.value.aspectRatio,
               child: VideoPlayer(_controller),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
