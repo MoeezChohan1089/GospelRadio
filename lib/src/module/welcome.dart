@@ -33,7 +33,7 @@ class WelcomeScreen extends StatelessWidget {
               ),
             ),
           ),
-          const Positioned(
+           Positioned(
             top: 70.0,
             left: 75.0,
             child: Column(

@@ -16,6 +16,8 @@ class PlayHistoryLogic extends GetxController {
   Rx<dynamic> playNext = Rx<dynamic>(null);
   dynamic hostImage;
   RxBool loadingAir = false.obs;
+  TextEditingController searchHistoryController = TextEditingController();
+  RxList<dynamic> filteredHistory = [].obs;
 
   @override
   void onInit() {
@@ -36,6 +38,10 @@ class PlayHistoryLogic extends GetxController {
       listMusicPlayhistory.value = json.encode(response.data);
       responseDataMusicPlayhistory = json.decode(listMusicPlayhistory.value);
       historyMusicPlay.value = responseDataMusicPlayhistory['data']['title'];
+
+      historyMusicPlay.value.forEach((album) {
+        print('History Title: ${album}');
+      });
 
       // Get.to(() => MusicPlayPage());
       print('Succes');

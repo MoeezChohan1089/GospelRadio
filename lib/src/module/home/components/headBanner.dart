@@ -18,7 +18,7 @@ class BannerSection extends StatelessWidget {
   List imagesList = [
     {'image': 'assets/images/radio-main-banner.jpeg',
       'name': 'Gospel Radio',
-      'description': 'Hallelujah Gospel Globally Radio'},
+      'description': 'Hallelujah Gospel Globally Choice Radio'},
     {'image': 'assets/images/Microphone-background-sound-waves-energy-Music.webp',
       'name': 'Gospel Radio',
       'description': 'Hallelujah Gospel Worldwide Search Radio'},
