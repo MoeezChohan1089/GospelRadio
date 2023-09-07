@@ -57,7 +57,7 @@ class _AppDrawerState extends State<AppDrawer> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            50.heightBox,
+            25.heightBox,
             Padding(
               padding: EdgeInsets.symmetric(horizontal: pageMarginVertical + 4),
               child: Align(
