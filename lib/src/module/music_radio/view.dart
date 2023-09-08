@@ -120,36 +120,51 @@ class _Music_radioPageState extends State<Music_radioPage> {
                   Stack(
                     alignment: Alignment.center,
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(100.r),
-                        child: CachedNetworkImage(
-                          imageUrl: logic1.hostImage != null ? logic1
-                              .hostImage ?? '' : '',
-                          height: 200.h,
-                          // imageUrl: (productDetail?.images ?? []).isNotEmpty
-                          //     ? productDetail!.images[0].originalSrc
-                          //     : "",
-                          fit: BoxFit.cover,
-                          color: Colors.black.withOpacity(0.3),
-                          colorBlendMode: BlendMode.darken,
-                          placeholder: (context, url) =>
-                              productShimmer(),
-                          errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
+                      // ClipRRect(
+                      //   borderRadius: BorderRadius.circular(100.r),
+                      //   child: CachedNetworkImage(
+                      //     imageUrl: logic1.hostImage != null ? logic1
+                      //         .hostImage ?? '' : '',
+                      //     height: 200.h,
+                      //     // imageUrl: (productDetail?.images ?? []).isNotEmpty
+                      //     //     ? productDetail!.images[0].originalSrc
+                      //     //     : "",
+                      //     fit: BoxFit.cover,
+                      //     color: Colors.black.withOpacity(0.3),
+                      //     colorBlendMode: BlendMode.darken,
+                      //     placeholder: (context, url) =>
+                      //         productShimmer(),
+                      //     errorWidget: (context, url, error) =>
+                      //     const Icon(Icons.error),
+                      //   ),
+                      // ),
+                      Container(
+                        width: 150,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.8),
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            opacity: 0.6,
+                            image: NetworkImage(logic1.hostImage != null ? logic1
+                                .hostImage ?? '' : '',
+                            ),
+                            fit: BoxFit.cover,
+                          )
                         ),
-                      ),
-                      GestureDetector(
-                        onTap: (){
-                          if(logic.loadingStreamMusic.value == true){
-                            player1.pause();
-                            logic.loadingStreamMusic.value = false;
-                          }else{
-                            player1.play('https://my.hgcradio.org:8000/radio.mp3');
-                            logic.loadingStreamMusic.value = true;
-                          }
-                        },
-                        child: Icon(
-                          logic.loadingStreamMusic.value? Icons.pause: Icons.play_arrow, color: AppColors.customWhiteTextColor, size: 100,),
+                        child: GestureDetector(
+                          onTap: (){
+                            if(logic.loadingStreamMusic.value == true){
+                              player1.pause();
+                              logic.loadingStreamMusic.value = false;
+                            }else{
+                              player1.play('https://my.hgcradio.org:8000/radio.mp3');
+                              logic.loadingStreamMusic.value = true;
+                            }
+                          },
+                          child: Icon(
+                            logic.loadingStreamMusic.value? Icons.pause: Icons.play_arrow, color: AppColors.customWhiteTextColor, size: 100,),
+                        ),
                       )
                     ],
                   ),

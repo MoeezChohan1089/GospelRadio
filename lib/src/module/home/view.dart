@@ -107,7 +107,7 @@ class HomePage extends StatelessWidget {
             "Hallelujah Gospel Globally Choice Radio",
             textAlign: TextAlign.center,
             style: context.text.bodyMedium?.copyWith(
-                color: AppColors.customWhiteTextColor, fontSize: 18.sp),
+                color: AppColors.customWhiteTextColor, fontSize: 16.sp),
           ),
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(0.0),

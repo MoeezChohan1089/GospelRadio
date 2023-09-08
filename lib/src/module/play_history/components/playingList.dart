@@ -184,11 +184,160 @@ class _PlayingListSectionState extends State<PlayingListSection> {
                 } else {
                   return
                     Obx(() {
-                      return ListView.builder(
+                      print("empty or not: ${logic.filteredHistory.value.length}");
+                      return logic.filteredHistory.value.isNotEmpty && logic.searchHistoryController.text.isNotEmpty? ListView.builder(
                         itemCount: logic.filteredHistory.value.length,
                         itemBuilder: (context, index) {
                           // Access the 'data' list inside the historymodel instance
                           var item = logic.filteredHistory.value[index];
+
+                          return Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: pageMarginHorizontal,
+                                vertical: pageMarginVertical / 2),
+                            child: Container(
+                              // padding: EdgeInsets.symmetric(
+                              //   horizontal: pageMarginHorizontal / 2,
+                              //   vertical: pageMarginVertical / 2,
+                              // ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      AppColors.customGradientFirstColor,
+                                      AppColors.customGradientSecondColor,
+                                    ],
+                                  ),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 3,
+                                      child: ListTile(
+                                        contentPadding: EdgeInsets.only(
+                                            left: 8),
+                                        leading: logic.hostImage != null
+                                            ? ClipRRect(
+                                          borderRadius: BorderRadius.circular(
+                                              10.r),
+                                          child: CachedNetworkImage(
+                                            imageUrl: logic.hostImage ?? "",
+
+                                            height: 90.h,
+                                            width: 90.w,
+                                            // imageUrl: (productDetail?.images ?? []).isNotEmpty
+                                            //     ? productDetail!.images[0].originalSrc
+                                            //     : "",
+                                            fit: BoxFit.cover,
+                                            placeholder: (context, url) =>
+                                                productShimmer(),
+                                            errorWidget: (context, url,
+                                                error) =>
+                                            const Icon(Icons.error),
+                                          ),
+                                        )
+                                            : Image.asset(
+                                          'assets/images/hgc.png',
+                                          width: 77,
+                                          height: 60,
+                                          fit: BoxFit.cover,
+                                        ),
+                                        title: Container(
+                                          child: Text(
+                                            "Title: ${item.title ??
+                                                'Unknown Title'}",
+                                            maxLines: 1,
+                                            style: context.text.titleMedium
+                                                ?.copyWith(
+                                              color: AppColors
+                                                  .customMusicTextColor,
+                                              overflow: TextOverflow.ellipsis,
+                                              fontSize: 16.sp,
+                                            ),
+                                          ),
+                                        ),
+                                        subtitle: Container(
+                                          width: 190,
+                                          child: Text(
+                                            "Artist: ${ item.artist ?? ""}",
+                                            style: context.text.titleMedium
+                                                ?.copyWith(
+                                              color:
+                                              AppColors
+                                                  .customMusicTextDescriptionColor,
+                                              fontSize: 12.sp,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+
+                                    Expanded(
+                                      child: Container(
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        // width: 190,
+                                        child: Text(
+                                          item.play_at ?? "",
+                                          textAlign: TextAlign.end,
+                                          style: context.text.titleMedium
+                                              ?.copyWith(
+                                            color:
+                                            AppColors
+                                                .customMusicTextDescriptionColor,
+                                            fontSize: 12.sp,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              // Row(
+                              //   children: [
+                              //     Image.asset(
+                              //       'assets/images/hgc.png',
+                              //       width: 77,
+                              //       height: 60,
+                              //     ),
+                              //     10.widthBox,
+                              //     8.heightBox,
+                              //     Column(
+                              //       crossAxisAlignment: CrossAxisAlignment.start,
+                              //       mainAxisAlignment: MainAxisAlignment.start,
+                              //       children: [
+                              //         Container(
+                              //           child: Text(
+                              //             item.title ?? 'Unknown Title',
+                              //             style: context.text.titleMedium?.copyWith(
+                              //               color: AppColors.customMusicTextColor,
+                              //               fontSize: 14.sp,
+                              //             ),
+                              //           ),
+                              //         ),
+                              //         6.heightBox,
+                              //         Container(
+                              //           width: 190,
+                              //           child: Text(
+                              //             item.album ?? "",
+                              //             style: context.text.titleMedium?.copyWith(
+                              //               color: AppColors
+                              //                   .customMusicTextDescriptionColor,
+                              //               fontSize: 12.sp,
+                              //             ),
+                              //           ),
+                              //         ),
+                              //       ],
+                              //     ),
+                              //   ],
+                              // ),
+                            ),
+                          );
+                        },
+                      ): logic.filteredHistory.value.isEmpty && logic.searchHistoryController.text.isNotEmpty? Center(child: Text("No History", style: context.text.bodyMedium?.copyWith(color: Colors.white),),):ListView.builder(
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          // Access the 'data' list inside the historymodel instance
+                          var item = snapshot.data![index];
 
                           return Padding(
                             padding: EdgeInsets.symmetric(
