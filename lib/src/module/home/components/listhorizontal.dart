@@ -33,6 +33,8 @@ class _ListHorizontalScreenState extends State<ListHorizontalScreen> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Padding(
           padding: EdgeInsets.symmetric(
@@ -45,103 +47,153 @@ class _ListHorizontalScreenState extends State<ListHorizontalScreen> {
                     color: AppColors.customWhiteTextColor, fontSize: 18.sp),
               ),
               Spacer(),
-              InkWell(
-                onTap: () {
-                  Get.to(() => MusicCatalogPage());
-                },
-                child: Text(
-                  "See All",
-                  style: context.text.titleMedium?.copyWith(
-                      color: AppColors.customPinkColor, fontSize: 14.sp),
-                ),
-              )
+              // InkWell(
+              //   onTap: () {
+              //     Get.to(() => MusicCatalogPage());
+              //   },
+              //   child: Text(
+              //     "See All",
+              //     style: context.text.titleMedium?.copyWith(
+              //         color: AppColors.customPinkColor, fontSize: 14.sp),
+              //   ),
+              // )
             ],
           ),
         ),
         Obx(() {
-          return SingleChildScrollView(
-            physics: AlwaysScrollableScrollPhysics(),
-            scrollDirection: Axis.horizontal,
-            child: logic.filteredAlbums.value.isEmpty
-                ? Row(
-              children: List.generate(
-                  logic.albumsList.value.length > 4
-                      ? 4
-                      : logic.albumsList.value.length, (index) {
-                return GestureDetector(
-                  onTap: () async {
-                    print("ffffdddddd: ${logic.albumsList.value[index]['id']}");
-                    Get.to(() => MusicListCatalogScreen(
-                      ID: logic.albumsList.value[index]['id'],
-                    ));
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      left: 16,
-                    ),
-                    child: SizedBox(
-                      height: 120,
-                      width: 120,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10.r),
-                        child: CachedNetworkImage(
-                          imageUrl: logic.albumsList.value[index]
-                          ['image_url'],
-
-                          // imageUrl: (productDetail?.images ?? []).isNotEmpty
-                          //     ? productDetail!.images[0].originalSrc
-                          //     : "",
-                          fit: BoxFit.cover,
-                          height: double.infinity,
-                          width: double.infinity,
-                          placeholder: (context, url) => productShimmer(),
-                          errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                        ),
+          return logic.filteredAlbums.value.isEmpty
+              ? Wrap(
+            crossAxisAlignment: WrapCrossAlignment.start,
+            alignment: WrapAlignment.start,
+            children: List.generate(
+              logic.albumsList.value.length > 6? 6: logic.albumsList.value.length, (index) {
+              return GestureDetector(
+                onTap: () async {
+                  print("ffffdddddd: ${logic.albumsList.value[index]['id']}");
+                  Get.to(() => MusicListCatalogScreen(
+                    ID: logic.albumsList.value[index]['id'],
+                  ));
+                },
+                child: Padding(
+                  padding: EdgeInsets.only(left: 16, top: 16),
+                  child: SizedBox(
+                    height: 110.h,
+                    width: 110.w,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10.r),
+                      child: CachedNetworkImage(
+                        imageUrl: logic.albumsList.value[index]['image_url'],
+                        fit: BoxFit.cover,
+                        height: double.infinity,
+                        width: double.infinity,
+                        placeholder: (context, url) => productShimmer(),
+                        errorWidget: (context, url, error) => const Icon(Icons.error),
                       ),
                     ),
                   ),
-                );
-              }),
-            )
-                : Row(
-                    children: List.generate(
-                        logic.filteredAlbums.value.length > 4 ? 4 : logic.filteredAlbums.value.length, (index) {
-                      return GestureDetector(
-                        onTap: () async {
-                          Get.to(() => MusicListCatalogScreen(
-                                ID: logic.filteredAlbums[index]['id'],
-                              ));
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            left: 16,
-                          ),
-                          child: SizedBox(
-                            height: 120,
-                            width: 120,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10.r),
-                              child: CachedNetworkImage(
-                                imageUrl:logic.filteredAlbums.value[index]
-                                    ['image_url'],
-
-                                // imageUrl: (productDetail?.images ?? []).isNotEmpty
-                                //     ? productDetail!.images[0].originalSrc
-                                //     : "",
-                                fit: BoxFit.cover,
-                                height: double.infinity,
-                                width: double.infinity,
-                                placeholder: (context, url) => productShimmer(),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
-                              ),
-                            ),
+                ),
+              );
+            },
+            )..add(
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  Get.to(() => MusicCatalogPage());
+                  // Handle "Load More" button click here
+                  // You can add more items to the list or implement your logic
+                },
+                child: Padding(
+                  padding: EdgeInsets.only(left: 16, right: 16, top: 16),
+                  child: Container(
+                    // color: Colors.yellow,
+                    height: 50.h,
+                    width: double.maxFinite,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Load More',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18.sp
+                            // Customize the style of the "Load More" text
                           ),
                         ),
-                      );
-                    }),
+                      ],
+                    ),
                   ),
+                ),
+              ),
+            ),
+          )
+
+              : Wrap(
+            crossAxisAlignment: WrapCrossAlignment.start,
+            alignment: WrapAlignment.start,
+            children: List.generate(
+              logic.filteredAlbums.value.length > 6? 6: logic.filteredAlbums.value.length, (index) {
+              return GestureDetector(
+                onTap: () async {
+                  print("ffffdddddd: ${logic.filteredAlbums.value[index]['id']}");
+                  Get.to(() => MusicListCatalogScreen(
+                    ID: logic.filteredAlbums.value[index]['id'],
+                  ));
+                },
+                child: Padding(
+                  padding: EdgeInsets.only(left: 16, top: 16),
+                  child: SizedBox(
+                    height: 110.h,
+                    width: 110.w,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10.r),
+                      child: CachedNetworkImage(
+                        imageUrl: logic.filteredAlbums.value[index]['image_url'],
+                        fit: BoxFit.cover,
+                        height: double.infinity,
+                        width: double.infinity,
+                        placeholder: (context, url) => productShimmer(),
+                        errorWidget: (context, url, error) => const Icon(Icons.error),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+            )..add(
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  Get.to(() => MusicCatalogPage());
+                  // Handle "Load More" button click here
+                  // You can add more items to the list or implement your logic
+                },
+                child: Padding(
+                  padding: EdgeInsets.only(left: 16, right: 16, top: 16),
+                  child: Container(
+                    // color: Colors.yellow,
+                    height: 50.h,
+                    width: double.maxFinite,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Load More',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18.sp
+                            // Customize the style of the "Load More" text
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
           );
         }),
       ],

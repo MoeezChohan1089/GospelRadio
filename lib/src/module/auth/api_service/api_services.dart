@@ -2,13 +2,18 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gosperadioapp/src/globalVariable/database_controller.dart';
+import 'package:gosperadioapp/src/utils/extensions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../utils/constants/colors.dart';
+
 import 'getData.dart';
 
-createSignupApiService({required BuildContext context, required String name, email, password}) async {
+createSignupApiService(
+    {required BuildContext context,
+    required String name,
+    email,
+    password}) async {
   try {
     Dio dio = Dio();
 
@@ -39,10 +44,16 @@ createSignupApiService({required BuildContext context, required String name, ema
       sp.setString('name', email);
 
       return true;
-    } else if(response.statusCode == 401 && responseData["status"] == "Error"){
+    } else if (response.statusCode == 401 &&
+        responseData["status"] == "Error") {
       // Request failed
       final snackBar = SnackBar(
-        content: Text('${responseData['message']['email']}'),
+        content: Text(
+          '${responseData['message']['email']}',
+          style: context.text.bodyMedium?.copyWith(fontSize: 18.sp),
+        ),
+        margin: EdgeInsets.only(bottom: 8),
+        behavior: SnackBarBehavior.floating,
       );
 
 // Find the ScaffoldMessenger in the widget tree
@@ -54,7 +65,12 @@ createSignupApiService({required BuildContext context, required String name, ema
     // Handle any Dio errors or exceptions
     debugPrint("==>> SIGN UP ERROR : $error =====");
     final snackBar = SnackBar(
-      content: Text('The email has already been taken'),
+      content: Text(
+        'The email has already been taken',
+        style: context.text.bodyMedium?.copyWith(fontSize: 18.sp),
+      ),
+      margin: EdgeInsets.only(bottom: 8),
+      behavior: SnackBarBehavior.floating,
     );
 
 // Find the ScaffoldMessenger in the widget tree
@@ -122,7 +138,8 @@ signInApiService({required String email, password}) async {
       sp.setString('token', responseData['data']['token']);
 
       LocalDatabase.to.box.write('name', responseData['data']['user']['name']);
-      LocalDatabase.to.box.write('email', responseData['data']['user']['email']);
+      LocalDatabase.to.box
+          .write('email', responseData['data']['user']['email']);
       LocalDatabase.to.box.write('token', responseData['data']['token']);
 
       sp.setBool('islogin', true);
@@ -164,7 +181,12 @@ forgotApiService({required BuildContext context, required String email}) async {
       log("==>> Forgot response data -> $responseData =====");
 
       final snackBar = SnackBar(
-        content: Text('${responseData['data']}'),
+        content: Text(
+          '${responseData['data']}',
+          style: context.text.bodyMedium?.copyWith(fontSize: 18.sp),
+        ),
+        margin: EdgeInsets.only(bottom: 8),
+        behavior: SnackBarBehavior.floating,
       );
 
 // Find the ScaffoldMessenger in the widget tree
@@ -221,7 +243,10 @@ Future<ApiResponse> forgotOTPApiService(
   }
 }
 
-forgotApiResetPassword({required String token, required String newPassword, required String confirmPassword}) async {
+forgotApiResetPassword(
+    {required String token,
+    required String newPassword,
+    required String confirmPassword}) async {
   try {
     Dio dio = Dio();
 

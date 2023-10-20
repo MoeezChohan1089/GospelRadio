@@ -83,6 +83,8 @@ class _ListVerticalScreenState extends State<ListVerticalScreen> {
                               name: logic.albumsListMusicConstant.value[index]['title'],
                               artistName: logic.albumsListMusicConstant.value[index]['artist_name'],
                               albumName: logic.albumsListMusicConstant.value[index]['album_name'],
+                              imageSrc: logic
+                                  .responseDataMusicListConstant['data']['album']['image_url'],
                               musicUrl: logic.albumsListMusicConstant.value[index]['sample_url'],
                               duration: logic.albumsListMusicConstant.value[index]['duration'],
                             ));

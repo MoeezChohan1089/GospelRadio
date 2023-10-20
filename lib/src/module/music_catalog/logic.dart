@@ -74,6 +74,8 @@ class Music_catalogLogic extends GetxController {
        customLoaderGlobal.hideLoader();
        final snackBar = SnackBar(
          content: Text('Download Successfully..!!'),
+         margin: EdgeInsets.only(bottom: 8),
+         behavior: SnackBarBehavior.floating,
        );
 
        ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -86,6 +88,8 @@ class Music_catalogLogic extends GetxController {
      customLoaderGlobal.hideLoader();
      final snackBar = SnackBar(
        content: Text('Something went wrong'),
+       margin: EdgeInsets.only(bottom: 8),
+       behavior: SnackBarBehavior.floating,
      );
 
      ScaffoldMessenger.of(context).showSnackBar(snackBar);

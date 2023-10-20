@@ -4,13 +4,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:gosperadioapp/src/utils/constants/assets.dart';
 import 'package:gosperadioapp/src/utils/extensions.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../custom_widgets/customTextField.dart';
 import '../../../utils/constants/colors.dart';
 import '../logic.dart';
 import 'login.dart';
-import 'otp.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({Key? key}) : super(key: key);
@@ -22,8 +20,7 @@ class SignUpScreen extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
-        child:
-        Container(
+        child: Container(
           height: MediaQuery.of(context).size.height,
           child: Form(
             key: logic.formKeyValue,
@@ -91,7 +88,6 @@ class SignUpScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-
                     ],
                   ),
                 ),
@@ -108,9 +104,10 @@ class SignUpScreen extends StatelessWidget {
                     children: [
                       Text(
                         "Full Name",
-                        style: context.text.bodyLarge?.copyWith(color: Colors.white
-                            // height: 0.1
-                            ),
+                        style:
+                            context.text.bodyLarge?.copyWith(color: Colors.white
+                                // height: 0.1
+                                ),
                       ),
                       6.heightBox,
                       Container(
@@ -127,7 +124,8 @@ class SignUpScreen extends StatelessWidget {
                           },
                           hintFontSize: 16.0,
                           isOutlineInputBorder: true,
-                          isOutlineInputBorderColor: AppColors.customWhiteTextColor,
+                          isOutlineInputBorderColor:
+                              AppColors.customWhiteTextColor,
                           textColor: Colors.white,
                           // textFieldFillColor: Colors.transparent,
                           // fontWeight: FontWeight.bold,
@@ -162,8 +160,8 @@ class SignUpScreen extends StatelessWidget {
                       children: [
                         Text(
                           "Email",
-                          style:
-                              context.text.bodyLarge?.copyWith(color: Colors.white
+                          style: context.text.bodyLarge
+                              ?.copyWith(color: Colors.white
                                   // height: 0.1
                                   ),
                         ),
@@ -214,8 +212,8 @@ class SignUpScreen extends StatelessWidget {
                       children: [
                         Text(
                           "Password",
-                          style:
-                              context.text.bodyLarge?.copyWith(color: Colors.white
+                          style: context.text.bodyLarge
+                              ?.copyWith(color: Colors.white
                                   // height: 0.1
                                   ),
                         ),
@@ -276,7 +274,8 @@ class SignUpScreen extends StatelessWidget {
                       ElevatedButton(
                           onPressed: () async {
                             if (logic.formKeyValue.currentState!.validate()) {
-                              await AuthLogic.to.createNewUser(context: context);
+                              await AuthLogic.to
+                                  .createNewUser(context: context);
                             }
                           },
                           style: ElevatedButton.styleFrom(
@@ -299,8 +298,8 @@ class SignUpScreen extends StatelessWidget {
                       Row(
                         children: [
                           Text("Or",
-                              style: context.text.titleMedium
-                                  ?.copyWith(color: Colors.white, fontSize: 16.sp)),
+                              style: context.text.titleMedium?.copyWith(
+                                  color: Colors.white, fontSize: 16.sp)),
                           TextButton(
                             onPressed: () {
                               Get.to(() => LoginScreen());
@@ -336,14 +335,19 @@ class SignUpScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          
                           Expanded(
+                            flex: 5,
                             child: Container(
-                                width: 100,
-                                // color: Colors.amber,
-                                height: 80,
-                              // margin: EdgeInsets.only(top: 35.h),
-                                child: Image.asset("assets/images/hgc.png", fit: BoxFit.contain,)),
+                                // width: 80,
+                                // // color: Colors.amber,
+                                // height: 80,
+                                // margin: EdgeInsets.only(top: 35.h),
+                                child: Image.asset(
+                              "assets/images/hgc.png",
+                              fit: BoxFit.cover,
+
+                              // width: 150,
+                            )),
                           ),
                           Expanded(child: SizedBox()),
                         ],

@@ -2,10 +2,11 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:gosperadioapp/src/utils/extensions.dart';
 
 import '../../globalVariable/global_variable.dart';
-import '../../utils/constants/colors.dart';
 import 'state.dart';
 
 class ContactLogic extends GetxController
@@ -74,13 +75,17 @@ class ContactLogic extends GetxController
         print("result: ${json.encode(response.data)}");
         customLoaderGlobal.hideLoader();
         final snackBar = SnackBar(
-          content: Text('Message sent successfully..'),
+          content: Text(
+            'Message sent successfully..',
+            style: context.text.bodyMedium?.copyWith(fontSize: 18.sp),
+          ),
+          margin: EdgeInsets.only(bottom: 8),
+          behavior: SnackBarBehavior.floating,
         );
 
 // Find the ScaffoldMessenger in the widget tree
 // and use it to show a SnackBar.
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
       } else {
         // Request failed
         customLoaderGlobal.hideLoader();

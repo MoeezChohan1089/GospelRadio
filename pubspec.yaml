@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.3+4
+version: 1.0.5+6
 
 environment:
   sdk: '>=2.19.5 <3.0.0'
@@ -50,6 +50,9 @@ dependencies:
 
   #------shimmer------
   shimmer: ^3.0.0
+
+  #----- WebView for Checkout-----
+  webview_flutter: ^4.2.2
 
   #------audio player----
   audioplayers: ^0.20.1
@@ -121,6 +124,21 @@ flutter:
     - family: Sofia Pro Medium
       fonts:
         - asset: assets/fonts/SF-Pro-Display-Black.ttf
+    - family: Hp Impact
+      fonts:
+        - asset: assets/fonts/HP-Impact.ttf
+    - family: Cooper
+      fonts:
+        - asset: assets/fonts/unicode.cooperb.ttf
+    - family: Metropolis
+      fonts:
+        - asset: assets/fonts/Metropolis-Bold.otf
+    - family: Baskerville
+      fonts:
+        - asset: assets/fonts/Baskerville-Display-PT-Web.ttf
+    - family: linear
+      fonts:
+        - asset: assets/fonts/Linear.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

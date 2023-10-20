@@ -2,13 +2,15 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:gosperadioapp/src/globalVariable/global_variable.dart';
+import 'package:gosperadioapp/src/utils/extensions.dart';
 
-import '../../utils/constants/colors.dart';
 import 'state.dart';
 
-class EngineersLogic extends GetxController with GetSingleTickerProviderStateMixin{
+class EngineersLogic extends GetxController
+    with GetSingleTickerProviderStateMixin {
   static EngineersLogic get to => Get.find();
   final EngineersState state = EngineersState();
 
@@ -22,7 +24,6 @@ class EngineersLogic extends GetxController with GetSingleTickerProviderStateMix
   RxList getComment = [].obs;
   RxBool getLoadComment = false.obs;
 
-
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController cityController = TextEditingController();
@@ -30,7 +31,6 @@ class EngineersLogic extends GetxController with GetSingleTickerProviderStateMix
   TextEditingController countryController = TextEditingController();
   TextEditingController messageController = TextEditingController();
   GlobalKey<FormState> formKeyValue = GlobalKey<FormState>();
-
 
   getAllEngineers(BuildContext context) async {
     customLoaderGlobal.showLoader(context);
@@ -50,7 +50,7 @@ class EngineersLogic extends GetxController with GetSingleTickerProviderStateMix
       // List<dynamic> dataList = json.decode(listImagesCatalog.value);
       // catalogData.value = dataList;
       customLoaderGlobal.hideLoader();
-      print("result of list Image in catalog=====>${ albumsList.value}=====<");
+      print("result of list Image in catalog=====>${albumsList.value}=====<");
     } else {
       customLoaderGlobal.hideLoader();
       print("fffffffff: ${response.statusMessage}");
@@ -65,39 +65,38 @@ class EngineersLogic extends GetxController with GetSingleTickerProviderStateMix
       final albumTitle = album['name'].toString().toLowerCase();
       final albumEmail = album['email'].toString().toLowerCase();
       print("value of album name: $albumsList");
-      return albumTitle.contains(query.toLowerCase()) || albumEmail.contains(query.toLowerCase());
+      return albumTitle.contains(query.toLowerCase()) ||
+          albumEmail.contains(query.toLowerCase());
     }).toList();
   }
 
-  getCommentFromApiService(int id) async{
-   try{
-     getLoadComment.value = true;
-     var dio = Dio();
-     var response = await dio.request(
-       'https://hgcradio.org/api/host/$id',
-       options: Options(
-         method: 'GET',
-       ),
-     );
+  getCommentFromApiService(int id) async {
+    try {
+      getLoadComment.value = true;
+      var dio = Dio();
+      var response = await dio.request(
+        'https://hgcradio.org/api/host/$id',
+        options: Options(
+          method: 'GET',
+        ),
+      );
 
-     if (response.statusCode == 200) {
-       print(json.encode(response.data));
-       getLoadComment.value = false;
-       getComment.value = response.data['data']['comments'];
-     }
-     else {
-       getLoadComment.value = false;
-       print(response.statusMessage);
-     }
-   }catch(e){
-     getLoadComment.value = false;
-     print("error: $e");
-   }
+      if (response.statusCode == 200) {
+        print(json.encode(response.data));
+        getLoadComment.value = false;
+        getComment.value = response.data['data']['comments'];
+      } else {
+        getLoadComment.value = false;
+        print(response.statusMessage);
+      }
+    } catch (e) {
+      getLoadComment.value = false;
+      print("error: $e");
+    }
   }
 
-
-  sendComment(
-      BuildContext context, String name, String email, String city, String state, String country, String hostID, String message) async {
+  sendComment(BuildContext context, String name, String email, String city,
+      String state, String country, String hostID, String message) async {
     try {
       customLoaderGlobal.showLoader(context);
       Dio dio = Dio();
@@ -125,7 +124,12 @@ class EngineersLogic extends GetxController with GetSingleTickerProviderStateMix
         print("result: ${json.encode(response.data)}");
         customLoaderGlobal.hideLoader();
         final snackBar = SnackBar(
-          content: Text('Your comment is being proceed.'),
+          content: Text(
+            'Your comment is being proceed.',
+            style: context.text.bodyMedium?.copyWith(fontSize: 18.sp, color: Colors.white),
+          ),
+          margin: EdgeInsets.only(bottom: 8),
+          behavior: SnackBarBehavior.floating,
         );
 
 // Find the ScaffoldMessenger in the widget tree

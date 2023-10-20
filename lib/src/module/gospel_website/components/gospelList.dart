@@ -7,6 +7,7 @@ import 'package:gosperadioapp/src/utils/extensions.dart';
 import '../../../utils/constants/assets.dart';
 import '../../../utils/constants/colors.dart';
 import '../../../utils/constants/margins_spacnings.dart';
+import '../../home/components/headBanner.dart';
 import '../logic.dart';
 
 class UModel3 {
@@ -111,160 +112,169 @@ class _GospelWebsiteSectionState extends State<GospelWebsiteSection> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: List.generate(gospelwebsitelist.length, (index) {
-          return Padding(
-            padding: EdgeInsets.symmetric(horizontal: pageMarginHorizontal / 2),
-            child: Column(
-              children: [
-                Obx(
-                  () => Theme(
-                    data: Theme.of(context).copyWith(
-                      dividerColor: Colors
-                          .transparent, // Set the dividerColor to transparent
-                    ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: AppColors.customWebsiteListColor,
+    return 
+      Column(
+      children: [
+        BannerSection(),
+        10.heightBox,
+        Expanded(
+          child: ListView.builder(
+              shrinkWrap: true,
+              physics: AlwaysScrollableScrollPhysics(),
+              itemCount: gospelwebsitelist.length,
+              itemBuilder: (context, index){
+            return Padding(
+              padding: EdgeInsets.symmetric(horizontal: pageMarginHorizontal / 2),
+              child: Column(
+                children: [
+                  Obx(
+                        () => Theme(
+                      data: Theme.of(context).copyWith(
+                        dividerColor: Colors
+                            .transparent, // Set the dividerColor to transparent
                       ),
-                      child: ExpansionTile(
-                        leading: Image.asset(
-                          Assets.images.playImage,
-                          width: 64,
-                          height: 55,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: AppColors.customWebsiteListColor,
                         ),
-                        onExpansionChanged: (value) {
-                          logic.expandedContainer.value = index;
-                        },
-                        title: Text(
-                          gospelwebsitelist[index].title.toString(),
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        trailing: logic.expandedContainer.value == index
-                            ? Icon(
-                                Icons.keyboard_arrow_down_outlined,
-                                color: Colors.white,
-                                size: 30.sp,
-                              )
-                            : Icon(
-                                Icons.arrow_forward_ios,
-                                color: Colors.white,
-                                size: 20.sp,
-                              ),
-                        children: [
-                          Container(
-                            width: double.maxFinite,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                gospelwebsitelist[index].body.toString(),
-                                textAlign: TextAlign.left,
-                                style: context.text.bodyMedium?.copyWith(
-                                    fontSize: 13.sp, color: Colors.white),
-                              ),
-                            ),
+                        child: ExpansionTile(
+                          leading: Image.asset(
+                            Assets.images.playImage,
+                            width: 64,
+                            height: 55,
+                          ),
+                          onExpansionChanged: (value) {
+                            logic.expandedContainer.value = index;
+                          },
+                          title: Text(
+                            gospelwebsitelist[index].title.toString(),
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          trailing: logic.expandedContainer.value == index
+                              ? Icon(
+                            Icons.keyboard_arrow_down_outlined,
+                            color: Colors.white,
+                            size: 30.sp,
                           )
-                        ],
+                              : Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.white,
+                            size: 20.sp,
+                          ),
+                          children: [
+                            Container(
+                              width: double.maxFinite,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  gospelwebsitelist[index].body.toString(),
+                                  textAlign: TextAlign.left,
+                                  style: context.text.bodyMedium?.copyWith(
+                                      fontSize: 13.sp, color: Colors.white),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                )
+                  )
 
-                // Obx(
-                //   () => GestureDetector(
-                //     onTap: () {
-                //       logic.expandedContainer.value = index;
-                //       print(index);
-                //     },
-                //     child: Container(
-                //       padding: EdgeInsets.symmetric(
-                //         horizontal: pageMarginHorizontal / 2,
-                //       ),
-                //       // color: Colors.transparent,
-                //       decoration: BoxDecoration(
-                //           color: AppColors.customWebsiteListColor,
-                //           borderRadius: BorderRadius.circular(8)),
-                //       // padding: EdgeInsets.symmetric(vertical: pageMarginVertical / 3),
-                //       child: Column(
-                //         children: [
-                //           4.heightBox,
-                //           SizedBox(
-                //             width: double.infinity,
-                //             child: Row(
-                //               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //               children: [
-                //                 Image.asset(
-                //                   Assets.images.playImage,
-                //                   width: 64,
-                //                   height: 55,
-                //                 ),
-                //                 10.widthBox,
-                //                 Text(
-                //                   gospelwebsitelist[index].title.toString(),
-                //                   style: context.text.bodyLarge
-                //                       ?.copyWith(color: Colors.white
-                //                           // height: 0.1
-                //                           ),
-                //                 ),
-                //                 const Spacer(),
-                //                 logic.expandedContainer.value == index
-                //                     ? Icon(
-                //                         Icons.keyboard_arrow_down_outlined,
-                //                         color: Colors.white,
-                //                         size: 30.sp,
-                //                       )
-                //                     : Icon(
-                //                         Icons.arrow_forward_ios,
-                //                         color: Colors.white,
-                //                         size: 20.sp,
-                //                       ),
-                //               ],
-                //             ),
-                //           ),
-                //           SizedBox(
-                //               height: logic.expandedContainer.value == index
-                //                   ? 10
-                //                   : 0),
-                //           AnimatedContainer(
-                //             duration: const Duration(milliseconds: 800),
-                //             child: logic.expandedContainer.value == index
-                //                 ? Builder(builder: (context) {
-                //                     return Container(
-                //                       width: double.maxFinite,
-                //                       child: Text(
-                //                         gospelwebsitelist[index]
-                //                             .body
-                //                             .toString(),
-                //                         textAlign: TextAlign.left,
-                //                         style: context.text.bodyMedium
-                //                             ?.copyWith(
-                //                                 fontSize: 13.sp,
-                //                                 color: Colors.white),
-                //                       ),
-                //                     );
-                //                   })
-                //                 : Container(
-                //                     height: 0,
-                //                   ),
-                //           ),
-                //           4.heightBox,
-                //         ],
-                //       ),
-                //     ),
-                //   ),
-                // ),
-                ,
-                Divider(
-                  color: Colors.black,
-                  thickness: .2,
-                ),
-              ],
-            ),
-          );
-        }),
-      ),
+                  // Obx(
+                  //   () => GestureDetector(
+                  //     onTap: () {
+                  //       logic.expandedContainer.value = index;
+                  //       print(index);
+                  //     },
+                  //     child: Container(
+                  //       padding: EdgeInsets.symmetric(
+                  //         horizontal: pageMarginHorizontal / 2,
+                  //       ),
+                  //       // color: Colors.transparent,
+                  //       decoration: BoxDecoration(
+                  //           color: AppColors.customWebsiteListColor,
+                  //           borderRadius: BorderRadius.circular(8)),
+                  //       // padding: EdgeInsets.symmetric(vertical: pageMarginVertical / 3),
+                  //       child: Column(
+                  //         children: [
+                  //           4.heightBox,
+                  //           SizedBox(
+                  //             width: double.infinity,
+                  //             child: Row(
+                  //               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //               children: [
+                  //                 Image.asset(
+                  //                   Assets.images.playImage,
+                  //                   width: 64,
+                  //                   height: 55,
+                  //                 ),
+                  //                 10.widthBox,
+                  //                 Text(
+                  //                   gospelwebsitelist[index].title.toString(),
+                  //                   style: context.text.bodyLarge
+                  //                       ?.copyWith(color: Colors.white
+                  //                           // height: 0.1
+                  //                           ),
+                  //                 ),
+                  //                 const Spacer(),
+                  //                 logic.expandedContainer.value == index
+                  //                     ? Icon(
+                  //                         Icons.keyboard_arrow_down_outlined,
+                  //                         color: Colors.white,
+                  //                         size: 30.sp,
+                  //                       )
+                  //                     : Icon(
+                  //                         Icons.arrow_forward_ios,
+                  //                         color: Colors.white,
+                  //                         size: 20.sp,
+                  //                       ),
+                  //               ],
+                  //             ),
+                  //           ),
+                  //           SizedBox(
+                  //               height: logic.expandedContainer.value == index
+                  //                   ? 10
+                  //                   : 0),
+                  //           AnimatedContainer(
+                  //             duration: const Duration(milliseconds: 800),
+                  //             child: logic.expandedContainer.value == index
+                  //                 ? Builder(builder: (context) {
+                  //                     return Container(
+                  //                       width: double.maxFinite,
+                  //                       child: Text(
+                  //                         gospelwebsitelist[index]
+                  //                             .body
+                  //                             .toString(),
+                  //                         textAlign: TextAlign.left,
+                  //                         style: context.text.bodyMedium
+                  //                             ?.copyWith(
+                  //                                 fontSize: 13.sp,
+                  //                                 color: Colors.white),
+                  //                       ),
+                  //                     );
+                  //                   })
+                  //                 : Container(
+                  //                     height: 0,
+                  //                   ),
+                  //           ),
+                  //           4.heightBox,
+                  //         ],
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  ,
+                  Divider(
+                    color: Colors.black,
+                    thickness: .2,
+                  ),
+                ],
+              ),
+            );
+          }),
+        )
+      ],
     );
 
     // Container(

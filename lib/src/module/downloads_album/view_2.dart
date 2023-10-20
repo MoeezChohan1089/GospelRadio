@@ -21,12 +21,9 @@ class DownloadSongs extends StatefulWidget {
 }
 
 class _DownloadSongsState extends State<DownloadSongs> {
-
   final logic = Get.put(DownloadsAlbumLogic());
 
-  final state = Get
-      .find<DownloadsAlbumLogic>()
-      .state;
+  final state = Get.find<DownloadsAlbumLogic>().state;
 
   @override
   void initState() {
@@ -36,7 +33,6 @@ class _DownloadSongsState extends State<DownloadSongs> {
       logic.downloadShowSongMusicAlbum(context, widget.id);
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -61,16 +57,19 @@ class _DownloadSongsState extends State<DownloadSongs> {
               // }
             },
             icon: Icon(
-              Icons.arrow_back, color: AppColors.customBlackTextColor,)
-        ),
+              Icons.arrow_back,
+              color: AppColors.customBlackTextColor,
+            )),
       ),
       body: Obx(() {
         return SingleChildScrollView(
-            child: Column(
-            children: List.generate(
-                logic.downloadSongsAlbum.value.length, (index) {
+          child: Column(
+            children:
+                List.generate(logic.downloadSongsAlbum.value.length, (index) {
               return Padding(
-                padding: EdgeInsets.symmetric(horizontal: pageMarginHorizontal, vertical: pageMarginVertical/1.5),
+                padding: EdgeInsets.symmetric(
+                    horizontal: pageMarginHorizontal,
+                    vertical: pageMarginVertical / 1.5),
                 child: Container(
                   padding: EdgeInsets.all(8),
                   decoration: BoxDecoration(
@@ -84,45 +83,68 @@ class _DownloadSongsState extends State<DownloadSongs> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text(logic.downloadSongsAlbum.value[index]['title'], style: context.text.bodyMedium?.copyWith(color: AppColors.customWhiteTextColor, fontSize: 18.sp),),
+                          Text(
+                            logic.downloadSongsAlbum.value[index]['title'],
+                            style: context.text.bodyMedium?.copyWith(
+                                color: AppColors.customWhiteTextColor,
+                                fontSize: 18.sp),
+                          ),
                           6.heightBox,
-                          Text("${logic.downloadSongsAlbum.value[index]['duration']} mins", style: context.text.bodyMedium?.copyWith(color: AppColors.customWhiteTextColor, fontSize: 16.sp),),
+                          Text(
+                            "${logic.downloadSongsAlbum.value[index]['duration']} mins",
+                            style: context.text.bodyMedium?.copyWith(
+                                color: AppColors.customWhiteTextColor,
+                                fontSize: 16.sp),
+                          ),
                         ],
                       ),
-                      IconButton(onPressed: () async{
+                      IconButton(
+                          onPressed: () async {
+                            final externalDir =
+                                await getExternalStorageDirectory();
+                            final downloadDir = Directory(
+                                '${externalDir!.path}/downloadedMusic.mp3');
 
-                        final externalDir = await getExternalStorageDirectory();
-                        final downloadDir = Directory('${externalDir!.path}/downloadedMusic.mp3');
+                            print("path storage: ${downloadDir}");
 
-                        print("path storage: ${downloadDir}");
+                            if (!downloadDir.existsSync()) {
+                              downloadDir.createSync(recursive: true);
+                            }
 
-                        if (!downloadDir.existsSync()) {
-                          downloadDir.createSync(recursive: true);
-                        }
+                            final taskId = await FlutterDownloader.enqueue(
+                                url: logic.downloadSongsAlbum.value[index]
+                                    ['download_link'],
+                                headers: {},
+                                savedDir: downloadDir
+                                    .path, // Use the path to the created directory
+                                showNotification: true,
+                                openFileFromNotification: true,
+                                saveInPublicStorage: true);
+                            final snackBar = SnackBar(
+                              content: Text(
+                                'Your song has been downloaded..',
+                                style: context.text.bodyMedium
+                                    ?.copyWith(fontSize: 18.sp),
+                              ),
+                              margin: EdgeInsets.only(bottom: 8),
+                              behavior: SnackBarBehavior.floating,
+                            );
 
-
-                        final taskId = await FlutterDownloader.enqueue(
-                          url: logic.downloadSongsAlbum.value[index]['download_link'],
-                          headers: {},
-                          savedDir: downloadDir.path, // Use the path to the created directory
-                          showNotification: true,
-                          openFileFromNotification: true,
-                          saveInPublicStorage: true
-                        );
-                        final snackBar = SnackBar(
-                          content: Text('Your song has been downloaded..'),
-                        );
-
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-                      }, icon: Icon(Icons.download, color: AppColors.customWhiteTextColor, size: 22,))
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          },
+                          icon: Icon(
+                            Icons.download,
+                            color: AppColors.customWhiteTextColor,
+                            size: 22,
+                          ))
                     ],
                   ),
                 ),
               );
             }),
-        ),
-          );
+          ),
+        );
       }),
     );
   }

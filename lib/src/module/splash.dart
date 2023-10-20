@@ -1,20 +1,18 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gosperadioapp/src/module/welcome.dart';
 import 'package:path_provider/path_provider.dart';
-
-import '../globalVariable/database_controller.dart';
-import 'home/view.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMixin {
+class _SplashScreenState extends State<SplashScreen>
+    with TickerProviderStateMixin {
   late AnimationController animation;
   late Animation<double> fadeInFadeOut;
 
@@ -24,7 +22,6 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
     animation = AnimationController(
       vsync: this,
       duration: Duration(seconds: 1),
-
     );
     fadeInFadeOut = Tween<double>(begin: 0.1, end: 0.9).animate(animation);
     animation.addStatusListener((status) {
@@ -39,7 +36,8 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
       final dir = Directory('${appDocDir.path}/saveFiles')
         ..create(recursive: true);
       print("splash path: ${dir.path}");
-      Get.off(() =>(LocalDatabase.to.box.read('started') != null)? HomePage() :WelcomeScreen());
+      Get.to(() => WelcomeScreen());
+      // Get.off(() =>(LocalDatabase.to.box.read('started') != null)? HomePage() :WelcomeScreen());
     });
   }
 
@@ -86,15 +84,15 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                 ),
                 Center(
                     child: Text(
-                      "Gospel Choice",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 22,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500
-                        // fontFamily: "Schyler",
+                  "Gospel Choice",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 22,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500
+                      // fontFamily: "Schyler",
                       ),
-                    )),
+                )),
               ],
             ),
             Positioned(

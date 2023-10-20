@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:gosperadioapp/src/utils/extensions.dart';
 import 'package:video_player/video_player.dart';
 
-import '../../../utils/constants/colors.dart';
+import '../../contact/view.dart';
 
 class Video {
   final String url;
@@ -11,12 +11,12 @@ class Video {
   Video(this.url);
 }
 
-List<Video> videos =
-[Video('https://hgcradio.org/storage/app/public/ads/scroll_pages.mp4'),
+List<Video> videos = [
+  Video('https://hgcradio.org/storage/app/public/ads/scroll_pages.mp4'),
   Video('https://hgcradio.org/storage/app/public/ads/hg.mp4'),
   Video('https://hgcradio.org/storage/app/public/ads/singalong.mp4'),
-  Video('https://hgcradio.org/storage/app/public/ads/pipeline.mp4')];
-
+  Video('https://hgcradio.org/storage/app/public/ads/pipeline.mp4')
+];
 
 class HorizontalVideoList extends StatelessWidget {
   @override
@@ -54,7 +54,7 @@ class _VideoCardState extends State<VideoCard> {
   }
 
   _initializeVideoPlayer() async {
-    _controller =  VideoPlayerController.network(widget.video.url);
+    _controller = VideoPlayerController.network(widget.video.url);
 
     /// Initialize the video player
     await _controller.initialize();
@@ -81,12 +81,17 @@ class _VideoCardState extends State<VideoCard> {
         10.heightBox,
         Padding(
           padding: const EdgeInsets.only(right: 14),
-          child: Container(
-            height: 100,
-            width: 160,
-            child: AspectRatio(
-              aspectRatio: _controller.value.aspectRatio,
-              child: VideoPlayer(_controller),
+          child: GestureDetector(
+            onTap: () {
+              Get.to(() => ContactPage());
+            },
+            child: Container(
+              height: 100,
+              width: 160,
+              child: AspectRatio(
+                aspectRatio: _controller.value.aspectRatio,
+                child: VideoPlayer(_controller),
+              ),
             ),
           ),
         ),
@@ -95,11 +100,13 @@ class _VideoCardState extends State<VideoCard> {
   }
 }
 
-List<Video> videos11 = [Video('https://hgcradio.org/storage/app/public/ads/your_ad_here_redone_1.mp4'),
-  Video('https://hgcradio.org/storage/app/public/ads/your_ad_here_redone_2.mp4'),
-  Video('https://hgcradio.org/storage/app/public/ads/your_ad_here_redone_3.mp4')];
-
-
+List<Video> videos11 = [
+  Video(
+      'https://hgcradio.org/storage/app/public/ads/your_ad_here_redone_1.mp4'),
+  Video(
+      'https://hgcradio.org/storage/app/public/ads/your_ad_here_redone_2.mp4'),
+  Video('https://hgcradio.org/storage/app/public/ads/your_ad_here_redone_3.mp4')
+];
 
 class HorizontalVideoList1 extends StatelessWidget {
   @override
@@ -142,10 +149,10 @@ class _VideoCard1State extends State<VideoCard1> {
   }
 
   _initializeVideoPlayer() async {
-    _controller =  VideoPlayerController.network(widget.video1.url);
+    _controller = VideoPlayerController.network(widget.video1.url);
 
     /// Initialize the video player
-  await _controller.initialize();
+    await _controller.initialize();
     _controller.play();
 
     /// The rest of your code
@@ -169,12 +176,17 @@ class _VideoCard1State extends State<VideoCard1> {
         10.heightBox,
         Padding(
           padding: const EdgeInsets.only(right: 14),
-          child: Container(
-            height: 100,
-            width: 170,
-            child: AspectRatio(
-              aspectRatio: _controller.value.aspectRatio,
-              child: VideoPlayer(_controller),
+          child: GestureDetector(
+            onTap: () {
+              Get.to(() => ContactPage());
+            },
+            child: Container(
+              height: 100,
+              width: 170,
+              child: AspectRatio(
+                aspectRatio: _controller.value.aspectRatio,
+                child: VideoPlayer(_controller),
+              ),
             ),
           ),
         ),

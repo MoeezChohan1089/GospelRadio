@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,6 +12,7 @@ import 'package:gosperadioapp/src/utils/extensions.dart';
 import '../../custom_widgets/custom_dialogue.dart';
 import '../../utils/constants/assets.dart';
 import '../../utils/constants/colors.dart';
+import '../../utils/skeleton_loaders/shimmerLoader.dart';
 import 'logic.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_cache/just_audio_cache.dart';
@@ -20,9 +22,10 @@ class MusicDemo extends StatefulWidget {
   String? name;
   String? artistName;
   String? albumName;
+  String? imageSrc;
   String? musicUrl;
   String? duration;
-  MusicDemo({Key? key, this.name, this.artistName, this.albumName, this.musicUrl, this.duration})
+  MusicDemo({Key? key, this.name, this.artistName, this.imageSrc, this.albumName, this.musicUrl, this.duration})
       : super(key: key);
 
   @override
@@ -298,6 +301,28 @@ class _MusicDemoState extends State<MusicDemo> {
                             color: AppColors.customMusicTextColor,
                             height: 1.2,
                             fontWeight: FontWeight.w700),
+                      ),
+                    ),
+                    20.heightBox,
+                    Container(
+                      alignment: Alignment.center,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(100.r),
+                        child: CachedNetworkImage(
+                          imageUrl: widget.imageSrc!,
+
+
+                          // imageUrl: (productDetail?.images ?? []).isNotEmpty
+                          //     ? productDetail!.images[0].originalSrc
+                          //     : "",
+                          fit: BoxFit.cover,
+                          height: 100.h,
+                          width: 100.w,
+                          placeholder: (context, url) =>
+                              productShimmer(),
+                          errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                        ),
                       ),
                     ),
                   ],

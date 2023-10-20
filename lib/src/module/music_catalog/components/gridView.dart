@@ -37,17 +37,17 @@ class GridViewScreen extends StatelessWidget {
     return GridView.builder(
         // shrinkWrap: true,
         padding: EdgeInsets.only(
-          right: pageMarginHorizontal / 2,
-          left: pageMarginHorizontal / 2,
+          right: pageMarginHorizontal / 4,
+          left: pageMarginHorizontal / 4,
           // vertical: pageMarginVertical * 1.5,
         ),
         // physics: const NeverScrollableScrollPhysics(),
         itemCount: logic.albumsList.value.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: 0.65,
-          // crossAxisSpacing: 0.4.w,
-          // mainAxisSpacing: 0.8.h,
+          childAspectRatio: 0.70,
+          crossAxisSpacing: 0.4.w,
+          mainAxisSpacing: 0.8.h,
         ),
         itemBuilder: (context, index) {
           return GestureDetector(
@@ -78,8 +78,8 @@ class GridViewScreen extends StatelessWidget {
                       topRight: Radius.circular(8),
                     ),
                     child: SizedBox(
-                      height: 150,
-                      width: 150,
+                      height: 150.h,
+                      width: 180.w,
                       child: CachedNetworkImage(
                         imageUrl: logic.albumsList.value[index]['image_url'],
 

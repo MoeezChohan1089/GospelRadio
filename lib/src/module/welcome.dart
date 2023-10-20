@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:gosperadioapp/src/globalVariable/database_controller.dart';
 import 'package:gosperadioapp/src/utils/constants/assets.dart';
 import 'package:gosperadioapp/src/utils/extensions.dart';
 
 import '../utils/constants/colors.dart';
-import 'home/view.dart';
+import 'music_radio/view.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -33,7 +32,7 @@ class WelcomeScreen extends StatelessWidget {
               ),
             ),
           ),
-           Positioned(
+          Positioned(
             top: 70.0,
             left: 75.0,
             child: Column(
@@ -81,9 +80,10 @@ class WelcomeScreen extends StatelessWidget {
             right: 50.0,
             child: ElevatedButton(
                 onPressed: () async {
-                  String startedVar = "Started";
-                  LocalDatabase.to.box.write('started', startedVar);
-                  Get.to(() => HomePage());
+                  // String startedVar = "Started";
+                  // LocalDatabase.to.box.write('started', startedVar);
+                  // Get.to(() => HomePage());
+                  Get.to(() => Music_radioPage());
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.customPinkColor,

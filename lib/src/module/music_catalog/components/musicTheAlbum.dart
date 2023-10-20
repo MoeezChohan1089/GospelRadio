@@ -64,6 +64,8 @@ class _MusicTheAlbumSectionState extends State<MusicTheAlbumSection> {
                         name: logic.albumsListMusic.value[index]['title'],
                         artistName: logic.albumsListMusic.value[index]['artist_name'],
                         albumName: logic.albumsListMusic.value[index]['album_name'],
+                        imageSrc: logic1.responseDataMusicList['data']
+                        ['album']['image_url'],
                         musicUrl: logic.albumsListMusic.value[index]['sample_url'],
                         duration: logic.albumsListMusic.value[index]['duration'],
                       ));

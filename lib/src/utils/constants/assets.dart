@@ -23,6 +23,7 @@ class _ImageAssets {
   final String todayEventImage = "assets/images/schedule.png";
   final String upcomingEventImage = "assets/images/upcoming.png";
   final String upcomingEventImage1 = "assets/images/engineer3.jpeg";
+  final String backHomeImage = "assets/images/back.jpeg";
 }
 
 //

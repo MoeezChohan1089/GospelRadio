@@ -9,6 +9,7 @@ import '../../custom_widgets/customDialogue.dart';
 import '../../custom_widgets/customTextField.dart';
 import '../../utils/constants/colors.dart';
 import '../drawer.dart';
+import '../gospel_website/components/videos.dart';
 import '../music_radio/view.dart';
 import 'components/headBanner.dart';
 import 'components/listhorizontal.dart';
@@ -179,12 +180,31 @@ class HomePage extends StatelessWidget {
           child: ListView(
             physics: AlwaysScrollableScrollPhysics(),
             children: [
-              BannerSection(),
               ListHorizontalScreen(),
-              ListVerticalScreen(),
+              // ListVerticalScreen(),
             ],
           ),
         ),
+          bottomNavigationBar: Padding(
+            padding: const EdgeInsets.only(left: 16),
+            child: Container(
+                margin: EdgeInsets.only(bottom: 10, top: 10),
+                height: 130,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Advertise us",
+                      style: context.text.titleMedium?.copyWith(
+                          color: AppColors.customWhiteTextColor,
+                          fontSize: 18.sp),
+                    ),
+                    Container(
+                        height: 100,
+                        child: HorizontalVideoList1()),
+                  ],
+                )),
+          ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: AppColors.customPinkColor,
           foregroundColor: Colors.white,

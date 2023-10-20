@@ -6,12 +6,12 @@ import 'package:gosperadioapp/src/module/auth/components/signup.dart';
 import 'package:gosperadioapp/src/module/home/view.dart';
 import 'package:gosperadioapp/src/utils/constants/assets.dart';
 import 'package:gosperadioapp/src/utils/extensions.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../custom_widgets/customTextField.dart';
 import '../../../utils/constants/colors.dart';
 import '../logic.dart';
 import 'forgot.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -97,9 +97,10 @@ class LoginScreen extends StatelessWidget {
                     children: [
                       Text(
                         "Email",
-                        style: context.text.bodyLarge?.copyWith(color: Colors.white
-                            // height: 0.1
-                            ),
+                        style:
+                            context.text.bodyLarge?.copyWith(color: Colors.white
+                                // height: 0.1
+                                ),
                       ),
                       6.heightBox,
                       Container(
@@ -116,7 +117,8 @@ class LoginScreen extends StatelessWidget {
                           },
                           hintFontSize: 16.0,
                           isOutlineInputBorder: true,
-                          isOutlineInputBorderColor: AppColors.customWhiteTextColor,
+                          isOutlineInputBorderColor:
+                              AppColors.customWhiteTextColor,
                           textColor: Colors.white,
                           // textFieldFillColor: Colors.transparent,
                           // fontWeight: FontWeight.bold,
@@ -139,9 +141,9 @@ class LoginScreen extends StatelessWidget {
                       Text(
                         "Password",
                         style:
-                        context.text.bodyLarge?.copyWith(color: Colors.white
-                          // height: 0.1
-                        ),
+                            context.text.bodyLarge?.copyWith(color: Colors.white
+                                // height: 0.1
+                                ),
                       ),
                       6.heightBox,
                       Obx(() {
@@ -162,7 +164,7 @@ class LoginScreen extends StatelessWidget {
                             hintFontSize: 16.0,
                             isOutlineInputBorder: true,
                             isOutlineInputBorderColor:
-                            AppColors.customWhiteTextColor,
+                                AppColors.customWhiteTextColor,
                             textColor: Colors.white,
                             // textFieldFillColor: Colors.transparent,
                             // fontWeight: FontWeight.bold,
@@ -180,7 +182,7 @@ class LoginScreen extends StatelessWidget {
                               // Icons.visibility_off),
                               onPressed: () {
                                 logic.obscureText.value =
-                                !logic.obscureText.value;
+                                    !logic.obscureText.value;
                               },
                             ),
                             onTap: () async {
@@ -273,7 +275,8 @@ class LoginScreen extends StatelessWidget {
                                 SharedPreferences sp =
                                     await SharedPreferences.getInstance();
                                 if (formKeyValuee.currentState!.validate()) {
-                                  await AuthLogic.to.signInUser(context: context);
+                                  await AuthLogic.to
+                                      .signInUser(context: context);
                                   print(sp.getString('token'));
                                   // print(sp.getString('islogin'));
                                 }
@@ -349,7 +352,7 @@ class LoginScreen extends StatelessWidget {
                               alignment: Alignment.topLeft,
                               child: InkWell(
                                 onTap: () {
-                                 Get.off(HomePage());
+                                  Get.off(HomePage());
                                 },
                                 child: Icon(
                                   Icons.arrow_back,
@@ -359,14 +362,19 @@ class LoginScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-
                           Expanded(
+                            flex: 5,
                             child: Container(
-                                width: 100,
-                                // color: Colors.amber,
-                                height: 80,
+                                // width: 80,
+                                // // color: Colors.amber,
+                                // height: 80,
                                 // margin: EdgeInsets.only(top: 35.h),
-                                child: Image.asset("assets/images/hgc.png", fit: BoxFit.contain,)),
+                                child: Image.asset(
+                              "assets/images/hgc.png",
+                              fit: BoxFit.cover,
+
+                              // width: 150,
+                            )),
                           ),
                           Expanded(child: SizedBox()),
                         ],

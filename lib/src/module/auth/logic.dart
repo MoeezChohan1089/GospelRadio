@@ -1,13 +1,10 @@
-import 'dart:developer';
-
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:gosperadioapp/src/globalVariable/global_variable.dart';
 import 'package:gosperadioapp/src/module/auth/api_service/api_services.dart';
+import 'package:gosperadioapp/src/utils/extensions.dart';
 
-import '../../custom_widgets/customDialogue.dart';
-import '../../utils/constants/colors.dart';
 import '../home/view.dart';
 import 'api_service/getData.dart';
 import 'components/forgotVerfityOTP.dart';
@@ -35,7 +32,8 @@ class AuthLogic extends GetxController {
   TextEditingController passwordSignInController = TextEditingController();
   TextEditingController emailForgotController = TextEditingController();
   TextEditingController forgotNewPasswordController = TextEditingController();
-  TextEditingController forgotConfirmNewPasswordController = TextEditingController();
+  TextEditingController forgotConfirmNewPasswordController =
+      TextEditingController();
   GlobalKey<FormState> formKeyValue = GlobalKey<FormState>();
   GlobalKey<FormState> formKeyValue1 = GlobalKey<FormState>();
   // GlobalKey<FormState> formKeyValue2 = GlobalKey<FormState>();
@@ -48,7 +46,8 @@ class AuthLogic extends GetxController {
   RxBool obscureText3 = true.obs;
   RxString newPassToken = ''.obs;
 
-  RxList<TextEditingController> listOfController = RxList<TextEditingController>([]);
+  RxList<TextEditingController> listOfController =
+      RxList<TextEditingController>([]);
 
   createNewUser({required BuildContext context}) async {
     customLoaderGlobal.showLoader(context);
@@ -56,15 +55,20 @@ class AuthLogic extends GetxController {
     if (await createSignupApiService(
       context: context,
       // user: userGet,
-        name: nameController.text,
-        password: passwordController.text,
-        email: emailController.text,
-        )) {
+      name: nameController.text,
+      password: passwordController.text,
+      email: emailController.text,
+    )) {
       ///----- API Successful
 
       customLoaderGlobal.hideLoader();
       final snackBar = SnackBar(
-        content: Text('OTP has been sent in your email.'),
+        content: Text(
+          'OTP has been sent in your email.',
+          style: context.text.bodyMedium?.copyWith(fontSize: 18.sp),
+        ),
+        margin: EdgeInsets.only(bottom: 8),
+        behavior: SnackBarBehavior.floating,
       );
 
 // Find the ScaffoldMessenger in the widget tree
@@ -73,7 +77,9 @@ class AuthLogic extends GetxController {
       // Get.snackbar('Message', 'OTP has been sent in your email.',
       //     backgroundColor: Colors.black,
       //     colorText: AppColors.customWhiteTextColor);
-      Get.to(()=>OTPScreen(email: emailController.text,));
+      Get.to(() => OTPScreen(
+            email: emailController.text,
+          ));
       nameController.clear();
       passwordController.clear();
       emailController.clear();
@@ -99,13 +105,12 @@ class AuthLogic extends GetxController {
     print("value of OTP3: ${OTPController2.text}");
     print("value of OTP4: ${OTPController3.text}");
     if (await otpRegisterApiService(
-      // user: userGet,
-      email: email,
-      otp: OTPController.text,
-      otp1: OTPController1.text,
-      otp2: OTPController2.text,
-      otp3: OTPController3.text
-    )) {
+        // user: userGet,
+        email: email,
+        otp: OTPController.text,
+        otp1: OTPController1.text,
+        otp2: OTPController2.text,
+        otp3: OTPController3.text)) {
       ///----- API Successful
 
       customLoaderGlobal.hideLoader();
@@ -114,12 +119,17 @@ class AuthLogic extends GetxController {
       print("value of OTP2: ${OTPController1.text}");
       print("value of OTP3: ${OTPController2.text}");
       print("value of OTP4: ${OTPController3.text}");
-      Get.off(()=>LoginScreen());
+      Get.off(() => LoginScreen());
     } else {
       print("error");
       customLoaderGlobal.hideLoader();
       final snackBar = SnackBar(
-        content: Text('Error in creating account'),
+        content: Text(
+          'Error in creating account',
+          style: context.text.bodyMedium?.copyWith(fontSize: 18.sp),
+        ),
+        margin: EdgeInsets.only(bottom: 8),
+        behavior: SnackBarBehavior.floating,
       );
 
 // Find the ScaffoldMessenger in the widget tree
@@ -132,15 +142,19 @@ class AuthLogic extends GetxController {
     customLoaderGlobal.showLoader(context);
 
     if (await signInApiService(
-      // user: userGet,
+        // user: userGet,
         email: emailSignInController.text,
-        password: passwordSignInController.text
-    )) {
+        password: passwordSignInController.text)) {
       ///----- API Successful
 
       customLoaderGlobal.hideLoader();
       final snackBar = SnackBar(
-        content: Text('Login Successfully..'),
+        content: Text(
+          'Login Successfully..',
+          style: context.text.bodyMedium?.copyWith(fontSize: 18.sp),
+        ),
+        margin: EdgeInsets.only(bottom: 8),
+        behavior: SnackBarBehavior.floating,
       );
 
 // Find the ScaffoldMessenger in the widget tree
@@ -149,14 +163,19 @@ class AuthLogic extends GetxController {
       // Get.snackbar('Message', 'Login Successfully..',
       //     backgroundColor: Colors.black,
       //     colorText: AppColors.customWhiteTextColor);
-      Get.off(()=>HomePage());
+      Get.off(() => HomePage());
       emailSignInController.clear();
       passwordSignInController.clear();
     } else {
       print("error");
       customLoaderGlobal.hideLoader();
       final snackBar = SnackBar(
-        content: Text('Your email or password is wrong.'),
+        content: Text(
+          'Your email or password is wrong.',
+          style: context.text.bodyMedium?.copyWith(fontSize: 18.sp),
+        ),
+        margin: EdgeInsets.only(bottom: 8),
+        behavior: SnackBarBehavior.floating,
       );
 
 // Find the ScaffoldMessenger in the widget tree
@@ -172,10 +191,9 @@ class AuthLogic extends GetxController {
     customLoaderGlobal.showLoader(context);
 
     if (await forgotApiService(
-      // user: userGet,
-      context: context,
-        email: emailForgotController.text
-    )) {
+        // user: userGet,
+        context: context,
+        email: emailForgotController.text)) {
       ///----- API Successful
 
       customLoaderGlobal.hideLoader();
@@ -183,17 +201,22 @@ class AuthLogic extends GetxController {
       //     backgroundColor: Colors.black,
       //     colorText: AppColors.customWhiteTextColor);
       emailForgotController.clear();
-     Get.off(()=>ForgotOTPScreen());
+      Get.off(() => ForgotOTPScreen());
     } else {
       print("error");
       final snackBar = SnackBar(
-        content: Text('Your email is wrong'),
+        content: Text(
+          'Your email is wrong',
+          style: context.text.bodyMedium?.copyWith(fontSize: 18.sp),
+        ),
+        margin: EdgeInsets.only(bottom: 8),
+        behavior: SnackBarBehavior.floating,
       );
 
 // Find the ScaffoldMessenger in the widget tree
 // and use it to show a SnackBar.
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    customLoaderGlobal.hideLoader();
+      customLoaderGlobal.hideLoader();
     }
   }
 
@@ -201,11 +224,10 @@ class AuthLogic extends GetxController {
     customLoaderGlobal.showLoader(context);
 
     ApiResponse apiResponse = await forgotOTPApiService(
-      otp: forgotOTPController.text,
-      otp1: forgotOTPController1.text,
-      otp2: forgotOTPController2.text,
-      otp3: forgotOTPController3.text
-    );
+        otp: forgotOTPController.text,
+        otp1: forgotOTPController1.text,
+        otp2: forgotOTPController2.text,
+        otp3: forgotOTPController3.text);
 
     if (apiResponse.dataPass.isNotEmpty) {
       ///----- API Successful
@@ -216,7 +238,12 @@ class AuthLogic extends GetxController {
     } else {
       customLoaderGlobal.hideLoader();
       final snackBar = SnackBar(
-        content: Text('Your OTP is wrong'),
+        content: Text(
+          'Your OTP is wrong',
+          style: context.text.bodyMedium?.copyWith(fontSize: 18.sp),
+        ),
+        margin: EdgeInsets.only(bottom: 8),
+        behavior: SnackBarBehavior.floating,
       );
 
 // Find the ScaffoldMessenger in the widget tree
@@ -229,12 +256,20 @@ class AuthLogic extends GetxController {
   forgotResetPassword({required BuildContext context}) async {
     customLoaderGlobal.showLoader(context);
     print("token after forgot: ${newPassToken.value}");
-    final response = await forgotApiResetPassword(token: newPassToken.value, newPassword: forgotNewPasswordController.text, confirmPassword: forgotConfirmNewPasswordController.text);
+    final response = await forgotApiResetPassword(
+        token: newPassToken.value,
+        newPassword: forgotNewPasswordController.text,
+        confirmPassword: forgotConfirmNewPasswordController.text);
     forgotNewPasswordController.clear();
     forgotConfirmNewPasswordController.clear();
     customLoaderGlobal.hideLoader();
     final snackBar = SnackBar(
-      content: Text('Your Password has been updated..'),
+      content: Text(
+        'Your Password has been updated..',
+        style: context.text.bodyMedium?.copyWith(fontSize: 18.sp),
+      ),
+      margin: EdgeInsets.only(bottom: 8),
+      behavior: SnackBarBehavior.floating,
     );
 
 // Find the ScaffoldMessenger in the widget tree

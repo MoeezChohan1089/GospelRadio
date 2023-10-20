@@ -1,13 +1,14 @@
 import 'dart:convert';
-import 'package:gosperadioapp/src/globalVariable/database_controller.dart';
-import 'package:http/http.dart' as http;
+
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
+import 'package:gosperadioapp/src/globalVariable/database_controller.dart';
 import 'package:gosperadioapp/src/utils/extensions.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../utils/constants/colors.dart';
 import '../../../utils/constants/margins_spacnings.dart';
@@ -17,7 +18,6 @@ import '../../home/logic.dart';
 import '../../purchase/view.dart';
 import '../logic.dart';
 import 'musicTheAlbum.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class MusicListCatalogScreen extends StatefulWidget {
   final int ID;
@@ -92,183 +92,193 @@ class _MusicListCatalogScreenState extends State<MusicListCatalogScreen> {
         return logic1.loadingCatalog.value == true
             ? ShimerListviewPage()
             : SingleChildScrollView(
-          physics: NeverScrollableScrollPhysics(),
-          child: Column(
-            children: [
-              10.heightBox,
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  10.widthBox,
-                  SizedBox(
-                    width: 181.w,
-                    height: 178.h,
-                    child: CachedNetworkImage(
-                      imageUrl: logic1.responseDataMusicList['data']
-                      ['album']['image_url'],
+                physics: NeverScrollableScrollPhysics(),
+                child: Column(
+                  children: [
+                    10.heightBox,
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        10.widthBox,
+                        SizedBox(
+                          width: 181.w,
+                          height: 178.h,
+                          child: CachedNetworkImage(
+                            imageUrl: logic1.responseDataMusicList['data']
+                                ['album']['image_url'],
 
-                      // imageUrl: (productDetail?.images ?? []).isNotEmpty
-                      //     ? productDetail!.images[0].originalSrc
-                      //     : "",
-                      fit: BoxFit.cover,
-                      height: double.infinity,
-                      width: double.infinity,
-                      placeholder: (context, url) => productShimmer(),
-                      errorWidget: (context, url, error) =>
-                      const Icon(Icons.error),
+                            // imageUrl: (productDetail?.images ?? []).isNotEmpty
+                            //     ? productDetail!.images[0].originalSrc
+                            //     : "",
+                            fit: BoxFit.cover,
+                            height: double.infinity,
+                            width: double.infinity,
+                            placeholder: (context, url) => productShimmer(),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
+                          ),
+                        ),
+                        // Image.network(
+                        //     logic1.responseDataMusicList['data']['album']
+                        //         ['image_url'],
+                        //     width: 181.w,
+                        //     height: 178.h,
+                        //     fit: BoxFit.cover),
+                        10.widthBox,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            14.heightBox,
+                            Row(
+                              children: [
+                                Text(
+                                  logic1.responseDataMusicList['data']['album']
+                                      ['title'],
+                                  style: context.text.bodySmall?.copyWith(
+                                      color: AppColors.customWhiteTextColor,
+                                      fontSize: 14.sp),
+                                ),
+                                50.widthBox,
+                                islogin == true
+                                    ? LocalDatabase.to.box.read('paid') != null
+                                        ? GetBuilder<Music_catalogLogic>(
+                                            builder: (logic) {
+                                            return GestureDetector(
+                                              behavior: HitTestBehavior.opaque,
+                                              onTap: () {
+                                                logic.downloadSong(
+                                                    context, widget.ID);
+                                                print('as');
+                                              },
+                                              child: Text(
+                                                "Download",
+                                                textAlign: TextAlign.end,
+                                                style: context.text.bodySmall
+                                                    ?.copyWith(
+                                                  color: AppColors
+                                                      .customMusicTextColor,
+                                                  fontSize: 14.sp,
+                                                ),
+                                              ),
+                                            );
+                                          })
+                                        : GestureDetector(
+                                            behavior: HitTestBehavior.opaque,
+                                            onTap: () {
+                                              makePayment(logic1
+                                                      .responseDataMusicList[
+                                                  'data']['album']['price']);
+                                              print('as');
+                                            },
+                                            child: Text(
+                                              "Buy Now",
+                                              textAlign: TextAlign.end,
+                                              style: context.text.bodySmall
+                                                  ?.copyWith(
+                                                color: AppColors
+                                                    .customMusicTextColor,
+                                                fontSize: 14.sp,
+                                              ),
+                                            ),
+                                          )
+                                    : GestureDetector(
+                                        behavior: HitTestBehavior.opaque,
+                                        onTap: () {
+                                          Get.to(() => LoginScreen());
+                                        },
+                                        child: Text(
+                                          "Login",
+                                          textAlign: TextAlign.end,
+                                          style:
+                                              context.text.bodySmall?.copyWith(
+                                            color:
+                                                AppColors.customMusicTextColor,
+                                            fontSize: 14.sp,
+                                          ),
+                                        ),
+                                      ),
+                              ],
+                            ),
+                            6.heightBox,
+                            Text(
+                              'Release Year: ${logic1.responseDataMusicList['data']['album']['release_year']}',
+                              style: context.text.bodySmall?.copyWith(
+                                  color: AppColors.customWhiteTextColor,
+                                  fontSize: 14.sp),
+                            ),
+                            6.heightBox,
+                            Text(
+                              'Release Price: \$${logic1.responseDataMusicList['data']['album']['price']}',
+                              style: context.text.bodySmall?.copyWith(
+                                  color: AppColors.customWhiteTextColor,
+                                  fontSize: 14.sp),
+                            ),
+                            6.heightBox,
+                            Text(
+                              logic1.responseDataMusicList['data']['album']
+                                  ['artist_name'],
+                              style: context.text.bodySmall?.copyWith(
+                                  color: AppColors.customWhiteTextColor,
+                                  fontSize: 14.sp),
+                            ),
+                            10.heightBox,
+                            islogin == true
+                                ? SizedBox(
+                                    width: 160,
+                                    height: 32,
+                                    child: ElevatedButton(
+                                        onPressed: () async {
+                                          Get.to(() =>
+                                              PurchasePage(ID: widget.ID));
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              AppColors.customPinkColor,
+                                          foregroundColor: Colors.white,
+                                          elevation: 0,
+                                          // Set the text color of the button
+                                          // Set the padding around the button content
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                                4), // Set the border radius of the button
+                                          ),
+                                        ),
+                                        child: Text(
+                                          "Share Love gift",
+                                          style: context.text.bodyMedium!
+                                              .copyWith(
+                                                  color: Colors.white,
+                                                  fontSize: 12.sp,
+                                                  height: 1.1),
+                                        )),
+                                  )
+                                : SizedBox(),
+                          ],
+                        )
+                      ],
                     ),
-                  ),
-                  // Image.network(
-                  //     logic1.responseDataMusicList['data']['album']
-                  //         ['image_url'],
-                  //     width: 181.w,
-                  //     height: 178.h,
-                  //     fit: BoxFit.cover),
-                  10.widthBox,
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      14.heightBox,
-                      Row(
+                    10.heightBox,
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: pageMarginHorizontal,
+                      ),
+                      child: Row(
                         children: [
                           Text(
-                            logic1.responseDataMusicList['data']['album']
-                            ['title'],
-                            style: context.text.bodySmall?.copyWith(
+                            "Music Album",
+                            style: context.text.titleMedium?.copyWith(
                                 color: AppColors.customWhiteTextColor,
-                                fontSize: 14.sp),
+                                fontSize: 18.sp),
                           ),
-                          50.widthBox,
-                          islogin == true
-                              ? LocalDatabase.to.box.read('paid') != null
-                              ? GetBuilder<Music_catalogLogic>(builder: (logic) {
-                            return GestureDetector(
-                              behavior: HitTestBehavior.opaque,
-                              onTap: () {
-                                logic.downloadSong(context, widget.ID);
-                                print('as');
-                              },
-                              child: Text(
-                                "Download",
-                                textAlign: TextAlign.end,
-                                style: context.text.bodySmall?.copyWith(
-                                  color: AppColors.customMusicTextColor,
-                                  fontSize: 14.sp,
-                                ),
-                              ),
-                            );
-                          })
-                              : GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            onTap: () {
-                              makePayment(
-                                  logic1.responseDataMusicList['data']['album']['price']);
-                              print('as');
-                            },
-                            child: Text(
-                              "Buy Now",
-                              textAlign: TextAlign.end,
-                              style: context.text.bodySmall?.copyWith(
-                                color: AppColors.customMusicTextColor,
-                                fontSize: 14.sp,
-                              ),
-                            ),
-                          )
-                              : GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            onTap: () {
-                              Get.to(() => LoginScreen());
-                            },
-                            child: Text(
-                              "Login",
-                              textAlign: TextAlign.end,
-                              style: context.text.bodySmall?.copyWith(
-                                color: AppColors.customMusicTextColor,
-                                fontSize: 14.sp,
-                              ),
-                            ),
-                          ),
-
                         ],
                       ),
-                      6.heightBox,
-                      Text(
-                        'Release Year: ${logic1
-                            .responseDataMusicList['data']['album']['release_year']}',
-                        style: context.text.bodySmall?.copyWith(
-                            color: AppColors.customWhiteTextColor,
-                            fontSize: 14.sp),
-                      ),
-                      6.heightBox,
-                      Text(
-                        'Release Price: \$${logic1
-                            .responseDataMusicList['data']['album']['price']}',
-                        style: context.text.bodySmall?.copyWith(
-                            color: AppColors.customWhiteTextColor,
-                            fontSize: 14.sp),
-                      ),
-                      6.heightBox,
-                      Text(
-                        logic1.responseDataMusicList['data']['album']
-                        ['artist_name'],
-                        style: context.text.bodySmall?.copyWith(
-                            color: AppColors.customWhiteTextColor,
-                            fontSize: 14.sp),
-                      ),
-                      10.heightBox,
-                      islogin == true
-                          ? SizedBox(
-                        width: 160,
-                        height: 32,
-                        child: ElevatedButton(
-                            onPressed: () async {
-                              Get.to(() => PurchasePage(ID: widget.ID));
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.customPinkColor,
-                              foregroundColor: Colors.white,
-                              elevation: 0,
-                              // Set the text color of the button
-                              // Set the padding around the button content
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    4), // Set the border radius of the button
-                              ),
-                            ),
-                            child: Text(
-                              "Share Love gift",
-                              style: context.text.bodyMedium!.copyWith(
-                                  color: Colors.white,
-                                  fontSize: 12.sp,
-                                  height: 1.1),
-                            )),
-                      ) : SizedBox(),
-                    ],
-                  )
-                ],
-              ),
-              10.heightBox,
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: pageMarginHorizontal,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      "Music Album",
-                      style: context.text.titleMedium?.copyWith(
-                          color: AppColors.customWhiteTextColor,
-                          fontSize: 18.sp),
                     ),
+                    MusicTheAlbumSection(),
                   ],
                 ),
-              ),
-              MusicTheAlbumSection(),
-            ],
-          ),
-        );
+              );
       }),
     );
   }
@@ -280,26 +290,26 @@ class _MusicListCatalogScreenState extends State<MusicListCatalogScreen> {
     try {
       paymentIntentData = await createPaymentIntent("$price", 'USD');
       var gpay =
-      const PaymentSheetGooglePay(merchantCountryCode: '', testEnv: true);
+          const PaymentSheetGooglePay(merchantCountryCode: '', testEnv: true);
       await Stripe.instance.initPaymentSheet(
           paymentSheetParameters: SetupPaymentSheetParameters(
-            style: ThemeMode.light,
-            // appearance: PaymentSheetAppearance(
-            //     colors: PaymentSheetAppearanceColors(
-            //       background: Colors.red,
-            //       primaryText: Colors.red,
-            //     ),
-            //     primaryButton: PaymentSheetPrimaryButtonAppearance(
-            //         colors: PaymentSheetPrimaryButtonTheme(
-            //             light: PaymentSheetPrimaryButtonThemeColors(
-            //                 text: Colors.red, background: Colors.amber)))),
-            paymentIntentClientSecret: paymentIntentData!['client_secret'],
-            // applePay: PaymentSheetApplePay(merchantCountryCode: 'us'),
+        style: ThemeMode.light,
+        // appearance: PaymentSheetAppearance(
+        //     colors: PaymentSheetAppearanceColors(
+        //       background: Colors.red,
+        //       primaryText: Colors.red,
+        //     ),
+        //     primaryButton: PaymentSheetPrimaryButtonAppearance(
+        //         colors: PaymentSheetPrimaryButtonTheme(
+        //             light: PaymentSheetPrimaryButtonThemeColors(
+        //                 text: Colors.red, background: Colors.amber)))),
+        paymentIntentClientSecret: paymentIntentData!['client_secret'],
+        // applePay: PaymentSheetApplePay(merchantCountryCode: 'us'),
 
-            googlePay: gpay,
+        googlePay: gpay,
 
-            merchantDisplayName: 'Shary',
-          ));
+        merchantDisplayName: 'Shary',
+      ));
       displaypaymentsheet(price);
     } catch (e) {
       print('Eception+$e');
@@ -314,8 +324,11 @@ class _MusicListCatalogScreenState extends State<MusicListCatalogScreen> {
           LocalDatabase.to.box.write('paid', price);
         });
         // print("after paid success: ${LocalDatabase.to.box.read('paid')}");
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('Paid successfully'),
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            'Paid successfully',
+            style: context.text.bodyMedium?.copyWith(fontSize: 18.sp),
+          ),
         ));
         // GlobalClass.hasPurchased.value = true;
         // prefs.setBool('hasPurchased', true);
@@ -341,8 +354,8 @@ class _MusicListCatalogScreenState extends State<MusicListCatalogScreen> {
           body: body,
           headers: {
             'Authorization':
-            // 'Bearer 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',
-            'Bearer sk_test_51N9OPdFZIhHk42tPLiBXDrXHcA9ZbQnUFMP9MhTt9c3Kk8WzHIm08BM1MKmjAIK74ZRUVuQDgXu2geZbN4heuNjK008pIo1pXk',
+                // 'Bearer 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',
+                'Bearer sk_test_51N9OPdFZIhHk42tPLiBXDrXHcA9ZbQnUFMP9MhTt9c3Kk8WzHIm08BM1MKmjAIK74ZRUVuQDgXu2geZbN4heuNjK008pIo1pXk',
             'Content-Type': 'application/x-www-form-urlencoded'
           });
       return json.decode(response.body.toString());
