@@ -24,9 +24,9 @@ class _ContentPageScreenState extends State<ContentPageScreen> {
         scrolledUnderElevation: 0,
         centerTitle: true,
         title: Text(
-          "Gospel Radio",
+          widget.index == 0? "Welcome": "Home / Hallelujah",
           style: context.text.bodySmall?.copyWith(
-              color: AppColors.customWhiteTextColor, fontSize: 14.sp),
+              color: AppColors.customWhiteTextColor, fontSize: 18.sp),
         ),
         leading: IconButton(
             onPressed: () {
@@ -47,16 +47,16 @@ class _ContentPageScreenState extends State<ContentPageScreen> {
           children: [
             6.heightBox,
            widget.index == 0? Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Text("Home / Hallelujah Gospel Choice Radio", style: context.text.titleMedium?.copyWith(
-                  color: AppColors.customWhiteTextColor,
-                  fontSize: 30.sp, fontFamily: 'linear'),),
-            ):Padding(
              padding: const EdgeInsets.symmetric(horizontal: 10),
-             child: Text("Welcome! We Are So Glad You Are Here!", style: context.text.titleMedium?.copyWith(
+             child: Text("We Are So Glad You Are Here!", style: context.text.titleMedium?.copyWith(
                  color: AppColors.customWhiteTextColor,
                  fontSize: 30.sp, fontFamily: 'linear'),),
-           ),
+           ):Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Text("Gospel Choice Radio", style: context.text.titleMedium?.copyWith(
+                  color: AppColors.customWhiteTextColor,
+                  fontSize: 30.sp, fontFamily: 'linear'),),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Text("${widget.content}", style: context.text.titleMedium?.copyWith(

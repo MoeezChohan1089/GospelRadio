@@ -66,7 +66,7 @@ class _ListHorizontalScreenState extends State<ListHorizontalScreen> {
             crossAxisAlignment: WrapCrossAlignment.start,
             alignment: WrapAlignment.start,
             children: List.generate(
-              logic.albumsList.value.length > 6? 6: logic.albumsList.value.length, (index) {
+              logic.albumsList.value.length > 9? 9: logic.albumsList.value.length, (index) {
               return GestureDetector(
                 onTap: () async {
                   print("ffffdddddd: ${logic.albumsList.value[index]['id']}");
@@ -75,7 +75,7 @@ class _ListHorizontalScreenState extends State<ListHorizontalScreen> {
                   ));
                 },
                 child: Padding(
-                  padding: EdgeInsets.only(left: 16, top: 16),
+                  padding: EdgeInsets.only(left: 20, top: 20),
                   child: SizedBox(
                     height: 110.h,
                     width: 110.w,
@@ -95,33 +95,40 @@ class _ListHorizontalScreenState extends State<ListHorizontalScreen> {
               );
             },
             )..add(
-              GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () {
-                  Get.to(() => MusicCatalogPage());
-                  // Handle "Load More" button click here
-                  // You can add more items to the list or implement your logic
-                },
-                child: Padding(
-                  padding: EdgeInsets.only(left: 16, right: 16, top: 16),
-                  child: Container(
-                    // color: Colors.yellow,
-                    height: 50.h,
-                    width: double.maxFinite,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Load More',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18.sp
-                            // Customize the style of the "Load More" text
+              Align(
+                alignment: Alignment.center,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () {
+                    Get.to(() => MusicCatalogPage());
+                    // Handle "Load More" button click here
+                    // You can add more items to the list or implement your logic
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 24, right: 16, top: 20),
+                    child: Container(
+                      margin: EdgeInsets.only(right: pageMarginHorizontal/1.5),
+                      decoration: BoxDecoration(
+                        color: Colors.pink,
+                        borderRadius: BorderRadius.circular(10.r)
+                      ),
+                      height: 40.h,
+                      width: 90.w,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Load More',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16.sp
+                              // Customize the style of the "Load More" text
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),

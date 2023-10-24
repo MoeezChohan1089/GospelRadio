@@ -243,7 +243,7 @@ class _Music_radioPageState extends State<Music_radioPage> {
                                 children: [
                                   GestureDetector(
                                     onTap: (){
-                                        Get.to(NewReleaseScreen());
+                                      Get.to(LatestNewsScreen());
                                     },
                                     child: Transform.rotate(
                                         angle: math.pi / 6,
@@ -252,7 +252,7 @@ class _Music_radioPageState extends State<Music_radioPage> {
 
                                   GestureDetector(
                                     onTap: (){
-                                      Get.to(LatestNewsScreen());
+                                      Get.to(NewReleaseScreen());
                                     },
                                     child: Transform.rotate(
                                         angle: math.pi / 7,
@@ -294,24 +294,40 @@ class _Music_radioPageState extends State<Music_radioPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            IconButton(
-                                onPressed: (){
-                                  Get.to(ContentPageScreen(
-                                    content: '\nGospel Music Focus: Hallelujah Gospel Choice Radio specializes in playing gospel music, which is a genre that carries deep spiritual and uplifting messages. Gospel music has a unique ability to touch people is hearts and inspire them with its soulful melodies and powerful lyrics. By focusing solely on gospel music, the radio station caters to a specific audience that appreciates this genre and creates a sense of community. The radio station selects songs that uplift the spirit and spread messages of joy and resilience.\n\nWith the inclusion of different voices and musical styles ensures that the radio station appeals to a wide audience while maintaining its gospel roots. . This variety allows listeners to discover new artists, experience different styles, and connect with various expressions of gospel music. The radio station may also offer additional programming such as interviews with gospel artists, live performances, and discussions on faith and spirituality.\n\nWe encourage interaction and engagement through social media platforms, call-ins, and online forums where listeners can share their thoughts, prayer requests, and testimonies. By nurturing a community of like-minded individuals, the radio station creates a supportive and uplifting environment for its audience.\n\nOverall, Hallelujah Gospel Choice Radio is dedication to gospel music, positive content, diversity, engaging presenters, community engagement, and impactful programming are some of the key factors that make it a great radio station for gospel music enthusiasts.',
-                                  index: 0,), transition: Transition.downToUp,
-                                  duration: Duration(seconds: 1));
-                                },
-                                icon: Icon(Icons.mail, size: 40, color: AppColors.customWhiteTextColor,)),
+                            Column(
+                              children: [
+                                IconButton(
+                                    onPressed: (){
+                                      Get.to(ContentPageScreen(
+                                        content: '\nIf you are searching for hope, you have come to the right place.\n\nAt Choice Radio, we see ourselves as a platform with a strong mandate to empower people to worship God like never before.\n\nWe endeavor to make your every encounter with Choice Radio uplifting and encouraging, so please enjoy the station and allow us to be a blessing to you.\n\nWhatever the day brings, we are here to keep you company. It is our prayer that you will come with an expectant heart and let the Lord minister to you. And remember to invite your family and friends, so that they, too, will experience the anointing and feel the jubilance in their spirit.\n\nIt’s all about praising God together! This is also a venue to get your ministries heard throughout the region and across the globe, so be sure to contact us to know more about our program schedule and how we can work together.\n\nIt is no coincidence that you have found us online, and we hope that you also find Choice Radio a place of refuge, faith, love, healing, and deliverance',
+                                        index: 0,), transition: Transition.downToUp,
+                                      duration: Duration(seconds: 1));
+                                    },
+                                    icon: Icon(Icons.mail, size: 40, color: AppColors.customWhiteTextColor,)),
+                                Text("Welcome",
+                                  style: context.text.bodyMedium?.copyWith(
+                                      color: AppColors.customWhiteTextColor,
+                                      fontSize: 20.sp),)
+                              ],
+                            ),
                             16.widthBox,
                             Lottie.asset('assets/images/wave.json',
                                 width: 80.w, height: 80.h),
                             16.widthBox,
-                            IconButton(onPressed: (){
-                              Get.to(ContentPageScreen(
-                                content: '\nIf you are searching for hope, you have come to the right place.\n\nAt Choice Radio, we see ourselves as a platform with a strong mandate to empower people to worship God like never before.\n\nWe endeavor to make your every encounter with Choice Radio uplifting and encouraging, so please enjoy the station and allow us to be a blessing to you.\n\nWhatever the day brings, we are here to keep you company. It is our prayer that you will come with an expectant heart and let the Lord minister to you. And remember to invite your family and friends, so that they, too, will experience the anointing and feel the jubilance in their spirit.\n\nIt’s all about praising God together! This is also a venue to get your ministries heard throughout the region and across the globe, so be sure to contact us to know more about our program schedule and how we can work together.\n\nIt is no coincidence that you have found us online, and we hope that you also find Choice Radio a place of refuge, faith, love, healing, and deliverance',
-                              index: 1,), transition: Transition.downToUp,
-                                  duration: Duration(seconds: 1));
-                            }, icon: Icon(Icons.mail, size: 40, color: AppColors.customWhiteTextColor,)),
+                            Column(
+                              children: [
+                                IconButton(onPressed: (){
+                                  Get.to(ContentPageScreen(
+                                    content: '\nGospel Music Focus: Hallelujah Gospel Choice Radio specializes in playing gospel music, which is a genre that carries deep spiritual and uplifting messages. Gospel music has a unique ability to touch people is hearts and inspire them with its soulful melodies and powerful lyrics. By focusing solely on gospel music, the radio station caters to a specific audience that appreciates this genre and creates a sense of community. The radio station selects songs that uplift the spirit and spread messages of joy and resilience.\n\nWith the inclusion of different voices and musical styles ensures that the radio station appeals to a wide audience while maintaining its gospel roots. . This variety allows listeners to discover new artists, experience different styles, and connect with various expressions of gospel music. The radio station may also offer additional programming such as interviews with gospel artists, live performances, and discussions on faith and spirituality.\n\nWe encourage interaction and engagement through social media platforms, call-ins, and online forums where listeners can share their thoughts, prayer requests, and testimonies. By nurturing a community of like-minded individuals, the radio station creates a supportive and uplifting environment for its audience.\n\nOverall, Hallelujah Gospel Choice Radio is dedication to gospel music, positive content, diversity, engaging presenters, community engagement, and impactful programming are some of the key factors that make it a great radio station for gospel music enthusiasts.',
+                                    index: 1,), transition: Transition.downToUp,
+                                      duration: Duration(seconds: 1));
+                                }, icon: Icon(Icons.mail, size: 40, color: AppColors.customWhiteTextColor,)),
+                                Text("Hallelujah",
+                                  style: context.text.bodyMedium?.copyWith(
+                                      color: AppColors.customWhiteTextColor,
+                                      fontSize: 20.sp),)
+                              ],
+                            ),
                           ],
                         ),
                         15.heightBox,
