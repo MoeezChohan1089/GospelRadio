@@ -102,7 +102,7 @@ class _NewReleaseScreenState extends State<NewReleaseScreen> {
                           // alignment: Alignment.bottomLeft,
                           children: [
                             Container(
-                              height: 250.h,
+                              height: 280.h,
                               width: double.maxFinite,
                               child: CachedNetworkImage(
                                 imageUrl: logic.newRelease.value[index]['image_url'],
@@ -298,11 +298,11 @@ class _NewReleaseScreenState extends State<NewReleaseScreen> {
                             height: 10.h,
                             width: 10.h,
                             decoration: BoxDecoration(
-                                color: logic.currentImageIndex.value ==
+                                color: logic.currentImageIndex1.value ==
                                     index ? Colors.white : Colors
                                     .transparent,
                                 shape: BoxShape.circle,
-                                border: logic.currentImageIndex.value ==
+                                border: logic.currentImageIndex1.value ==
                                     index ? null : Border.all(
                                     color: Colors.white,
                                     width: 1
