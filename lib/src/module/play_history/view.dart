@@ -87,7 +87,7 @@ class _PlayHistoryPageState extends State<PlayHistoryPage> {
                   children: [
                     Expanded(
                       child: Container(
-                        height: 150,
+                        height: 180.h,
 
                         child: Column(
                           children: [
@@ -181,7 +181,7 @@ class _PlayHistoryPageState extends State<PlayHistoryPage> {
                     10.widthBox,
                     Expanded(
                       child: Container(
-                        height: 150,
+                        height: 180.h,
 
                         child: Column(
                           children: [

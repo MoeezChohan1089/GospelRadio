@@ -176,7 +176,7 @@ class _Music_radioPageState extends State<Music_radioPage> {
                         ),
                         70.heightBox,
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
                           child: Column(
                             children: [
                               Row(
