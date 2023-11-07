@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:gosperadioapp/src/module/music_play/logic.dart';
 import 'package:gosperadioapp/src/utils/constants/colors.dart';
 import 'package:gosperadioapp/src/utils/extensions.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../custom_widgets/webview_custom.dart';
 import 'logic.dart';
@@ -34,6 +35,14 @@ class TopAlbumsScreen extends StatefulWidget {
 
 class _TopAlbumsScreenState extends State<TopAlbumsScreen> {
   final logic = Get.put(Music_radioLogic());
+
+  launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 
   @override
   void initState() {
@@ -80,10 +89,12 @@ class _TopAlbumsScreenState extends State<TopAlbumsScreen> {
               return
                 index == 0? GestureDetector(
                   onTap: (){
-                    Get.to(WebViewCustom(
-                      productUrl: '${logic.topAlbums.value[index]['view_url']}',
-                      title: logic.topAlbums.value[index]['title'],
-                    ));
+                    launchURL(
+                        "${logic.topAlbums.value[index]['view_url']}");
+                    // Get.to(WebViewCustom(
+                    //   productUrl: '${logic.topAlbums.value[index]['view_url']}',
+                    //   title: logic.topAlbums.value[index]['title'],
+                    // ));
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
@@ -185,10 +196,12 @@ class _TopAlbumsScreenState extends State<TopAlbumsScreen> {
                   ),
                   child: GestureDetector(
                     onTap: (){
-                      Get.to(WebViewCustom(
-                        productUrl: '${logic.topAlbums.value[index]['view_url']}',
-                        title: logic.topAlbums.value[index]['title'],
-                      ));
+                      launchURL(
+                          "${logic.topAlbums.value[index]['view_url']}");
+                      // Get.to(WebViewCustom(
+                      //   productUrl: '${logic.topAlbums.value[index]['view_url']}',
+                      //   title: logic.topAlbums.value[index]['title'],
+                      // ));
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10,),
@@ -240,7 +253,19 @@ class _TopAlbumsScreenState extends State<TopAlbumsScreen> {
                                   ),
                                 ),
 
-                                // 10.heightBox,
+                                10.heightBox,
+                                Container(
+                                  width: 250.w,
+                                  child: Text(
+                                    "${logic.topAlbums.value[index]['artist']}",
+                                    maxLines: 2,
+                                    textAlign: TextAlign.start,
+                                    style: context.text.titleMedium?.copyWith(
+                                        color: AppColors.customWhiteTextColor,
+                                        overflow: TextOverflow.ellipsis,
+                                        fontSize: 18.sp),
+                                  ),
+                                ),
                               ],
                             ),
                           ],

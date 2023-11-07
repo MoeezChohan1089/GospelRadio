@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:gosperadioapp/src/module/music_play/logic.dart';
 import 'package:gosperadioapp/src/utils/constants/colors.dart';
 import 'package:gosperadioapp/src/utils/extensions.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../custom_widgets/webview_custom.dart';
 import 'logic.dart';
@@ -56,6 +57,14 @@ class _TopSongsScreenState extends State<TopSongsScreen> {
     });
   }
 
+  launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,10 +100,12 @@ class _TopSongsScreenState extends State<TopSongsScreen> {
               return
                 index == 0? GestureDetector(
                   onTap: (){
-                    Get.to(WebViewCustom(
-                      productUrl: '${logic.topSongs.value[index]['view_url']}',
-                      title: logic.topSongs.value[index]['album_title'],
-                    ));
+                    launchURL(
+                        "${logic.topSongs.value[index]['view_url']}");
+                    // Get.to(WebViewCustom(
+                    //   productUrl: '${logic.topSongs.value[index]['view_url']}',
+                    //   title: logic.topSongs.value[index]['album_title'],
+                    // ));
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
@@ -280,10 +291,12 @@ class _TopSongsScreenState extends State<TopSongsScreen> {
                   ),
                   child: GestureDetector(
                     onTap: (){
-                      Get.to(WebViewCustom(
-                        productUrl: '${logic.topSongs.value[index]['view_url']}',
-                        title: logic.topSongs.value[index]['album_title'],
-                      ));
+                      launchURL(
+                          "${logic.topSongs.value[index]['view_url']}");
+                      // Get.to(WebViewCustom(
+                      //   productUrl: '${logic.topSongs.value[index]['view_url']}',
+                      //   title: logic.topSongs.value[index]['album_title'],
+                      // ));
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10,),

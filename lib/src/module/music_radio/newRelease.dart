@@ -8,6 +8,7 @@ import 'package:gosperadioapp/src/utils/constants/colors.dart';
 import 'package:gosperadioapp/src/utils/constants/margins_spacnings.dart';
 import 'package:gosperadioapp/src/utils/extensions.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../custom_widgets/webview_custom.dart';
 import 'logic.dart';
@@ -52,6 +53,14 @@ class _NewReleaseScreenState extends State<NewReleaseScreen> {
     });
   }
 
+  launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,10 +100,12 @@ class _NewReleaseScreenState extends State<NewReleaseScreen> {
                   return
                     index == 0? GestureDetector(
                       onTap: (){
-                        Get.to(WebViewCustom(
-                          productUrl: '${logic.newRelease.value[index]['view_url']}',
-                          title: logic.newRelease.value[index]['title'],
-                        ));
+                        launchURL(
+                            "${logic.newRelease.value[index]['view_url']}");
+                        // Get.to(WebViewCustom(
+                        //   productUrl: '${logic.newRelease.value[index]['view_url']}',
+                        //   title: logic.newRelease.value[index]['title'],
+                        // ));
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
@@ -196,10 +207,12 @@ class _NewReleaseScreenState extends State<NewReleaseScreen> {
                       ),
                       child: GestureDetector(
                         onTap: (){
-                          Get.to(WebViewCustom(
-                            productUrl: '${logic.newRelease.value[index]['view_url']}',
-                            title: logic.newRelease.value[index]['title'],
-                          ));
+                          launchURL(
+                              "${logic.newRelease.value[index]['view_url']}");
+                          // Get.to(WebViewCustom(
+                          //   productUrl: '${logic.newRelease.value[index]['view_url']}',
+                          //   title: logic.newRelease.value[index]['title'],
+                          // ));
                         },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10,),
