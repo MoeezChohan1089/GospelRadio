@@ -236,23 +236,42 @@ class _MusicDemoState extends State<MusicDemo> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    IconButton(
-                        onPressed: () {
-                          // Prevent the music from stopping when clicking on the back button
-                          if (isPlaying) {
-                            setState(() {
-                              isPlaying = false;
-                              Get.back();
-                            });
-                          } else {
-                            setState(() {
-                              isPlaying = true;
-                              Get.back();
-                            });
-                          }
-                        },
-                        icon: Icon(Icons.arrow_back,
-                            size: 30, color: Colors.white)),
+                    Row(
+                      // crossAxisAlignment: CrossAxisAlignment.start,
+                      // mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        IconButton(
+                            onPressed: () {
+                              // Prevent the music from stopping when clicking on the back button
+                              if (isPlaying) {
+                                setState(() {
+                                  isPlaying = false;
+                                  player.pause();
+                                  Get.back();
+                                });
+                              } else {
+                                setState(() {
+                                  isPlaying = true;
+                                  player.pause();
+                                  Get.back();
+                                });
+                              }
+                            },
+                            icon: Icon(Icons.arrow_back,
+                                size: 30, color: Colors.white)),
+                        Container(
+                          // width: 80,
+                          // // color: Colors.amber,
+                          // height: 80,
+                          // margin: EdgeInsets.only(top: 35.h),
+                            child: Image.asset(
+                              "assets/images/hgc.png",
+                              fit: BoxFit.cover,
+                              width: 50.w,
+                              // width: 150,
+                            )),
+                      ],
+                    ),
                     Row(
                       children: [
                         Expanded(child: SizedBox()),

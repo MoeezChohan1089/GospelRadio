@@ -32,19 +32,35 @@ class MusicCatalogPage extends StatelessWidget {
           style: context.text.bodySmall?.copyWith(
               color: AppColors.customWhiteTextColor, fontSize: 14.sp),
         ),
-        leading: IconButton(
-            onPressed: () {
-              _scaffoldKey.currentState!.openDrawer();
-              // if(bottomNav.isFancyDrawer.isTrue){
-              //   bottomNav.advancedDrawerController.showDrawer();
-              // } else {
-              //   bottomNav.navScaffoldKey.currentState?.openDrawer();
-              // }
-            },
-            icon: Icon(
-              Icons.menu,
-              color: AppColors.customBlackTextColor,
-            )),
+        leadingWidth: 110.w,
+        leading: Row(
+          children: [
+            IconButton(
+                onPressed: () {
+                  _scaffoldKey.currentState!.openDrawer();
+                  // if(bottomNav.isFancyDrawer.isTrue){
+                  //   bottomNav.advancedDrawerController.showDrawer();
+                  // } else {
+                  //   bottomNav.navScaffoldKey.currentState?.openDrawer();
+                  // }
+                },
+                icon: Icon(
+                  Icons.menu,
+                  color: AppColors.customBlackTextColor,
+                )),
+            Container(
+              // width: 80,
+              // // color: Colors.amber,
+              // height: 80,
+              // margin: EdgeInsets.only(top: 35.h),
+                child: Image.asset(
+                  "assets/images/hgc.png",
+                  fit: BoxFit.cover,
+                  width: 50.w,
+                  // width: 150,
+                )),
+          ],
+        ),
         // actions: [
         //   IconButton(
         //       onPressed: () {

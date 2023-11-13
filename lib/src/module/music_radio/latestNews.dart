@@ -55,16 +55,32 @@ class _LatestNewsScreenState extends State<LatestNewsScreen> {
           style: context.text.bodySmall?.copyWith(
               color: AppColors.customWhiteTextColor, fontSize: 14.sp),
         ),
-        leading: IconButton(
-            onPressed: () {
-              Get.back();
-              // if(bottomNav.isFancyDrawer.isTrue){
-              //   bottomNav.advancedDrawerController.showDrawer();
-              // } else {
-              //   bottomNav.navScaffoldKey.currentState?.openDrawer();
-              // }
-            },
-            icon: Icon(Icons.arrow_back, color: AppColors.customBlackTextColor,)
+         leadingWidth: 110.w,
+        leading: Row(
+          children: [
+            IconButton(
+                onPressed: () {
+                  Get.back();
+                  // if(bottomNav.isFancyDrawer.isTrue){
+                  //   bottomNav.advancedDrawerController.showDrawer();
+                  // } else {
+                  //   bottomNav.navScaffoldKey.currentState?.openDrawer();
+                  // }
+                },
+                icon: Icon(Icons.arrow_back, color: AppColors.customBlackTextColor,)
+            ),
+            Container(
+              // width: 80,
+              // // color: Colors.amber,
+              // height: 80,
+              // margin: EdgeInsets.only(top: 35.h),
+                child: Image.asset(
+                  "assets/images/hgc.png",
+                  fit: BoxFit.cover,
+                  width: 50.w,
+                  // width: 150,
+                )),
+          ],
         ),
       ),
       body: logic.isLoadingAlbums.value == true? Center(child: CircularProgressIndicator(color: Colors.white,),):Column(
@@ -147,7 +163,7 @@ class _LatestNewsScreenState extends State<LatestNewsScreen> {
                                         children: [
                                           Container(
                                             child: Text(
-                                              "${logic.featureNews.value[index]['status']}",
+                                              "${logic.featureNews.value[index]['category_name']}",
                                               maxLines: 2,
                                               textAlign: TextAlign.start,
                                               style: context.text.titleMedium?.copyWith(
@@ -396,7 +412,7 @@ class _LatestNewsScreenState extends State<LatestNewsScreen> {
                                     ),
                                     10.heightBox,
                                     Text(
-                                      "${logic.latestNews.value[index]['status']} | ${formattedDate}",
+                                      "${logic.latestNews.value[index]['category_name']} | ${formattedDate}",
                                       maxLines: 2,
                                       textAlign: TextAlign.center,
                                       style: context.text.titleMedium?.copyWith(

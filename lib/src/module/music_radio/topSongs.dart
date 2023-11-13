@@ -79,16 +79,32 @@ class _TopSongsScreenState extends State<TopSongsScreen> {
           style: context.text.bodySmall?.copyWith(
               color: AppColors.customWhiteTextColor, fontSize: 14.sp),
         ),
-        leading: IconButton(
-            onPressed: () {
-              Get.back();
-              // if(bottomNav.isFancyDrawer.isTrue){
-              //   bottomNav.advancedDrawerController.showDrawer();
-              // } else {
-              //   bottomNav.navScaffoldKey.currentState?.openDrawer();
-              // }
-            },
-            icon: Icon(Icons.arrow_back, color: AppColors.customBlackTextColor,)
+        leadingWidth: 110.w,
+        leading: Row(
+          children: [
+            IconButton(
+                onPressed: () {
+                  Get.back();
+                  // if(bottomNav.isFancyDrawer.isTrue){
+                  //   bottomNav.advancedDrawerController.showDrawer();
+                  // } else {
+                  //   bottomNav.navScaffoldKey.currentState?.openDrawer();
+                  // }
+                },
+                icon: Icon(Icons.arrow_back, color: AppColors.customBlackTextColor,)
+            ),
+            Container(
+              // width: 80,
+              // // color: Colors.amber,
+              // height: 80,
+              // margin: EdgeInsets.only(top: 35.h),
+                child: Image.asset(
+                  "assets/images/hgc.png",
+                  fit: BoxFit.cover,
+                  width: 50.w,
+                  // width: 150,
+                )),
+          ],
         ),
       ),
       body: Obx((){
@@ -174,17 +190,33 @@ class _TopSongsScreenState extends State<TopSongsScreen> {
                                     ),
                                   ),
                                   10.heightBox,
-                                  Container(
-                                    width: double.maxFinite,
-                                    child: Text(
-                                      "${logic.topSongs.value[index]['album_title']}",
-                                      maxLines: 2,
-                                      textAlign: TextAlign.start,
-                                      style: context.text.titleMedium?.copyWith(
-                                          color: AppColors.customWhiteTextColor,
-                                          overflow: TextOverflow.ellipsis,
-                                          fontSize: 18.sp),
-                                    ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        width: 300.sp,
+                                        child: Text(
+                                          "${logic.topSongs.value[index]['album_title']}",
+                                          maxLines: 2,
+                                          textAlign: TextAlign.start,
+                                          style: context.text.titleMedium?.copyWith(
+                                              color: AppColors.customWhiteTextColor,
+                                              overflow: TextOverflow.ellipsis,
+                                              fontSize: 18.sp),
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                        // width: double.maxFinite,
+                                        child: Text(
+                                          "Views: ${logic.topSongs.value[index]['count']}",
+                                          // textAlign: TextAlign.end,
+                                          style: context.text.titleMedium?.copyWith(
+                                              color: AppColors.customWhiteTextColor,
+                                              fontSize: 16.sp),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   10.heightBox
                                   // Container(
@@ -360,6 +392,7 @@ class _TopSongsScreenState extends State<TopSongsScreen> {
                                         fontSize: 22.sp),
                                   ),
                                 ),
+                                10.heightBox,
                                 Container(
                                   width: 250.w,
                                   child: Text(
@@ -372,9 +405,18 @@ class _TopSongsScreenState extends State<TopSongsScreen> {
                                         fontSize: 18.sp),
                                   ),
                                 ),
-
-
-                                // 10.heightBox,
+                                10.heightBox,
+                                Container(
+                                  child: Text(
+                                    "Views: ${logic.topSongs.value[index]['count']}",
+                                    maxLines: 2,
+                                    textAlign: TextAlign.start,
+                                    style: context.text.titleMedium?.copyWith(
+                                        overflow: TextOverflow.ellipsis,
+                                        color: AppColors.customWhiteTextColor,
+                                        fontSize: 16.sp),
+                                  ),
+                                ),
                               ],
                             ),
                           ],

@@ -143,24 +143,39 @@ class _Music_radioPageState extends State<Music_radioPage> {
                         Row(
                           children: [
                             Expanded(
-                              child: Align(
-                                alignment: Alignment.topLeft,
-                                child: IconButton(
-                                    onPressed: () {
-                                      _scaffoldKey.currentState!.openDrawer();
-                                      // if(bottomNav.isFancyDrawer.isTrue){
-                                      //   bottomNav.advancedDrawerController.showDrawer();
-                                      // } else {
-                                      //   bottomNav.navScaffoldKey.currentState?.openDrawer();
-                                      // }
-                                      Future.delayed(Duration(seconds: 3),(){
-                                        stopSong();
-                                      });
-                                    },
-                                    icon: Icon(
-                                      Icons.menu,
-                                      color: AppColors.customBlackTextColor,
-                                    )),
+                              child: Row(
+                                children: [
+                                  Align(
+                                    alignment: Alignment.topLeft,
+                                    child: IconButton(
+                                        onPressed: () {
+                                          _scaffoldKey.currentState!.openDrawer();
+                                          // if(bottomNav.isFancyDrawer.isTrue){
+                                          //   bottomNav.advancedDrawerController.showDrawer();
+                                          // } else {
+                                          //   bottomNav.navScaffoldKey.currentState?.openDrawer();
+                                          // }
+                                          Future.delayed(Duration(seconds: 3),(){
+                                            stopSong();
+                                          });
+                                        },
+                                        icon: Icon(
+                                          Icons.menu,
+                                          color: AppColors.customBlackTextColor,
+                                        )),
+                                  ),
+                                  Container(
+                                    // width: 80,
+                                    // // color: Colors.amber,
+                                    // height: 80,
+                                    // margin: EdgeInsets.only(top: 35.h),
+                                      child: Image.asset(
+                                        "assets/images/hgc.png",
+                                        fit: BoxFit.cover,
+                                        width: 50.w,
+                                        // width: 150,
+                                      )),
+                                ],
                               ),
                             ),
                             Expanded(

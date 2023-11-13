@@ -8,6 +8,7 @@ import 'package:gosperadioapp/src/utils/extensions.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../custom_widgets/webview_custom.dart';
+import '../../utils/constants/assets.dart';
 import '../music_catalog/components/music_listCatalog.dart';
 import 'logic.dart';
 
@@ -66,20 +67,37 @@ class _TopAlbumsScreenState extends State<TopAlbumsScreen> {
         title: Text(
           "Top Albums",
           style: context.text.bodySmall?.copyWith(
-              color: AppColors.customWhiteTextColor, fontSize: 14.sp),
+              color: AppColors.customWhiteTextColor, fontSize: 16.sp),
         ),
-        leading: IconButton(
-            onPressed: () {
-              Get.back();
-              // if(bottomNav.isFancyDrawer.isTrue){
-              //   bottomNav.advancedDrawerController.showDrawer();
-              // } else {
-              //   bottomNav.navScaffoldKey.currentState?.openDrawer();
-              // }
-            },
-            icon: Icon(Icons.arrow_back, color: AppColors.customBlackTextColor,)
+        leadingWidth: 110.w,
+        leading: Row(
+          children: [
+            IconButton(
+                onPressed: () {
+                  Get.back();
+                  // if(bottomNav.isFancyDrawer.isTrue){
+                  //   bottomNav.advancedDrawerController.showDrawer();
+                  // } else {
+                  //   bottomNav.navScaffoldKey.currentState?.openDrawer();
+                  // }
+                },
+                icon: Icon(Icons.arrow_back, color: AppColors.customBlackTextColor,)
+            ),
+            Container(
+              // width: 80,
+              // // color: Colors.amber,
+              // height: 80,
+              // margin: EdgeInsets.only(top: 35.h),
+                child: Image.asset(
+                  "assets/images/hgc.png",
+                  fit: BoxFit.cover,
+                  width: 50.w,
+                  // width: 150,
+                )),
+          ],
         ),
       ),
+
       body: Obx((){
         return logic.isLoadingAlbums.value == true? Center(child: CircularProgressIndicator(color: Colors.white,),): SingleChildScrollView(
           child: Column(
@@ -161,17 +179,33 @@ class _TopAlbumsScreenState extends State<TopAlbumsScreen> {
                                     ),
                                   ),
                                   10.heightBox,
-                                  Container(
-                                    width: double.maxFinite,
-                                    child: Text(
-                                      "${logic.topAlbums.value[index]['title']}",
-                                      maxLines: 2,
-                                      textAlign: TextAlign.start,
-                                      style: context.text.titleMedium?.copyWith(
-                                          color: AppColors.customWhiteTextColor,
-                                          overflow: TextOverflow.ellipsis,
-                                          fontSize: 22.sp),
-                                    ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        width: 300.w,
+                                        // width: double.maxFinite,
+                                        child: Text(
+                                          "${logic.topAlbums.value[index]['title']}",
+                                          maxLines: 2,
+                                          textAlign: TextAlign.start,
+                                          style: context.text.titleMedium?.copyWith(
+                                              color: AppColors.customWhiteTextColor,
+                                              overflow: TextOverflow.ellipsis,
+                                              fontSize: 22.sp),
+                                        ),
+                                      ),
+                                      Container(
+                                        child: Text(
+                                          "Views: ${logic.topAlbums.value[index]['count']}",
+                                          // textAlign: TextAlign.start,
+                                          style: context.text.titleMedium?.copyWith(
+                                              overflow: TextOverflow.ellipsis,
+                                              color: AppColors.customWhiteTextColor,
+                                              fontSize: 16.sp),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   10.heightBox
                                   // Container(
@@ -274,6 +308,18 @@ class _TopAlbumsScreenState extends State<TopAlbumsScreen> {
                                         color: AppColors.customWhiteTextColor,
                                         overflow: TextOverflow.ellipsis,
                                         fontSize: 18.sp),
+                                  ),
+                                ),
+                                10.heightBox,
+                                Container(
+                                  child: Text(
+                                    "Views: ${logic.topAlbums.value[index]['count']}",
+                                    maxLines: 2,
+                                    textAlign: TextAlign.start,
+                                    style: context.text.titleMedium?.copyWith(
+                                        overflow: TextOverflow.ellipsis,
+                                        color: AppColors.customWhiteTextColor,
+                                        fontSize: 16.sp),
                                   ),
                                 ),
                               ],
