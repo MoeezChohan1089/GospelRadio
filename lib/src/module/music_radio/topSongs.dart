@@ -8,6 +8,7 @@ import 'package:gosperadioapp/src/utils/extensions.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../custom_widgets/webview_custom.dart';
+import '../music_catalog/components/music_listCatalog.dart';
 import 'logic.dart';
 
 
@@ -100,8 +101,14 @@ class _TopSongsScreenState extends State<TopSongsScreen> {
               return
                 index == 0? GestureDetector(
                   onTap: (){
-                    launchURL(
-                        "${logic.topSongs.value[index]['view_url']}");
+                    // launchURL(
+                    //     "${logic.topSongs.value[index]['view_url']}");
+
+                    Get.to(() => MusicListCatalogScreen(
+                      ID: logic.topSongs.value[index]['album_id'],
+                      modelID: logic.topSongs.value[index]['model_id'],
+                    ));
+
                     // Get.to(WebViewCustom(
                     //   productUrl: '${logic.topSongs.value[index]['view_url']}',
                     //   title: logic.topSongs.value[index]['album_title'],
@@ -291,8 +298,14 @@ class _TopSongsScreenState extends State<TopSongsScreen> {
                   ),
                   child: GestureDetector(
                     onTap: (){
-                      launchURL(
-                          "${logic.topSongs.value[index]['view_url']}");
+                      // launchURL(
+                      //     "${logic.topSongs.value[index]['view_url']}");
+
+                      Get.to(() => MusicListCatalogScreen(
+                        ID: logic.topSongs.value[index]['album_id'],
+                        modelID: logic.topSongs.value[index]['model_id'],
+                      ));
+
                       // Get.to(WebViewCustom(
                       //   productUrl: '${logic.topSongs.value[index]['view_url']}',
                       //   title: logic.topSongs.value[index]['album_title'],

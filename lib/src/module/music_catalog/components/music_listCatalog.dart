@@ -21,8 +21,9 @@ import 'musicTheAlbum.dart';
 
 class MusicListCatalogScreen extends StatefulWidget {
   final int ID;
+  final int? modelID;
 
-  MusicListCatalogScreen({Key? key, required this.ID}) : super(key: key);
+  MusicListCatalogScreen({Key? key, required this.ID, this.modelID}) : super(key: key);
 
   @override
   State<MusicListCatalogScreen> createState() => _MusicListCatalogScreenState();
@@ -31,11 +32,16 @@ class MusicListCatalogScreen extends StatefulWidget {
 class _MusicListCatalogScreenState extends State<MusicListCatalogScreen> {
   final logic = Get.find<HomeLogic>();
 
-  final logic1 = Get.find<Music_catalogLogic>();
+  final logic1 = Get.put(Music_catalogLogic());
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
+
+      // if(widget.modelID != null){
+      //   if(widget.modelID == logic1.albumsListMusic.value[])
+      // }
+
       logic1.getCatalogMusicAlbum(context, widget.ID);
     });
 
@@ -275,7 +281,7 @@ class _MusicListCatalogScreenState extends State<MusicListCatalogScreen> {
                         ],
                       ),
                     ),
-                    MusicTheAlbumSection(),
+                    MusicTheAlbumSection(modelID: widget.modelID,),
                   ],
                 ),
               );

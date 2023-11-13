@@ -15,7 +15,8 @@ import '../../music_play/view.dart';
 import '../logic.dart';
 
 class MusicTheAlbumSection extends StatefulWidget {
-  MusicTheAlbumSection({Key? key}) : super(key: key);
+  final int? modelID;
+  MusicTheAlbumSection({Key? key, this.modelID}) : super(key: key);
 
   @override
   State<MusicTheAlbumSection> createState() => _MusicTheAlbumSectionState();
@@ -48,6 +49,21 @@ class _MusicTheAlbumSectionState extends State<MusicTheAlbumSection> {
                 children: List.generate(logic.albumsListMusic.length, (index) {
                   player.setUrl(logic.albumsListMusic.value[index]
                   ['sample_url']);
+
+                  Future.delayed(Duration(seconds: 1),(){
+                    if (widget.modelID != null &&
+                        widget.modelID == logic.albumsListMusic.value[index]['id']) {
+                      // Model ID matches, navigate to the music play screen
+                      Get.to(() => MusicDemo(
+                        name: logic.albumsListMusic.value[index]['title'],
+                        artistName: logic.albumsListMusic.value[index]['artist_name'],
+                        albumName: logic.albumsListMusic.value[index]['album_name'],
+                        imageSrc: logic1.responseDataMusicList['data']['album']['image_url'],
+                        musicUrl: logic.albumsListMusic.value[index]['sample_url'],
+                        duration: logic.albumsListMusic.value[index]['duration'],
+                      ));
+                    }
+                  });
                   return InkWell(
                     onTap: () {
                       // logic2.getMusicPlaySong(context, logic.albumsListMusic[index]['id']);

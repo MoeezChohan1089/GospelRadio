@@ -8,6 +8,7 @@ import 'package:gosperadioapp/src/utils/extensions.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../custom_widgets/webview_custom.dart';
+import '../music_catalog/components/music_listCatalog.dart';
 import 'logic.dart';
 
 
@@ -89,8 +90,12 @@ class _TopAlbumsScreenState extends State<TopAlbumsScreen> {
               return
                 index == 0? GestureDetector(
                   onTap: (){
-                    launchURL(
-                        "${logic.topAlbums.value[index]['view_url']}");
+                    // launchURL(
+                    //     "${logic.topAlbums.value[index]['view_url']}");
+                    Get.to(() => MusicListCatalogScreen(
+                      ID: logic.topAlbums.value[index]['model_id'],
+                    ));
+
                     // Get.to(WebViewCustom(
                     //   productUrl: '${logic.topAlbums.value[index]['view_url']}',
                     //   title: logic.topAlbums.value[index]['title'],
@@ -196,8 +201,13 @@ class _TopAlbumsScreenState extends State<TopAlbumsScreen> {
                   ),
                   child: GestureDetector(
                     onTap: (){
-                      launchURL(
-                          "${logic.topAlbums.value[index]['view_url']}");
+                      // launchURL(
+                      //     "${logic.topAlbums.value[index]['view_url']}");
+
+                      Get.to(() => MusicListCatalogScreen(
+                        ID: logic.topAlbums.value[index]['model_id'],
+                      ));
+
                       // Get.to(WebViewCustom(
                       //   productUrl: '${logic.topAlbums.value[index]['view_url']}',
                       //   title: logic.topAlbums.value[index]['title'],

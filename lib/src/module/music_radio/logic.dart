@@ -17,6 +17,7 @@ class Music_radioLogic extends GetxController {
   RxList topSongs = [].obs;
   RxList newRelease = [].obs;
   RxList latestNews = [].obs;
+  RxList featureNews = [].obs;
 
   @override
   void onInit() {
@@ -121,6 +122,33 @@ class Music_radioLogic extends GetxController {
         print(json.encode(response.data));
         latestNews.value = response.data['data']['latest_news'];
         print("ffffff: ${topAlbums.value}");
+      }
+      else {
+        isLoadingAlbums.value = false;
+        print(response.statusMessage);
+      }
+    }catch(e){
+      isLoadingAlbums.value = false;
+      print("error: $e");
+    }
+  }
+
+  navigateButtons4() async{
+    try{
+      isLoadingAlbums.value = true;
+      var dio = Dio();
+      var response = await dio.request(
+        'https://hgcradio.org/api/get/stats',
+        options: Options(
+          method: 'GET',
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        isLoadingAlbums.value = false;
+        print(json.encode(response.data));
+        featureNews.value = response.data['data']['featured_news'];
+        print("ffffff: ${featureNews.value}");
       }
       else {
         isLoadingAlbums.value = false;
