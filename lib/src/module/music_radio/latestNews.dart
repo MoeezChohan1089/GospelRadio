@@ -55,7 +55,7 @@ class _LatestNewsScreenState extends State<LatestNewsScreen> {
           style: context.text.bodySmall?.copyWith(
               color: AppColors.customWhiteTextColor, fontSize: 14.sp),
         ),
-         leadingWidth: 110.w,
+         leadingWidth: 170.w,
         leading: Row(
           children: [
             IconButton(
@@ -77,7 +77,7 @@ class _LatestNewsScreenState extends State<LatestNewsScreen> {
                 child: Image.asset(
                   "assets/images/hgc.png",
                   fit: BoxFit.cover,
-                  width: 50.w,
+                  width: 110.w,
                   // width: 150,
                 )),
           ],

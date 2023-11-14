@@ -70,19 +70,35 @@ class _MusicListCatalogScreenState extends State<MusicListCatalogScreen> {
           style: context.text.bodySmall?.copyWith(
               color: AppColors.customWhiteTextColor, fontSize: 14.sp),
         ),
-        leading: IconButton(
-            onPressed: () {
-              Get.back();
-              // if(bottomNav.isFancyDrawer.isTrue){
-              //   bottomNav.advancedDrawerController.showDrawer();
-              // } else {
-              //   bottomNav.navScaffoldKey.currentState?.openDrawer();
-              // }
-            },
-            icon: Icon(
-              Icons.arrow_back,
-              color: AppColors.customWhiteTextColor,
-            )),
+        leadingWidth: 170.w,
+        leading: Row(
+          children: [
+            IconButton(
+                onPressed: () {
+                  Get.back();
+                  // if(bottomNav.isFancyDrawer.isTrue){
+                  //   bottomNav.advancedDrawerController.showDrawer();
+                  // } else {
+                  //   bottomNav.navScaffoldKey.currentState?.openDrawer();
+                  // }
+                },
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: AppColors.customWhiteTextColor,
+                )),
+            Container(
+              // width: 80,
+              // // color: Colors.amber,
+              // height: 80,
+              // margin: EdgeInsets.only(top: 35.h),
+                child: Image.asset(
+                  "assets/images/hgc.png",
+                  fit: BoxFit.cover,
+                  width: 110.w,
+                  // width: 150,
+                )),
+          ],
+        ),
         // actions: [
         //   IconButton(
         //       onPressed: () {
@@ -170,16 +186,19 @@ class _MusicListCatalogScreenState extends State<MusicListCatalogScreen> {
                                               ),
                                             );
                                           })
-                                        : GestureDetector(
+                                        : logic1.openSheet.value == true? CircularProgressIndicator(color: AppColors.customPinkColor):  GestureDetector(
                                             behavior: HitTestBehavior.opaque,
                                             onTap: () {
-                                              makePayment(logic1
-                                                      .responseDataMusicList[
-                                                  'data']['album']['price']);
-                                              print('as');
+                                             if(logic1.openSheet.value == false){
+                                               logic1.openSheet.value = true;
+                                               makePayment(logic1
+                                                   .responseDataMusicList[
+                                               'data']['album']['price']);
+                                               print('as');
+                                             }
                                             },
                                             child: Text(
-                                              "Buy Now",
+                                             "Buy Now",
                                               textAlign: TextAlign.end,
                                               style: context.text.bodySmall
                                                   ?.copyWith(
@@ -296,45 +315,39 @@ class _MusicListCatalogScreenState extends State<MusicListCatalogScreen> {
     try {
       paymentIntentData = await createPaymentIntent("$price", 'USD');
       var gpay =
-          const PaymentSheetGooglePay(merchantCountryCode: '', testEnv: true);
+      const PaymentSheetGooglePay(merchantCountryCode: '', testEnv: true);
       await Stripe.instance.initPaymentSheet(
           paymentSheetParameters: SetupPaymentSheetParameters(
-        style: ThemeMode.light,
-        // appearance: PaymentSheetAppearance(
-        //     colors: PaymentSheetAppearanceColors(
-        //       background: Colors.red,
-        //       primaryText: Colors.red,
-        //     ),
-        //     primaryButton: PaymentSheetPrimaryButtonAppearance(
-        //         colors: PaymentSheetPrimaryButtonTheme(
-        //             light: PaymentSheetPrimaryButtonThemeColors(
-        //                 text: Colors.red, background: Colors.amber)))),
-        paymentIntentClientSecret: paymentIntentData!['client_secret'],
-        // applePay: PaymentSheetApplePay(merchantCountryCode: 'us'),
+            style: ThemeMode.light,
+            // appearance: PaymentSheetAppearance(
+            //     colors: PaymentSheetAppearanceColors(
+            //       background: Colors.red,
+            //       primaryText: Colors.red,
+            //     ),
+            //     primaryButton: PaymentSheetPrimaryButtonAppearance(
+            //         colors: PaymentSheetPrimaryButtonTheme(
+            //             light: PaymentSheetPrimaryButtonThemeColors(
+            //                 text: Colors.red, background: Colors.amber)))),
+            paymentIntentClientSecret: paymentIntentData!['client_secret'],
+            // applePay: PaymentSheetApplePay(merchantCountryCode: 'us'),
 
-        googlePay: gpay,
+            googlePay: gpay,
 
-        merchantDisplayName: 'Shary',
-      ));
-      displaypaymentsheet(price);
+            merchantDisplayName: '${LocalDatabase.to.box.read('name')}',
+          ));
+      displaypaymentsheet();
+      logic1.openSheet.value = false;
     } catch (e) {
       print('Eception+$e');
     }
   }
 
-  displaypaymentsheet(int price) async {
+  displaypaymentsheet() async {
     try {
       Stripe.instance.presentPaymentSheet().then((value) async {
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        setState(() {
-          LocalDatabase.to.box.write('paid', price);
-        });
-        // print("after paid success: ${LocalDatabase.to.box.read('paid')}");
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(
-            'Paid successfully',
-            style: context.text.bodyMedium?.copyWith(fontSize: 18.sp),
-          ),
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Paid successfully'),
         ));
         // GlobalClass.hasPurchased.value = true;
         // prefs.setBool('hasPurchased', true);
@@ -360,8 +373,8 @@ class _MusicListCatalogScreenState extends State<MusicListCatalogScreen> {
           body: body,
           headers: {
             'Authorization':
-                // 'Bearer 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',
-                'Bearer sk_test_51N9OPdFZIhHk42tPLiBXDrXHcA9ZbQnUFMP9MhTt9c3Kk8WzHIm08BM1MKmjAIK74ZRUVuQDgXu2geZbN4heuNjK008pIo1pXk',
+            'Bearer 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',
+            // 'Bearer sk_test_51N9OPdFZIhHk42tPLiBXDrXHcA9ZbQnUFMP9MhTt9c3Kk8WzHIm08BM1MKmjAIK74ZRUVuQDgXu2geZbN4heuNjK008pIo1pXk',
             'Content-Type': 'application/x-www-form-urlencoded'
           });
       return json.decode(response.body.toString());

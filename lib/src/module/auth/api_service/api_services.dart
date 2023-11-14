@@ -66,7 +66,7 @@ createSignupApiService(
     debugPrint("==>> SIGN UP ERROR : $error =====");
     final snackBar = SnackBar(
       content: Text(
-        'The email has already been taken',
+        'Something went wrong..',
         style: context.text.bodyMedium?.copyWith(fontSize: 18.sp),
       ),
       margin: EdgeInsets.only(bottom: 8),

@@ -16,6 +16,8 @@ class Music_catalogLogic extends GetxController {
   RxString listImagesCatalog = ''.obs;
   Map<String, dynamic> responseDataMusicList = Map<String, dynamic>();
   RxList<dynamic> albumsListMusic = [].obs;
+  RxBool openSheet = false.obs;
+  RxBool openSheet1 = false.obs;
   RxBool paymentSuccessful = false.obs;
 
   @override

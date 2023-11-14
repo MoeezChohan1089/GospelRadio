@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
+import 'package:gosperadioapp/src/globalVariable/database_controller.dart';
 import 'package:gosperadioapp/src/module/purchase/logic.dart';
 import 'package:gosperadioapp/src/utils/extensions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,6 +13,8 @@ import '../../../custom_widgets/customTextField.dart';
 import '../../../utils/constants/colors.dart';
 import '../../../utils/constants/margins_spacnings.dart';
 import 'package:http/http.dart' as http;
+
+import '../../music_catalog/logic.dart';
 
 class ChooseAmountSection extends StatefulWidget {
   ChooseAmountSection({Key? key}) : super(key: key);
@@ -25,6 +28,7 @@ class _ChooseAmountSectionState extends State<ChooseAmountSection> {
 
   String messagePrice = '';
   Map<String, dynamic>? paymentIntentData;
+  final logic1 = Get.put(Music_catalogLogic());
 
   Future<void> makePayment(int price) async {
     try {
@@ -48,9 +52,10 @@ class _ChooseAmountSectionState extends State<ChooseAmountSection> {
 
             googlePay: gpay,
 
-            merchantDisplayName: 'Shary',
+            merchantDisplayName: '${LocalDatabase.to.box.read('name')}',
           ));
       displaypaymentsheet();
+      logic1.openSheet1.value = false;
     } catch (e) {
       print('Eception+$e');
     }
@@ -335,21 +340,24 @@ class _ChooseAmountSectionState extends State<ChooseAmountSection> {
                 )),
           ),
           30.heightBox,
-          SizedBox(
+         logic1.openSheet1.value == true? CircularProgressIndicator(color: AppColors.customPinkColor): SizedBox(
             width: 300,
             height: 50,
             child: ElevatedButton(
                 onPressed: () async {
                   if(logic.selectManual.value == false){
-                    if (logic.indexPrice == 0) {
+                    if (logic.indexPrice == 0 && logic1.openSheet1.value == false) {
+                      logic1.openSheet1.value = true;
                       makePayment(50);
                       print('as');
                     }
-                    else if (logic.indexPrice == 1) {
+                    else if (logic.indexPrice == 1 && logic1.openSheet1.value == false) {
+                      logic1.openSheet1.value = true;
                       makePayment(100);
                       print('as');
                     }
-                    else if (logic.indexPrice == 2) {
+                    else if (logic.indexPrice == 2 && logic1.openSheet1.value == false) {
+                      logic1.openSheet1.value = true;
                       makePayment(150);
                       print('as');
                     }

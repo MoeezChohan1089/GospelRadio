@@ -77,12 +77,12 @@ class AuthLogic extends GetxController {
       // Get.snackbar('Message', 'OTP has been sent in your email.',
       //     backgroundColor: Colors.black,
       //     colorText: AppColors.customWhiteTextColor);
-      Get.to(() => OTPScreen(
+      Get.off(() => OTPScreen(
             email: emailController.text,
           ));
-      nameController.clear();
-      passwordController.clear();
-      emailController.clear();
+      // nameController.clear();
+      // passwordController.clear();
+      // emailController.clear();
     } else {
       // ssdf@gmail.com
       // Get.showSnackbar(

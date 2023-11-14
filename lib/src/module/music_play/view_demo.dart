@@ -267,7 +267,7 @@ class _MusicDemoState extends State<MusicDemo> {
                             child: Image.asset(
                               "assets/images/hgc.png",
                               fit: BoxFit.cover,
-                              width: 50.w,
+                              width: 110.w,
                               // width: 150,
                             )),
                       ],

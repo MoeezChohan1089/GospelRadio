@@ -172,7 +172,7 @@ class _Music_radioPageState extends State<Music_radioPage> {
                                       child: Image.asset(
                                         "assets/images/hgc.png",
                                         fit: BoxFit.cover,
-                                        width: 50.w,
+                                        width: 95.w,
                                         // width: 150,
                                       )),
                                 ],

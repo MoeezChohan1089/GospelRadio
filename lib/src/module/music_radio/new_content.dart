@@ -28,7 +28,7 @@ class _NewsContentPageScreenState extends State<NewsContentPageScreen> {
           style: context.text.bodySmall?.copyWith(
               color: AppColors.customWhiteTextColor, fontSize: 18.sp),
         ),
-        leadingWidth: 110.w,
+        leadingWidth: 170.w,
         leading: Row(
           children: [
             IconButton(
@@ -50,7 +50,7 @@ class _NewsContentPageScreenState extends State<NewsContentPageScreen> {
                 child: Image.asset(
                   "assets/images/hgc.png",
                   fit: BoxFit.cover,
-                  width: 50.w,
+                  width: 110.w,
                   // width: 150,
                 )),
           ],
