@@ -30,7 +30,7 @@ class EngineersLogic extends GetxController
   TextEditingController stateController = TextEditingController();
   TextEditingController countryController = TextEditingController();
   TextEditingController messageController = TextEditingController();
-  GlobalKey<FormState> formKeyValue = GlobalKey<FormState>();
+  GlobalKey<FormState> commentFormKeyValue = GlobalKey<FormState>();
 
   getAllEngineers(BuildContext context) async {
     customLoaderGlobal.showLoader(context);
@@ -126,7 +126,8 @@ class EngineersLogic extends GetxController
         final snackBar = SnackBar(
           content: Text(
             'Your comment is being proceed.',
-            style: context.text.bodyMedium?.copyWith(fontSize: 18.sp, color: Colors.white),
+            style: context.text.bodyMedium
+                ?.copyWith(fontSize: 18.sp, color: Colors.white),
           ),
           margin: EdgeInsets.only(bottom: 8),
           behavior: SnackBarBehavior.floating,

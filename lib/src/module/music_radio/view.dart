@@ -199,6 +199,8 @@ class _Music_radioPageState extends State<Music_radioPage> {
                                 children: [
                                   GestureDetector(
                                     onTap:(){
+                                      logic.loadingStreamMusic.value = false;
+                                      player1.pause();
                   Get.to(TopAlbumsScreen());
                   },
                                     child: Transform.rotate(
@@ -208,6 +210,8 @@ class _Music_radioPageState extends State<Music_radioPage> {
 
                                   GestureDetector(
                                     onTap: (){
+                                      logic.loadingStreamMusic.value = false;
+                                      player1.pause();
                                         Get.to(TopSongsScreen());
                                     },
                                     child: Transform.rotate(
@@ -258,6 +262,8 @@ class _Music_radioPageState extends State<Music_radioPage> {
                                 children: [
                                   GestureDetector(
                                     onTap: (){
+                                      logic.loadingStreamMusic.value = false;
+                                      player1.pause();
                                       Get.to(LatestNewsScreen());
                                     },
                                     child: Transform.rotate(
@@ -267,6 +273,8 @@ class _Music_radioPageState extends State<Music_radioPage> {
 
                                   GestureDetector(
                                     onTap: (){
+                                      logic.loadingStreamMusic.value = false;
+                                      player1.pause();
                                       Get.to(NewReleaseScreen());
                                     },
                                     child: Transform.rotate(

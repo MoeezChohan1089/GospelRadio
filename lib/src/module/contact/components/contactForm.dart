@@ -38,7 +38,7 @@ class ContactFormSection extends StatelessWidget {
           ),
         ),
         Form(
-          key: logic.formKeyValue,
+          key: logic.contactFormKeyValue,
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: pageMarginHorizontal / 1),
             child: Column(
@@ -177,7 +177,7 @@ class ContactFormSection extends StatelessWidget {
                     child: ElevatedButton(
                         onPressed: () async {
                           // Get.to(()=> HomePage());
-                          if (logic.formKeyValue.currentState!.validate()) {
+                          if (logic.contactFormKeyValue.currentState!.validate()) {
                             await ContactLogic.to.sendContactMessage(
                                 context,
                                 logic.nameController.text,

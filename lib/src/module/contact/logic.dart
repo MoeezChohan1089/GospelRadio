@@ -17,7 +17,7 @@ class ContactLogic extends GetxController
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController messageController = TextEditingController();
-  GlobalKey<FormState> formKeyValue = GlobalKey<FormState>();
+  GlobalKey<FormState> contactFormKeyValue = GlobalKey<FormState>();
 
   // sendContactMessage(BuildContext context, String name, String email, String message) async {
   //   try {
@@ -77,7 +77,8 @@ class ContactLogic extends GetxController
         final snackBar = SnackBar(
           content: Text(
             'Message sent successfully..',
-            style: context.text.bodyMedium?.copyWith(fontSize: 18.sp),
+            style: context.text.bodyMedium
+                ?.copyWith(fontSize: 18.sp, color: Colors.white),
           ),
           margin: EdgeInsets.only(bottom: 8),
           behavior: SnackBarBehavior.floating,

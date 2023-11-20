@@ -58,7 +58,8 @@ class _GuestBookFormSectionState extends State<GuestBookFormSection> {
       final snackBar = SnackBar(
         content: Text(
           'Submitted Successfully',
-          style: context.text.bodyMedium?.copyWith(fontSize: 18.sp),
+          style: context.text.bodyMedium
+              ?.copyWith(fontSize: 18.sp, color: Colors.white),
         ),
         margin: EdgeInsets.only(bottom: 8),
         behavior: SnackBarBehavior.floating,

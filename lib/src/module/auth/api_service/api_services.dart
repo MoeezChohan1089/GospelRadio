@@ -50,7 +50,8 @@ createSignupApiService(
       final snackBar = SnackBar(
         content: Text(
           '${responseData['message']['email']}',
-          style: context.text.bodyMedium?.copyWith(fontSize: 18.sp),
+          style: context.text.bodyMedium
+              ?.copyWith(fontSize: 18.sp, color: Colors.white),
         ),
         margin: EdgeInsets.only(bottom: 8),
         behavior: SnackBarBehavior.floating,
@@ -67,7 +68,8 @@ createSignupApiService(
     final snackBar = SnackBar(
       content: Text(
         'Something went wrong..',
-        style: context.text.bodyMedium?.copyWith(fontSize: 18.sp),
+        style: context.text.bodyMedium
+            ?.copyWith(fontSize: 18.sp, color: Colors.white),
       ),
       margin: EdgeInsets.only(bottom: 8),
       behavior: SnackBarBehavior.floating,
@@ -115,7 +117,6 @@ otpRegisterApiService({required String email, otp, otp1, otp2, otp3}) async {
 }
 
 signInApiService({required String email, password}) async {
-  SharedPreferences sp = await SharedPreferences.getInstance();
   try {
     Dio dio = Dio();
 
@@ -123,6 +124,39 @@ signInApiService({required String email, password}) async {
 
     final response = await dio.post(
       'https://hgcradio.org/api/auth/login',
+      data: data,
+    );
+
+    Map<String, dynamic> responseData = response.data;
+
+    // Handle the response
+    if (response.statusCode == 200 && responseData["status"] == "Success") {
+      // Request succeeded
+
+      // Process the response data as needed
+
+      return true;
+    } else {
+      // Request failed
+      debugPrint("==>> Sign In ERROR : Not 200 --> ${response.data} =====");
+      return false;
+    }
+  } catch (error) {
+    // Handle any Dio errors or exceptions
+    debugPrint("==>> Sign In ERROR : $error =====");
+    return false;
+  }
+}
+
+otpSignInApiService({required String email, otp, otp1, otp2, otp3}) async {
+  try {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    Dio dio = Dio();
+
+    final data = {'email': email, 'otp': '$otp$otp1$otp2$otp3'};
+
+    final response = await dio.post(
+      'https://hgcradio.org/api/auth/login/otp',
       data: data,
     );
 
@@ -147,12 +181,12 @@ signInApiService({required String email, password}) async {
       return true;
     } else {
       // Request failed
-      debugPrint("==>> Sign In ERROR : Not 200 --> ${response.data} =====");
+      debugPrint("==>> OTP ERROR : Not 200 --> ${response.data} =====");
       return false;
     }
   } catch (error) {
     // Handle any Dio errors or exceptions
-    debugPrint("==>> Sign In ERROR : $error =====");
+    debugPrint("==>> OTP ERROR : $error =====");
     return false;
   }
 }
@@ -183,7 +217,8 @@ forgotApiService({required BuildContext context, required String email}) async {
       final snackBar = SnackBar(
         content: Text(
           '${responseData['data']}',
-          style: context.text.bodyMedium?.copyWith(fontSize: 18.sp),
+          style: context.text.bodyMedium
+              ?.copyWith(fontSize: 18.sp, color: Colors.white),
         ),
         margin: EdgeInsets.only(bottom: 8),
         behavior: SnackBarBehavior.floating,

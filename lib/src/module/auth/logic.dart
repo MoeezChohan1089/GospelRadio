@@ -11,6 +11,7 @@ import 'components/forgotVerfityOTP.dart';
 import 'components/login.dart';
 import 'components/newPassword.dart';
 import 'components/otp.dart';
+import 'components/singInOTP.dart';
 import 'state.dart';
 
 class AuthLogic extends GetxController {
@@ -24,6 +25,10 @@ class AuthLogic extends GetxController {
   TextEditingController OTPController1 = TextEditingController();
   TextEditingController OTPController2 = TextEditingController();
   TextEditingController OTPController3 = TextEditingController();
+  TextEditingController OTPSignInController = TextEditingController();
+  TextEditingController OTPSignInController1 = TextEditingController();
+  TextEditingController OTPSignInController2 = TextEditingController();
+  TextEditingController OTPSignInController3 = TextEditingController();
   TextEditingController forgotOTPController = TextEditingController();
   TextEditingController forgotOTPController1 = TextEditingController();
   TextEditingController forgotOTPController2 = TextEditingController();
@@ -34,9 +39,9 @@ class AuthLogic extends GetxController {
   TextEditingController forgotNewPasswordController = TextEditingController();
   TextEditingController forgotConfirmNewPasswordController =
       TextEditingController();
-  GlobalKey<FormState> formKeyValue = GlobalKey<FormState>();
+  GlobalKey<FormState> signUpFormKey = GlobalKey<FormState>();
   GlobalKey<FormState> formKeyValue1 = GlobalKey<FormState>();
-  // GlobalKey<FormState> formKeyValue2 = GlobalKey<FormState>();
+  GlobalKey<FormState> formKeyValueSignInOTP = GlobalKey<FormState>();
   GlobalKey<FormState> formKeyValue3 = GlobalKey<FormState>();
   GlobalKey<FormState> formKeyValue4 = GlobalKey<FormState>();
   GlobalKey<FormState> formKeyValue5 = GlobalKey<FormState>();
@@ -65,7 +70,8 @@ class AuthLogic extends GetxController {
       final snackBar = SnackBar(
         content: Text(
           'OTP has been sent in your email.',
-          style: context.text.bodyMedium?.copyWith(fontSize: 18.sp),
+          style: context.text.bodyMedium
+              ?.copyWith(fontSize: 18.sp, color: Colors.white),
         ),
         margin: EdgeInsets.only(bottom: 8),
         behavior: SnackBarBehavior.floating,
@@ -126,7 +132,8 @@ class AuthLogic extends GetxController {
       final snackBar = SnackBar(
         content: Text(
           'Error in creating account',
-          style: context.text.bodyMedium?.copyWith(fontSize: 18.sp),
+          style: context.text.bodyMedium
+              ?.copyWith(fontSize: 18.sp, color: Colors.white),
         ),
         margin: EdgeInsets.only(bottom: 8),
         behavior: SnackBarBehavior.floating,
@@ -150,8 +157,9 @@ class AuthLogic extends GetxController {
       customLoaderGlobal.hideLoader();
       final snackBar = SnackBar(
         content: Text(
-          'Login Successfully..',
-          style: context.text.bodyMedium?.copyWith(fontSize: 18.sp),
+          'OTP has been sent in your email..',
+          style: context.text.bodyMedium
+              ?.copyWith(fontSize: 18.sp, color: Colors.white),
         ),
         margin: EdgeInsets.only(bottom: 8),
         behavior: SnackBarBehavior.floating,
@@ -163,16 +171,19 @@ class AuthLogic extends GetxController {
       // Get.snackbar('Message', 'Login Successfully..',
       //     backgroundColor: Colors.black,
       //     colorText: AppColors.customWhiteTextColor);
-      Get.off(() => HomePage());
-      emailSignInController.clear();
-      passwordSignInController.clear();
+      Get.off(() => OTPSignInScreen(
+        email: emailSignInController.text,
+      ));
+      // emailSignInController.clear();
+      // passwordSignInController.clear();
     } else {
       print("error");
       customLoaderGlobal.hideLoader();
       final snackBar = SnackBar(
         content: Text(
           'Your email or password is wrong.',
-          style: context.text.bodyMedium?.copyWith(fontSize: 18.sp),
+          style: context.text.bodyMedium
+              ?.copyWith(fontSize: 18.sp, color: Colors.white),
         ),
         margin: EdgeInsets.only(bottom: 8),
         behavior: SnackBarBehavior.floating,
@@ -184,6 +195,57 @@ class AuthLogic extends GetxController {
       // Get.snackbar('Message', '',
       //     backgroundColor: Colors.black,
       //     colorText: AppColors.customWhiteTextColor);
+    }
+  }
+
+  signinOTPUser({required BuildContext context, required String email}) async {
+    customLoaderGlobal.showLoader(context);
+    print("value of OTP1: ${OTPSignInController.text}");
+    print("value of OTP2: ${OTPSignInController1.text}");
+    print("value of OTP3: ${OTPSignInController2.text}");
+    print("value of OTP4: ${OTPSignInController3.text}");
+    if (await otpSignInApiService(
+      // user: userGet,
+        email: email,
+        otp: OTPSignInController.text,
+        otp1: OTPSignInController1.text,
+        otp2: OTPSignInController2.text,
+        otp3: OTPSignInController3.text)) {
+      ///----- API Successful
+
+      customLoaderGlobal.hideLoader();
+
+      print("value of OTP1: ${OTPSignInController.text}");
+      print("value of OTP2: ${OTPSignInController1.text}");
+      print("value of OTP3: ${OTPSignInController2.text}");
+      print("value of OTP4: ${OTPSignInController3.text}");
+      Get.off(() => HomePage());
+      final snackBar = SnackBar(
+        content: Text(
+          'Login Successfully..',
+          style: context.text.bodyMedium
+              ?.copyWith(fontSize: 18.sp, color: Colors.white),
+        ),
+        margin: EdgeInsets.only(bottom: 8),
+        behavior: SnackBarBehavior.floating,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } else {
+      print("error");
+      customLoaderGlobal.hideLoader();
+      final snackBar = SnackBar(
+        content: Text(
+          'Error in creating account',
+          style: context.text.bodyMedium
+              ?.copyWith(fontSize: 18.sp, color: Colors.white),
+        ),
+        margin: EdgeInsets.only(bottom: 8),
+        behavior: SnackBarBehavior.floating,
+      );
+
+// Find the ScaffoldMessenger in the widget tree
+// and use it to show a SnackBar.
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 

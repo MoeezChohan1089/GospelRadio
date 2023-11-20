@@ -67,7 +67,7 @@ class _CommentFormScreenState extends State<CommentFormScreen> {
           ),
           SingleChildScrollView(
             child: Form(
-              key: logic.formKeyValue,
+              key: logic.commentFormKeyValue,
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: pageMarginHorizontal / 1),
                 child: Column(
@@ -301,7 +301,7 @@ class _CommentFormScreenState extends State<CommentFormScreen> {
                         child: ElevatedButton(
                             onPressed: () async {
                               // Get.to(()=> HomePage());
-                              if (logic.formKeyValue.currentState!.validate()) {
+                              if (logic.commentFormKeyValue.currentState!.validate()) {
                                 print('ffffff: ${logic.nameController.text}');
                                 print('ffffff: ${logic.emailController.text}');
                                 print('ffffff: ${logic.cityController.text}');

@@ -138,7 +138,7 @@ class _DownloadSongsState extends State<DownloadSongs> {
                               content: Text(
                                 'Your song has been downloaded..',
                                 style: context.text.bodyMedium
-                                    ?.copyWith(fontSize: 18.sp),
+                                    ?.copyWith(fontSize: 18.sp, color: Colors.white),
                               ),
                               margin: EdgeInsets.only(bottom: 8),
                               behavior: SnackBarBehavior.floating,

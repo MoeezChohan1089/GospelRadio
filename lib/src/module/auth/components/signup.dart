@@ -23,7 +23,7 @@ class SignUpScreen extends StatelessWidget {
         child: Container(
           height: MediaQuery.of(context).size.height,
           child: Form(
-            key: logic.formKeyValue,
+            key: logic.signUpFormKey,
             child: Stack(
               children: [
                 Container(
@@ -280,7 +280,7 @@ class SignUpScreen extends StatelessWidget {
                     children: [
                       ElevatedButton(
                           onPressed: () async {
-                            if (logic.formKeyValue.currentState!.validate()) {
+                            if (logic.signUpFormKey.currentState!.validate()) {
                               await AuthLogic.to
                                   .createNewUser(context: context);
                             }

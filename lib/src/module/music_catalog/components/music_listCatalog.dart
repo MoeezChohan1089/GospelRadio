@@ -346,8 +346,10 @@ class _MusicListCatalogScreenState extends State<MusicListCatalogScreen> {
     try {
       Stripe.instance.presentPaymentSheet().then((value) async {
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('Paid successfully'),
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Paid successfully',
+            style: context.text.bodyMedium
+                ?.copyWith(fontSize: 18.sp, color: Colors.white),),
         ));
         // GlobalClass.hasPurchased.value = true;
         // prefs.setBool('hasPurchased', true);

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:gosperadioapp/src/globalVariable/global_variable.dart';
 
@@ -75,7 +76,10 @@ class Music_catalogLogic extends GetxController {
        print(json.encode(response.data));
        customLoaderGlobal.hideLoader();
        final snackBar = SnackBar(
-         content: Text('Download Successfully..!!'),
+         content: Text('Download Successfully..!!',
+           style: context.text.bodyMedium
+               ?.copyWith(fontSize: 18.sp, color: Colors.white),
+         ),
          margin: EdgeInsets.only(bottom: 8),
          behavior: SnackBarBehavior.floating,
        );
@@ -89,7 +93,10 @@ class Music_catalogLogic extends GetxController {
    }catch(e){
      customLoaderGlobal.hideLoader();
      final snackBar = SnackBar(
-       content: Text('Something went wrong'),
+       content: Text('Something went wrong',
+         style: context.text.bodyMedium
+             ?.copyWith(fontSize: 18.sp, color: Colors.white),
+       ),
        margin: EdgeInsets.only(bottom: 8),
        behavior: SnackBarBehavior.floating,
      );
