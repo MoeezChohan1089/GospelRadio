@@ -136,7 +136,7 @@ class _TopSongsScreenState extends State<TopSongsScreen> {
                       // alignment: Alignment.bottomLeft,
                       children: [
                         Container(
-                          height: 250.h,
+                          height: 300.h,
                           width: double.maxFinite,
                           child: CachedNetworkImage(
                             imageUrl: logic.topSongs.value[index]['album_image'],
@@ -147,6 +147,7 @@ class _TopSongsScreenState extends State<TopSongsScreen> {
                             //     : "",
                             fit: BoxFit.cover,
                             height: double.infinity,
+                            alignment: Alignment.topCenter,
                             colorBlendMode: BlendMode.darken,
                             color: Colors.black.withOpacity(0.4),
                             width: double.infinity,
@@ -186,10 +187,10 @@ class _TopSongsScreenState extends State<TopSongsScreen> {
                                       style: context.text.titleMedium?.copyWith(
                                           overflow: TextOverflow.ellipsis,
                                           color: AppColors.customWhiteTextColor,
-                                          fontSize: 16.sp),
+                                          fontSize: 20.sp),
                                     ),
                                   ),
-                                  10.heightBox,
+                                  // 10.heightBox,
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
@@ -366,6 +367,7 @@ class _TopSongsScreenState extends State<TopSongsScreen> {
                                 //     ? productDetail!.images[0].originalSrc
                                 //     : "",
                                 fit: BoxFit.cover,
+                                alignment: Alignment.topCenter,
                                 height: double.infinity,
                                 width: double.infinity,
                                 placeholder: (context, url) =>

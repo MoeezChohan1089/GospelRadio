@@ -135,6 +135,7 @@ class _MusicListCatalogScreenState extends State<MusicListCatalogScreen> {
                             //     : "",
                             fit: BoxFit.cover,
                             height: double.infinity,
+                            alignment: Alignment.topCenter,
                             width: double.infinity,
                             placeholder: (context, url) => productShimmer(),
                             errorWidget: (context, url, error) =>

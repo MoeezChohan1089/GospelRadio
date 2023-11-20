@@ -318,11 +318,11 @@ class _LatestNewsScreenState extends State<LatestNewsScreen> {
                                 height: 10.h,
                                 width: 10.h,
                                 decoration: BoxDecoration(
-                                    color: logic.currentImageIndex1.value ==
+                                    color: logic.currentImageIndex.value ==
                                         index ? Colors.white : Colors
                                         .transparent,
                                     shape: BoxShape.circle,
-                                    border: logic.currentImageIndex1.value ==
+                                    border: logic.currentImageIndex.value ==
                                         index ? null : Border.all(
                                         color: Colors.white,
                                         width: 1

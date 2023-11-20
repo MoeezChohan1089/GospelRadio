@@ -125,7 +125,7 @@ class _NewReleaseScreenState extends State<NewReleaseScreen> {
                       // alignment: Alignment.bottomLeft,
                       children: [
                         Container(
-                          height: 280.h,
+                          height: 300.h,
                           width: double.maxFinite,
                           child: CachedNetworkImage(
                             imageUrl: logic.newRelease.value[index]['image_url'],
@@ -136,6 +136,7 @@ class _NewReleaseScreenState extends State<NewReleaseScreen> {
                             //     : "",
                             fit: BoxFit.cover,
                             height: double.infinity,
+                            alignment: Alignment.topCenter,
                             colorBlendMode: BlendMode.darken,
                             color: Colors.black.withOpacity(0.4),
                             width: double.infinity,
@@ -276,6 +277,7 @@ class _NewReleaseScreenState extends State<NewReleaseScreen> {
                                fit: BoxFit.cover,
                                height: double.infinity,
                                width: double.infinity,
+                               alignment: Alignment.topCenter,
                                placeholder: (context, url) =>
                                    productShimmer(),
                                errorWidget: (context, url, error) =>

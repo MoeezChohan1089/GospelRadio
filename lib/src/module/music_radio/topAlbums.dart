@@ -125,26 +125,41 @@ class _TopAlbumsScreenState extends State<TopAlbumsScreen> {
                       // alignment: Alignment.bottomLeft,
                       children: [
                         Container(
-                          height: 250.h,
+                          height: 300.h,
                           width: double.maxFinite,
                           child: CachedNetworkImage(
                             imageUrl: logic.topAlbums.value[index]['album_image'],
-
-
-                            // imageUrl: (productDetail?.images ?? []).isNotEmpty
-                            //     ? productDetail!.images[0].originalSrc
-                            //     : "",
-                            fit: BoxFit.cover,
+                            fit: BoxFit.cover, // Maintain the aspect ratio of the image
+                            alignment: Alignment.topCenter, // Align the top part of the image
                             height: double.infinity,
-                            colorBlendMode: BlendMode.darken,
-                            color: Colors.black.withOpacity(0.4),
                             width: double.infinity,
-                            placeholder: (context, url) =>
-                                productShimmer(),
-                            errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
+                            placeholder: (context, url) => productShimmer(),
+                            errorWidget: (context, url, error) => const Icon(Icons.error),
                           ),
                         ),
+
+
+                        // Container(
+                        //   height: 280.h,
+                        //   width: double.maxFinite,
+                        //   child: CachedNetworkImage(
+                        //     imageUrl: logic.topAlbums.value[index]['album_image'],
+                        //
+                        //
+                        //     // imageUrl: (productDetail?.images ?? []).isNotEmpty
+                        //     //     ? productDetail!.images[0].originalSrc
+                        //     //     : "",
+                        //     fit: BoxFit.cover,
+                        //     height: double.infinity,
+                        //     colorBlendMode: BlendMode.darken,
+                        //     color: Colors.black.withOpacity(0.4),
+                        //     width: double.infinity,
+                        //     placeholder: (context, url) =>
+                        //         productShimmer(),
+                        //     errorWidget: (context, url, error) =>
+                        //     const Icon(Icons.error),
+                        //   ),
+                        // ),
                         Positioned.fill(child:  Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -190,7 +205,7 @@ class _TopAlbumsScreenState extends State<TopAlbumsScreen> {
                                           maxLines: 2,
                                           textAlign: TextAlign.start,
                                           style: context.text.titleMedium?.copyWith(
-                                              color: AppColors.customWhiteTextColor,
+                                              color: Colors.black,
                                               overflow: TextOverflow.ellipsis,
                                               fontSize: 22.sp),
                                         ),
@@ -201,7 +216,7 @@ class _TopAlbumsScreenState extends State<TopAlbumsScreen> {
                                           // textAlign: TextAlign.start,
                                           style: context.text.titleMedium?.copyWith(
                                               overflow: TextOverflow.ellipsis,
-                                              color: AppColors.customWhiteTextColor,
+                                              color: Colors.black,
                                               fontSize: 16.sp),
                                         ),
                                       ),
@@ -271,6 +286,7 @@ class _TopAlbumsScreenState extends State<TopAlbumsScreen> {
                                 //     : "",
                                 fit: BoxFit.cover,
                                 height: double.infinity,
+                                alignment: Alignment.topCenter,
                                 width: double.infinity,
                                 placeholder: (context, url) =>
                                     productShimmer(),

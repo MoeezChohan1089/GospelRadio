@@ -116,6 +116,7 @@ class _MusicTheAlbumSectionState extends State<MusicTheAlbumSection> {
                                 //     : "",
                                 fit: BoxFit.cover,
                                 height: double.infinity,
+                                alignment: Alignment.topCenter,
                                 width: double.infinity,
                                 placeholder: (context, url) => productShimmer(),
                                 errorWidget: (context, url, error) =>
@@ -131,17 +132,22 @@ class _MusicTheAlbumSectionState extends State<MusicTheAlbumSection> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Text(logic.albumsListMusic[index]['title'],
-                                    style: context.text.titleMedium?.copyWith(
-                                        color: AppColors.customMusicTextColor,
-                                        fontSize: 16.sp)),
+                                Container(
+                                  width: 190.w,
+                                  child: Text(logic.albumsListMusic[index]['title'],
+                                      style: context.text.titleMedium?.copyWith(
+                                          overflow: TextOverflow.ellipsis,
+                                          color: AppColors.customMusicTextColor,
+                                          fontSize: 16.sp)),
+                                ),
                                 6.heightBox,
                                 Container(
-                                    width: 190,
+                                    width: 190.w,
                                     child: Text(
                                         logic.albumsListMusic[index]
                                             ['artist_name'],
                                         style: context.text.titleMedium?.copyWith(
+                                          overflow: TextOverflow.ellipsis,
                                             color: AppColors
                                                 .customMusicTextDescriptionColor,
                                             fontSize: 12.sp)))
