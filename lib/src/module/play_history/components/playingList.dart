@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 
 import 'package:gosperadioapp/src/utils/constants/assets.dart';
 import 'package:gosperadioapp/src/utils/extensions.dart';
+import 'package:intl/intl.dart';
 
 import '../../../custom_widgets/customTextField.dart';
 import '../../../utils/constants/colors.dart';
@@ -190,7 +191,7 @@ class _PlayingListSectionState extends State<PlayingListSection> {
                         itemBuilder: (context, index) {
                           // Access the 'data' list inside the historymodel instance
                           var item = logic.filteredHistory.value[index];
-
+                          String formatDateTime = DateFormat('dd-MM-yyy hh:mm a').format(DateTime.parse(item.play_at.toString()));
                           return Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal: pageMarginHorizontal,
@@ -204,9 +205,11 @@ class _PlayingListSectionState extends State<PlayingListSection> {
                                   borderRadius: BorderRadius.circular(8),
                                   gradient: LinearGradient(
                                     colors: [
+                                      AppColors.customGradientSecondColor,
                                       AppColors.customGradientFirstColor,
                                       AppColors.customGradientSecondColor,
                                     ],
+                                    stops: [0.0, 0.5, 0.9],
                                   ),
                                 ),
                                 child: Row(
@@ -244,7 +247,7 @@ class _PlayingListSectionState extends State<PlayingListSection> {
                                         ),
                                         title: Container(
                                           child: Text(
-                                            "Title: ${item.title ??
+                                            "${item.title ??
                                                 'Unknown Title'}",
                                             maxLines: 1,
                                             style: context.text.titleMedium
@@ -259,7 +262,7 @@ class _PlayingListSectionState extends State<PlayingListSection> {
                                         subtitle: Container(
                                           width: 190,
                                           child: Text(
-                                            "Artist: ${ item.artist ?? ""}",
+                                            " ${ item.artist ?? ""}",
                                             style: context.text.titleMedium
                                                 ?.copyWith(
                                               color:
@@ -278,7 +281,7 @@ class _PlayingListSectionState extends State<PlayingListSection> {
                                             horizontal: 10),
                                         // width: 190,
                                         child: Text(
-                                          item.play_at ?? "",
+                                          formatDateTime ?? "",
                                           textAlign: TextAlign.end,
                                           style: context.text.titleMedium
                                               ?.copyWith(
@@ -338,7 +341,7 @@ class _PlayingListSectionState extends State<PlayingListSection> {
                         itemBuilder: (context, index) {
                           // Access the 'data' list inside the historymodel instance
                           var item = snapshot.data![index];
-
+                          String formatDateTime = DateFormat('dd-MM-yyy hh:mm a').format(DateTime.parse(item.play_at.toString()));
                           return Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal: pageMarginHorizontal,
@@ -352,9 +355,11 @@ class _PlayingListSectionState extends State<PlayingListSection> {
                                   borderRadius: BorderRadius.circular(8),
                                   gradient: LinearGradient(
                                     colors: [
+                                      AppColors.customGradientSecondColor,
                                       AppColors.customGradientFirstColor,
                                       AppColors.customGradientSecondColor,
                                     ],
+                                    stops: [0.0, 0.5, 0.9],
                                   ),
                                 ),
                                 child: Row(
@@ -392,7 +397,7 @@ class _PlayingListSectionState extends State<PlayingListSection> {
                                         ),
                                         title: Container(
                                           child: Text(
-                                            "Title: ${item.title ??
+                                            "${item.title ??
                                                 'Unknown Title'}",
                                             maxLines: 1,
                                             style: context.text.titleMedium
@@ -407,7 +412,7 @@ class _PlayingListSectionState extends State<PlayingListSection> {
                                         subtitle: Container(
                                           width: 190,
                                           child: Text(
-                                            "Artist: ${ item.artist ?? ""}",
+                                            "${ item.artist ?? ""}",
                                             style: context.text.titleMedium
                                                 ?.copyWith(
                                               color:
@@ -426,7 +431,7 @@ class _PlayingListSectionState extends State<PlayingListSection> {
                                             horizontal: 10),
                                         // width: 190,
                                         child: Text(
-                                          item.play_at ?? "",
+                                          formatDateTime ?? "",
                                           textAlign: TextAlign.end,
                                           style: context.text.titleMedium
                                               ?.copyWith(

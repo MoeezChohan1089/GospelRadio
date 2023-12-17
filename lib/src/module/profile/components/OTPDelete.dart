@@ -11,18 +11,18 @@ import '../../../utils/constants/colors.dart';
 import '../logic.dart';
 
 
-class OTPSignInScreen extends StatefulWidget {
+class OTPDeleteScreen extends StatefulWidget {
   String? email;
 
-  OTPSignInScreen({Key? key, this.email}) : super(key: key);
+  OTPDeleteScreen({Key? key, this.email}) : super(key: key);
 
   @override
-  State<OTPSignInScreen> createState() => _OTPSignInScreenState();
+  State<OTPDeleteScreen> createState() => _OTPDeleteScreenState();
 }
 
-class _OTPSignInScreenState extends State<OTPSignInScreen> {
+class _OTPDeleteScreenState extends State<OTPDeleteScreen> {
 
-  final logic = Get.put(AuthLogic());
+  final logic = Get.put(ProfileLogic());
 
 
 
@@ -30,7 +30,7 @@ class _OTPSignInScreenState extends State<OTPSignInScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Form(
-        key: logic.formKeyValueSignInOTP,
+        key: logic.deleteFormKey,
         child: Stack(
           children: [
             Container(
@@ -150,16 +150,16 @@ class _OTPSignInScreenState extends State<OTPSignInScreen> {
                   OtpTextField(
                     handleControllers: (q){
                       if (q.length >= 1 && q[0] != null) {
-                        logic.OTPSignInController = q[0]!;
+                        logic.OTPDeleteController = q[0]!;
                       }
                       if (q.length >= 2 && q[1] != null) {
-                        logic.OTPSignInController1 = q[1]!;
+                        logic.OTPDeleteController1 = q[1]!;
                       }
                       if (q.length >= 3 && q[2] != null) {
-                        logic.OTPSignInController2 = q[2]!;
+                        logic.OTPDeleteController2 = q[2]!;
                       }
                       if (q.length >= 4 && q[3] != null) {
-                        logic.OTPSignInController3 = q[3]!;
+                        logic.OTPDeleteController3 = q[3]!;
                       }
                     },
                     numberOfFields: 4,
@@ -177,9 +177,8 @@ class _OTPSignInScreenState extends State<OTPSignInScreen> {
                   30.heightBox,
                   ElevatedButton(
                     onPressed: () async {
-                      if(logic.formKeyValueSignInOTP.currentState!.validate()){
-                        print("value of email: ${widget.email!}");
-                        await AuthLogic.to.signinOTPUser(context: context, email: widget.email!);
+                      if(logic.deleteFormKey.currentState!.validate()){
+                        logic.deleteOTPAccount(context: context, email: widget.email);
                       }
                     },
                     style: ElevatedButton.styleFrom(

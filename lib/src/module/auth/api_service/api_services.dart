@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -7,6 +8,7 @@ import 'package:gosperadioapp/src/globalVariable/database_controller.dart';
 import 'package:gosperadioapp/src/utils/extensions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../globalVariable/global_variable.dart';
 import 'getData.dart';
 
 createSignupApiService(
@@ -319,5 +321,41 @@ forgotApiResetPassword(
     // Handle any Dio errors or exceptions
     debugPrint("==>> Forgot ERROR : $error =====");
     return false;
+  }
+}
+
+getUserProfileService() async{
+  var headers = {
+    'Authorization': 'Bearer ${LocalDatabase.to.box.read('token')}',
+    'Cookie': 'XSRF-TOKEN=eyJpdiI6ImNmMmVic0RhUDQ0ZFYzc29zZm9Qa2c9PSIsInZhbHVlIjoiOFpnUE5LYjFqc3d2VHNSZDd6Yi96bzhaL0duMzdHM3JIOXlIMkJod20wTEVCZEZQTHpzY1RqOTBGb2s5R1VQelFOODhPV3RjMWVkeEdFWm1nYVpYRWJBRERIbkZxSnNjUG5FT3dxSm9rQXdZcmRGWXpvZlorNXEyWWdMWHkwb0siLCJtYWMiOiJlZjBjNDMwODk3ZDc0NWExNzYzNTI2NDMzYzkzMTk1M2E5YjZlMWQyYzE3YTcxYmVhZGVmZGMyZDM3Yjg2Y2M5IiwidGFnIjoiIn0%3D; hallelujah_choice_radio_session=eyJpdiI6IjBhV0ZOVEtKYnIxSmFVSDdLNVpMbGc9PSIsInZhbHVlIjoiOTlPYmkxVTJ6NWVZb2EzVnl2K21tbDlLalRhSFB6ZktHbHhMSFFpMVloZFB0U0FrTXdoQTVjeTc0U2dtaUxIRzkwTmpCWTdHYU44N1VPSXNuMGRPdWYzd29ENElucWhrZUhjaVZHcEVuMkx3WGdMcHNvclpNU0FhQ0F0ZmRXcGwiLCJtYWMiOiI2MDgyMTUzM2NjMzRkYWFlMjgwYTFmY2VkODZkZTc0ZDgwNjQ2YTgxMDk1MTM5ZjZjY2NkMjMyZTYwYWVlMDMyIiwidGFnIjoiIn0%3D'
+  };
+  var dio = Dio();
+  var response = await dio.request(
+    'https://hgcradio.org/api/user',
+    options: Options(
+      method: 'GET',
+      headers: headers,
+    ),
+  );
+
+  if (response.statusCode == 200) {
+    print("dddddfffff: ${ response.data['data']['user']}");
+    getUserProfileName.value = response.data['data']['user']['name'];
+    getUserProfileEmail.value = response.data['data']['user']['email'];
+    getUserProfileAbout.value = response.data['data']['user']['about'];
+
+    // LocalDatabase.to.box.write('nameProfile', getUserProfileName.value);
+    // LocalDatabase.to.box.write('emailProfile', getUserProfileEmail.value);
+
+    List userInfo = [{
+      "nameProfile": "${getUserProfileName.value}",
+      "emailProfile": "${getUserProfileEmail.value}",
+      "aboutProfile": "${getUserProfileAbout.value}"
+}];
+
+    LocalDatabase.to.box.write("userInfo", userInfo);
+  }
+  else {
+    print(response.statusMessage);
   }
 }

@@ -77,9 +77,9 @@ class _TopSongsScreenState extends State<TopSongsScreen> {
         title: Text(
           "Top Songs",
           style: context.text.bodySmall?.copyWith(
-              color: AppColors.customWhiteTextColor, fontSize: 14.sp),
+              color: AppColors.customWhiteTextColor, fontSize: 18.sp),
         ),
-        leadingWidth: 170.w,
+        leadingWidth: 180.w,
         leading: Row(
           children: [
             IconButton(
@@ -101,11 +101,19 @@ class _TopSongsScreenState extends State<TopSongsScreen> {
                 child: Image.asset(
                   "assets/images/hgc.png",
                   fit: BoxFit.cover,
-                  width: 110.w,
+                  width: 120.w,
                   // width: 150,
                 )),
           ],
         ),
+      ),
+      bottomNavigationBar: Wrap(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12),
+            child: Image.asset('assets/images/ban.png', height: 85, width: double.maxFinite,),
+          ),
+        ],
       ),
       body: Obx((){
         return logic.isLoadingAlbums.value == true? Center(child: CircularProgressIndicator(color: Colors.white,),): SingleChildScrollView(
@@ -210,7 +218,7 @@ class _TopSongsScreenState extends State<TopSongsScreen> {
                                         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                                         // width: double.maxFinite,
                                         child: Text(
-                                          "Views: ${logic.topSongs.value[index]['count']}",
+                                          "Downloads: ${logic.topSongs.value[index]['count']}",
                                           // textAlign: TextAlign.end,
                                           style: context.text.titleMedium?.copyWith(
                                               color: AppColors.customWhiteTextColor,

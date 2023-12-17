@@ -67,9 +67,9 @@ class _TopAlbumsScreenState extends State<TopAlbumsScreen> {
         title: Text(
           "Top Albums",
           style: context.text.bodySmall?.copyWith(
-              color: AppColors.customWhiteTextColor, fontSize: 16.sp),
+              color: AppColors.customWhiteTextColor, fontSize: 18.sp),
         ),
-        leadingWidth: 170.w,
+        leadingWidth: 180.w,
         leading: Row(
           children: [
             IconButton(
@@ -91,13 +91,20 @@ class _TopAlbumsScreenState extends State<TopAlbumsScreen> {
                 child: Image.asset(
                   "assets/images/hgc.png",
                   fit: BoxFit.cover,
-                  width: 110.w,
+                  width: 120.w,
                   // width: 150,
                 )),
           ],
         ),
       ),
-
+      bottomNavigationBar: Wrap(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12),
+            child: Image.asset('assets/images/ban.png', height: 85, width: double.maxFinite,),
+          ),
+        ],
+      ),
       body: Obx((){
         return logic.isLoadingAlbums.value == true? Center(child: CircularProgressIndicator(color: Colors.white,),): SingleChildScrollView(
           child: Column(

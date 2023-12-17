@@ -50,7 +50,7 @@ Future customDialogueBox(BuildContext context) {
                 child: Align(
                     alignment: Alignment.center,
                     child: Text(
-                      "Now Please Login First To Play Music",
+                      "Buy This Album For Play Full Song.",
                       textAlign: TextAlign.center,
                       style: context.text.bodyMedium!.copyWith(
                           color: AppColors.customGreyPriceColor,

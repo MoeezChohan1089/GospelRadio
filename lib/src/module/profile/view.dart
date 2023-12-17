@@ -4,14 +4,15 @@ import 'package:get/get.dart';
 import 'package:gosperadioapp/src/utils/extensions.dart';
 
 import '../../utils/constants/colors.dart';
-import 'components/guestBookForm.dart';
+import 'components/editInformation.dart';
+import 'components/profileForm.dart';
 import 'logic.dart';
 
-class GuestBookPage extends StatelessWidget {
-  GuestBookPage({Key? key}) : super(key: key);
+class ProfilePage extends StatelessWidget {
+  ProfilePage({Key? key}) : super(key: key);
 
-  final logic = Get.put(GuestBookLogic());
-  final state = Get.find<GuestBookLogic>().state;
+  final logic = Get.put(ProfileLogic());
+  final state = Get.find<ProfileLogic>().state;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class GuestBookPage extends StatelessWidget {
         scrolledUnderElevation: 0,
         centerTitle: true,
         title: Text(
-          "Guest Book",
+          "Edit Profile",
           style: context.text.bodySmall?.copyWith(
               color: AppColors.customWhiteTextColor, fontSize: 18.sp),
         ),
@@ -53,8 +54,26 @@ class GuestBookPage extends StatelessWidget {
                 )),
           ],
         ),
+        // actions: [
+        //   IconButton(
+        //       onPressed: () {
+        //         // Get.to(() => CartPage());
+        //       },
+        //       icon: Icon(Icons.search, color: AppColors.customBlackTextColor,)
+        //   ),
+        // ],
       ),
-      body: GuestBookFormSection(),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            20.heightBox,
+            EditProfileImageSection(),
+            EditProfileFormScreen(),
+          ],
+        ),
+      ),
     );
   }
 }

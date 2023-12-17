@@ -140,8 +140,8 @@ class LoginScreen extends StatelessWidget {
                             null;
                           },
                           suffixIcon: Icon(
-                            Icons.abc,
-                            color: Colors.white,
+                            Icons.email,
+                            color: Colors.black,
                           ),
                         ),
                       ),
@@ -153,51 +153,74 @@ class LoginScreen extends StatelessWidget {
                                 ),
                       ),
                       6.heightBox,
-                      Obx(() {
-                        return Container(
-                          height: 80,
-                          // height: 40,
-                          child: CustomTextFieldC(
-                            controller: logic.passwordSignInController,
-                            hintText: 'Password',
-                            obscureText: logic.obscureText.value,
-                            // textAlign: TextAlign.center,
-                            validation: (value) {
-                              if (value!.isEmpty) {
-                                return 'Password is required';
-                              }
-                              return null;
-                            },
-                            hintFontSize: 16.0,
-                            isOutlineInputBorder: true,
-                            isOutlineInputBorderColor:
-                                AppColors.customWhiteTextColor,
-                            textColor: Colors.white,
-                            // textFieldFillColor: Colors.transparent,
-                            // fontWeight: FontWeight.bold,
-                            fieldborderRadius: 6,
-                            outlineTopLeftRadius: 6,
-                            outlineTopRightRadius: 6,
-                            outlineBottomLeftRadius: 6,
-                            outlineBottomRightRadius: 6,
-                            textFontSize: 16.0,
-                            hintTextColor: Colors.white,
-                            suffixIcon: IconButton(
-                              icon: Icon(logic.obscureText.value
-                                  ? Icons.visibility_off
-                                  : Icons.visibility),
-                              // Icons.visibility_off),
-                              onPressed: () {
-                                logic.obscureText.value =
-                                    !logic.obscureText.value;
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Obx(() {
+                            return Container(
+                              height: 60,
+                              // height: 40,
+                              child: CustomTextFieldC(
+                                controller: logic.passwordSignInController,
+                                hintText: 'Password',
+                                obscureText: logic.obscureText.value,
+                                // textAlign: TextAlign.center,
+                                validation: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Password is required';
+                                  }
+                                  return null;
+                                },
+                                hintFontSize: 16.0,
+                                isOutlineInputBorder: true,
+                                isOutlineInputBorderColor:
+                                    AppColors.customWhiteTextColor,
+                                textColor: Colors.white,
+                                // textFieldFillColor: Colors.transparent,
+                                // fontWeight: FontWeight.bold,
+                                fieldborderRadius: 6,
+                                outlineTopLeftRadius: 6,
+                                outlineTopRightRadius: 6,
+                                outlineBottomLeftRadius: 6,
+                                outlineBottomRightRadius: 6,
+                                textFontSize: 16.0,
+                                hintTextColor: Colors.white,
+                                suffixIcon: IconButton(
+                                  icon: Icon(logic.obscureText.value
+                                      ? Icons.visibility_off
+                                      : Icons.visibility),
+                                  // Icons.visibility_off),
+                                  onPressed: () {
+                                    logic.obscureText.value =
+                                        !logic.obscureText.value;
+                                  },
+                                ),
+                                onTap: () async {
+                                  null;
+                                },
+                              ),
+                            );
+                          }),
+                          Container(
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ForgotPasswordScreen()));
                               },
+                              child: Text(
+                                "Forgot password?",
+                                textAlign: TextAlign.end,
+                                style: context.text.bodyMedium
+                                    ?.copyWith(color: Colors.white),
+                              ),
                             ),
-                            onTap: () async {
-                              null;
-                            },
-                          ),
-                        );
-                      }),
+                          )
+                        ],
+                      ),
                       10.heightBox,
                     ],
                   ),
@@ -323,27 +346,6 @@ class LoginScreen extends StatelessWidget {
                           )
                         ],
                       ),
-                      Column(
-                        children: [
-                          Container(
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            ForgotPasswordScreen()));
-                              },
-                              child: Text(
-                                "Forgot password?",
-                                textAlign: TextAlign.end,
-                                style: context.text.bodyMedium
-                                    ?.copyWith(color: Colors.white),
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
                     ],
                   ),
                 ),

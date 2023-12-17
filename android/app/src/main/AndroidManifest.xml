@@ -3,7 +3,7 @@
     package="com.example.gosperadioapp">
     <uses-permission android:name="android.permission.INTERNET" />
     <application
-        android:label="HGC"
+        android:label="Choice Radio"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

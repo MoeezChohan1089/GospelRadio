@@ -278,13 +278,7 @@ class _MusicPlayPageState extends State<MusicPlayPage> {
                             ),
                           ),
                         ),
-                        Expanded(
-                            child: IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.favorite,
-                                  color: AppColors.customPinkColor,
-                                )))
+
                       ],
                     ),
                     Container(

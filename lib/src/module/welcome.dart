@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:gosperadioapp/src/utils/constants/assets.dart';
 import 'package:gosperadioapp/src/utils/extensions.dart';
 
+import '../globalVariable/database_controller.dart';
 import '../utils/constants/colors.dart';
 import 'music_radio/view.dart';
 
@@ -80,8 +81,8 @@ class WelcomeScreen extends StatelessWidget {
             right: 50.0,
             child: ElevatedButton(
                 onPressed: () async {
-                  // String startedVar = "Started";
-                  // LocalDatabase.to.box.write('started', startedVar);
+                  String startedVar = "Started";
+                  LocalDatabase.to.box.write('started', startedVar);
                   // Get.to(() => HomePage());
                   Get.to(() => Music_radioPage());
                 },

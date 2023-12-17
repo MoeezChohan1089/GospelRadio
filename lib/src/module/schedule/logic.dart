@@ -15,9 +15,11 @@ class ScheduleLogic extends GetxController {
   RxList<dynamic> albumsSchedule = [].obs;
   RxList<dynamic> albumsSchedule1 = [].obs;
   RxBool loadingSchedule = false.obs;
+  RxBool showComment = false.obs;
   RxString filterweekday = 'Monday'.obs;
   final radioShows = <RadioShow>[].obs;
   RxInt indexSelect = 0.obs;
+
 
   RxList showNames = [].obs;
   RxInt jsonShow = 0.obs;

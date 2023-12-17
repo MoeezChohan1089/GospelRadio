@@ -171,11 +171,9 @@ class AuthLogic extends GetxController {
       // Get.snackbar('Message', 'Login Successfully..',
       //     backgroundColor: Colors.black,
       //     colorText: AppColors.customWhiteTextColor);
-      Get.off(() => OTPSignInScreen(
+      Get.to(() => OTPSignInScreen(
         email: emailSignInController.text,
       ));
-      // emailSignInController.clear();
-      // passwordSignInController.clear();
     } else {
       print("error");
       customLoaderGlobal.hideLoader();
@@ -219,6 +217,8 @@ class AuthLogic extends GetxController {
       print("value of OTP2: ${OTPSignInController1.text}");
       print("value of OTP3: ${OTPSignInController2.text}");
       print("value of OTP4: ${OTPSignInController3.text}");
+      emailSignInController.clear();
+      passwordSignInController.clear();
       Get.off(() => HomePage());
       final snackBar = SnackBar(
         content: Text(

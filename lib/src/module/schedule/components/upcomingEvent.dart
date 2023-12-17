@@ -53,7 +53,7 @@ class _UpcomingEventSectionState extends State<UpcomingEventSection> {
                 child: Row(
                   children: [
                     Text(
-                      "Upcoming Event",
+                      "Upcoming Show",
                       style: context.text.titleMedium?.copyWith(
                           color: AppColors.customWhiteTextColor,
                           fontSize: 18.sp),
@@ -394,13 +394,7 @@ class _UpcomingEventSectionState extends State<UpcomingEventSection> {
                                               mainAxisAlignment: MainAxisAlignment
                                                   .spaceBetween,
                                               children: [
-                                                Text("Artist: $showArtist",
-                                                  textAlign: TextAlign.start,
-                                                  style: context.text.bodyMedium
-                                                      ?.copyWith(
-                                                      color: AppColors
-                                                          .customWhiteTextColor),),
-                                                Text("Status: $status",
+                                                Text("$showArtist",
                                                   textAlign: TextAlign.start,
                                                   style: context.text.bodyMedium
                                                       ?.copyWith(

@@ -68,9 +68,9 @@ class _MusicListCatalogScreenState extends State<MusicListCatalogScreen> {
         title: Text(
           "Music Catalog",
           style: context.text.bodySmall?.copyWith(
-              color: AppColors.customWhiteTextColor, fontSize: 14.sp),
+              color: AppColors.customWhiteTextColor, fontSize: 18.sp),
         ),
-        leadingWidth: 170.w,
+        leadingWidth: 180.w,
         leading: Row(
           children: [
             IconButton(
@@ -94,7 +94,7 @@ class _MusicListCatalogScreenState extends State<MusicListCatalogScreen> {
                 child: Image.asset(
                   "assets/images/hgc.png",
                   fit: BoxFit.cover,
-                  width: 110.w,
+                  width: 120.w,
                   // width: 150,
                 )),
           ],
@@ -163,8 +163,8 @@ class _MusicListCatalogScreenState extends State<MusicListCatalogScreen> {
                                       color: AppColors.customWhiteTextColor,
                                       fontSize: 14.sp),
                                 ),
-                                50.widthBox,
-                                islogin == true
+                                40.widthBox,
+                                LocalDatabase.to.box.read('token') != null
                                     ? LocalDatabase.to.box.read('paid') != null
                                         ? GetBuilder<Music_catalogLogic>(
                                             builder: (logic) {
@@ -198,14 +198,20 @@ class _MusicListCatalogScreenState extends State<MusicListCatalogScreen> {
                                                print('as');
                                              }
                                             },
-                                            child: Text(
-                                             "Buy Now",
-                                              textAlign: TextAlign.end,
-                                              style: context.text.bodySmall
-                                                  ?.copyWith(
-                                                color: AppColors
-                                                    .customMusicTextColor,
-                                                fontSize: 14.sp,
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(horizontal: 14, vertical: 2),
+                                              decoration: BoxDecoration(
+                                                color: AppColors.customMusicTextColor,
+                                                borderRadius: BorderRadius.circular(10.r)
+                                              ),
+                                              child: Text(
+                                               "Buy Now",
+                                                textAlign: TextAlign.end,
+                                                style: context.text.bodySmall
+                                                    ?.copyWith(
+                                                  color: Colors.black,
+                                                  fontSize: 14.sp,
+                                                ),
                                               ),
                                             ),
                                           )
@@ -214,14 +220,28 @@ class _MusicListCatalogScreenState extends State<MusicListCatalogScreen> {
                                         onTap: () {
                                           Get.to(() => LoginScreen());
                                         },
-                                        child: Text(
-                                          "Login",
-                                          textAlign: TextAlign.end,
-                                          style:
-                                              context.text.bodySmall?.copyWith(
-                                            color:
-                                                AppColors.customMusicTextColor,
-                                            fontSize: 14.sp,
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(horizontal: 14, vertical: 2),
+                                          decoration: BoxDecoration(
+                                              color: AppColors.customMusicTextColor,
+                                              borderRadius: BorderRadius.circular(10.r)
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.login, size: 18,),
+                                              6.widthBox,
+                                              Text(
+                                                "Login",
+                                                textAlign: TextAlign.end,
+                                                style:
+                                                    context.text.bodySmall?.copyWith(
+                                                  color:
+                                                      Colors.black,
+                                                  fontSize: 14.sp,
+                                                ),
+                                              ),
+
+                                            ],
                                           ),
                                         ),
                                       ),
@@ -229,14 +249,14 @@ class _MusicListCatalogScreenState extends State<MusicListCatalogScreen> {
                             ),
                             6.heightBox,
                             Text(
-                              'Release Year: ${logic1.responseDataMusicList['data']['album']['release_year']}',
+                              '${logic1.responseDataMusicList['data']['album']['release_year']}',
                               style: context.text.bodySmall?.copyWith(
                                   color: AppColors.customWhiteTextColor,
                                   fontSize: 14.sp),
                             ),
                             6.heightBox,
                             Text(
-                              'Release Price: \$${logic1.responseDataMusicList['data']['album']['price']}',
+                              '\$${logic1.responseDataMusicList['data']['album']['price']}',
                               style: context.text.bodySmall?.copyWith(
                                   color: AppColors.customWhiteTextColor,
                                   fontSize: 14.sp),

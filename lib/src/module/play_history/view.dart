@@ -51,9 +51,9 @@ class _PlayHistoryPageState extends State<PlayHistoryPage> {
           title: Text(
             "Playing/History",
             style: context.text.bodySmall?.copyWith(
-                color: AppColors.customWhiteTextColor, fontSize: 14.sp),
+                color: AppColors.customWhiteTextColor, fontSize: 18.sp),
           ),
-          leadingWidth: 170.w,
+          leadingWidth: 180.w,
           leading: Row(
             children: [
               IconButton(
@@ -76,7 +76,7 @@ class _PlayHistoryPageState extends State<PlayHistoryPage> {
                   child: Image.asset(
                     "assets/images/hgc.png",
                     fit: BoxFit.cover,
-                    width: 110.w,
+                    width: 120.w,
                     // width: 150,
                   )),
             ],
@@ -103,8 +103,8 @@ class _PlayHistoryPageState extends State<PlayHistoryPage> {
                   children: [
                     Expanded(
                       child: Container(
-                        height: 180.h,
-
+                        height: 182.h,
+                        color: Colors.black,
                         child: Column(
                           children: [
                             Container(
@@ -120,75 +120,48 @@ class _PlayHistoryPageState extends State<PlayHistoryPage> {
                                   style: context.text.bodyMedium?.copyWith(
                                       color: Colors.black,
                                       fontSize: 16.sp),)),
-                            Stack(
-                              children: [
-                                ClipRRect(
-                                    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10.r), bottomRight: Radius.circular(10.r),),
-                                    child:
-          // Image.asset('assets/images/hgc.png', height: 110,fit: BoxFit.cover,)
-          logic.hostImage != null?  CachedNetworkImage(
-                                    imageUrl: logic.hostImage ?? "",
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.black.withOpacity(0.6),
+                                borderRadius: BorderRadius.circular(10.r),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  20.heightBox,
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    child: Container(
+                                      width: double.maxFinite,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .start,
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .start,
+                                        children: [
+                                          Text('${logic.dataPlayNow
+                                              .value['title'] ?? ''}',
+                                            textAlign: TextAlign.start,
+                                            style: context.text.bodyMedium
+                                                ?.copyWith(color: AppColors
+                                                .customWhiteTextColor,
+                                                fontSize: 18.sp),),
+                                          Text('${logic.dataPlayNow
+                                              .value['artist'] ?? ''}',
+                                            textAlign: TextAlign.start,
+                                            style: context.text.bodyMedium
+                                                ?.copyWith(color: AppColors
+                                                .customWhiteTextColor,
+                                                fontSize: 14.sp),),
 
-                                    height: 150.h,
-                                    width: double.maxFinite,
-                                    // imageUrl: (productDetail?.images ?? []).isNotEmpty
-                                    //     ? productDetail!.images[0].originalSrc
-                                    //     : "",
-                                    fit: BoxFit.cover,
-                                    placeholder: (context, url) =>
-                                        productShimmer(),
-                                    errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
-                                  ):Image.asset('assets/images/hgc.png', height: 110,fit: BoxFit.cover,),
-                                ),
-                                Positioned.fill(
-                                  child: Container(
-                                    height: 150.h,
-                                    width: 150.w,
-                                    decoration: BoxDecoration(
-                                      color: Colors.black.withOpacity(0.6),
-                                      borderRadius: BorderRadius.circular(10.r),
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        20.heightBox,
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          child: Container(
-                                            width: double.maxFinite,
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment
-                                                  .start,
-                                              mainAxisAlignment: MainAxisAlignment
-                                                  .start,
-                                              children: [
-                                                Text('Title:  ${logic.dataPlayNow
-                                                    .value['title'] ?? ''}',
-                                                  textAlign: TextAlign.start,
-                                                  style: context.text.bodyMedium
-                                                      ?.copyWith(color: AppColors
-                                                      .customWhiteTextColor,
-                                                      fontSize: 14.sp),),
-                                                Text('Artist: ${logic.dataPlayNow
-                                                    .value['artist'] ?? ''}',
-                                                  textAlign: TextAlign.start,
-                                                  style: context.text.bodyMedium
-                                                      ?.copyWith(color: AppColors
-                                                      .customWhiteTextColor,
-                                                      fontSize: 14.sp),),
-
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -197,8 +170,8 @@ class _PlayHistoryPageState extends State<PlayHistoryPage> {
                     10.widthBox,
                     Expanded(
                       child: Container(
-                        height: 180.h,
-
+                        height: 182.h,
+                        color: Colors.black,
                         child: Column(
                           children: [
                             Container(
@@ -209,80 +182,53 @@ class _PlayHistoryPageState extends State<PlayHistoryPage> {
                                 width: double.maxFinite,
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 4, vertical: 3),
-                                child: Text('Next Playing',
+                                child: Text('Up Coming',
                                   textAlign: TextAlign.center,
                                   style: context.text.bodyMedium?.copyWith(
                                       color: Colors.black,
                                       fontSize: 16.sp),)),
-                            Stack(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10.r), bottomRight: Radius.circular(10.r),),
-                                  child:
-          // Image.asset('assets/images/hgc.png', height: 110,fit: BoxFit.cover,)
-                               logic.hostImage != null?   CachedNetworkImage(
-                                    imageUrl: logic.hostImage ?? "",
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.black.withOpacity(0.6),
+                                borderRadius: BorderRadius.circular(10.r),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  20.heightBox,
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    child: Container(
+                                      width: double.maxFinite,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .start,
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .start,
+                                        children: [
+                                          Text('${logic.playNext
+                                              .value['title'] ?? ''}',
+                                            textAlign: TextAlign.start,
+                                            style: context.text.bodyMedium
+                                                ?.copyWith(color: AppColors
+                                                .customWhiteTextColor,
+                                                fontSize: 18.sp),),
+                                          Text('${logic.playNext
+                                              .value['artist'] ?? ''}',
+                                            textAlign: TextAlign.start,
+                                            style: context.text.bodyMedium
+                                                ?.copyWith(color: AppColors
+                                                .customWhiteTextColor,
+                                                fontSize: 14.sp),),
 
-                                    height: 150.h,
-                                    width: double.maxFinite,
-                                    // imageUrl: (productDetail?.images ?? []).isNotEmpty
-                                    //     ? productDetail!.images[0].originalSrc
-                                    //     : "",
-                                    fit: BoxFit.cover,
-                                    placeholder: (context, url) =>
-                                        productShimmer(),
-                                    errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
-                                  ): Image.asset('assets/images/hgc.png', height: 110,fit: BoxFit.cover,),
-                                ),
-                                Positioned.fill(
-                                  child: Container(
-                                    height: 150.h,
-                                    width: 150.w,
-                                    decoration: BoxDecoration(
-                                      color: Colors.black.withOpacity(0.6),
-                                      borderRadius: BorderRadius.circular(10.r),
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        20.heightBox,
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          child: Container(
-                                            width: double.maxFinite,
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment
-                                                  .start,
-                                              mainAxisAlignment: MainAxisAlignment
-                                                  .start,
-                                              children: [
-                                                Text('Title:  ${logic.playNext
-                                                    .value['title'] ?? ''}',
-                                                  textAlign: TextAlign.start,
-                                                  style: context.text.bodyMedium
-                                                      ?.copyWith(color: AppColors
-                                                      .customWhiteTextColor,
-                                                      fontSize: 14.sp),),
-                                                Text('Artist: ${logic.playNext
-                                                    .value['artist'] ?? ''}',
-                                                  textAlign: TextAlign.start,
-                                                  style: context.text.bodyMedium
-                                                      ?.copyWith(color: AppColors
-                                                      .customWhiteTextColor,
-                                                      fontSize: 14.sp),),
-
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ],
                         ),

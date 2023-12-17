@@ -143,6 +143,7 @@ class _Music_radioPageState extends State<Music_radioPage> {
                         Row(
                           children: [
                             Expanded(
+                              flex: 2,
                               child: Row(
                                 children: [
                                   Align(
@@ -172,7 +173,7 @@ class _Music_radioPageState extends State<Music_radioPage> {
                                       child: Image.asset(
                                         "assets/images/hgc.png",
                                         fit: BoxFit.cover,
-                                        width: 95.w,
+                                        width: 120.w,
                                         // width: 150,
                                       )),
                                 ],
@@ -186,7 +187,9 @@ class _Music_radioPageState extends State<Music_radioPage> {
                                     color: AppColors.customWhiteTextColor, fontSize: 18.sp),
                               ),
                             ),
-                            Expanded(child: SizedBox()),
+                            Expanded(
+
+                                child: SizedBox()),
                           ],
                         ),
                         70.heightBox,

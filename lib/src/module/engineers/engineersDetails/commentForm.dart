@@ -32,9 +32,9 @@ class _CommentFormScreenState extends State<CommentFormScreen> {
         scrolledUnderElevation: 0,
         centerTitle: true,
         title: Text(
-          "Comment",
+          "Add your comment",
           style: context.text.bodySmall?.copyWith(
-              color: AppColors.customWhiteTextColor, fontSize: 14.sp),
+              color: AppColors.customWhiteTextColor, fontSize: 18.sp),
         ),
         leading: IconButton(
             onPressed: () {

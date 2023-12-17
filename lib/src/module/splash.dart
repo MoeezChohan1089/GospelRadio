@@ -6,6 +6,9 @@ import 'package:get/get.dart';
 import 'package:gosperadioapp/src/module/welcome.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../globalVariable/database_controller.dart';
+import 'music_radio/view.dart';
+
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -36,8 +39,8 @@ class _SplashScreenState extends State<SplashScreen>
       final dir = Directory('${appDocDir.path}/saveFiles')
         ..create(recursive: true);
       print("splash path: ${dir.path}");
-      Get.to(() => WelcomeScreen());
-      // Get.off(() =>(LocalDatabase.to.box.read('started') != null)? HomePage() :WelcomeScreen());
+      // Get.to(() => WelcomeScreen());
+      Get.off(() =>(LocalDatabase.to.box.read('started') != null)? Music_radioPage() :WelcomeScreen());
     });
   }
 
@@ -75,7 +78,7 @@ class _SplashScreenState extends State<SplashScreen>
                   child: Center(
                     child: Image.asset(
                       'assets/images/Logo.png',
-                      width: 170,
+                      width: 185,
                     ),
                   ),
                 ),
@@ -84,7 +87,7 @@ class _SplashScreenState extends State<SplashScreen>
                 ),
                 Center(
                     child: Text(
-                  "Gospel Choice",
+                  "Hallelujah Gospel Choice\n Radio",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 22,

@@ -171,7 +171,7 @@ class _GospelWebsiteSectionState extends State<GospelWebsiteSection> {
                                   gospelwebsitelist[index].body.toString(),
                                   textAlign: TextAlign.left,
                                   style: context.text.bodyMedium?.copyWith(
-                                      fontSize: 13.sp, color: Colors.white),
+                                      fontSize: 18.sp, color: Colors.white),
                                 ),
                               ),
                             )

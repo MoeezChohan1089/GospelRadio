@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -15,6 +16,7 @@ import '../../../utils/constants/colors.dart';
 import '../../../utils/constants/margins_spacnings.dart';
 import '../../../utils/skeleton_loaders/shimmerLoader.dart';
 import 'commentForm.dart';
+import 'fulltext.dart';
 
 class EngineerDetails extends StatefulWidget {
   int? ID;
@@ -22,9 +24,10 @@ class EngineerDetails extends StatefulWidget {
   String? name;
   String? email;
   String? slug;
+  String? about;
 
   EngineerDetails(
-      {super.key, this.ID, this.avatar, this.name, this.email, this.slug});
+      {super.key, this.ID, this.avatar, this.name, this.email, this.slug, this.about});
 
   @override
   State<EngineerDetails> createState() => _EngineerDetailsState();
@@ -50,9 +53,17 @@ class _EngineerDetailsState extends State<EngineerDetails> {
     super.initState();
   }
 
+  String truncateWithEllipsis(int cutoff, String myString) {
+    return (myString.length <= cutoff)
+        ? myString
+        : '${myString.substring(0, cutoff)}';
+  }
+
+
   @override
   Widget build(BuildContext context) {
-
+    int cutoff = 180; // This is just an example, adjust it as needed
+    String truncatedText = truncateWithEllipsis(cutoff, widget.about!);
     return Scaffold(
       backgroundColor: AppColors.custombackgroundColor,
       appBar: AppBar(
@@ -79,10 +90,10 @@ class _EngineerDetailsState extends State<EngineerDetails> {
             )),
         centerTitle: true,
         title: Text(
-          "Weekly Schedule",
+          "${widget.name}",
           textAlign: TextAlign.center,
           style: context.text.bodyMedium?.copyWith(
-              color: AppColors.customWhiteTextColor, fontSize: 16.sp),
+              color: AppColors.customWhiteTextColor, fontSize: 18.sp),
         ),
       ),
       body: Obx(() {
@@ -90,7 +101,7 @@ class _EngineerDetailsState extends State<EngineerDetails> {
           children: [
             Padding(
               padding: EdgeInsets.symmetric(
-                  horizontal: pageMarginHorizontal,),
+                horizontal: pageMarginHorizontal,),
               child: Row(
                 children: [
                   SizedBox(
@@ -118,33 +129,70 @@ class _EngineerDetailsState extends State<EngineerDetails> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Container(
-                        width: 240.w,
-                        child: Text("Albums: ${widget.name}",
-                          maxLines: 1,
-                          style: context.text.bodyMedium?.copyWith(
-                            overflow: TextOverflow.ellipsis,
-                              color: AppColors.customMusicTextColor, fontSize: 18
-                              .sp),),
+                    Container(
+                    width: 250.w,
+                    child: RichText(
+                      text: TextSpan(
+                        style: context.text.bodyMedium?.copyWith(
+                          height: 1.2,
+                          color: AppColors.customWhiteTextColor,
+                          fontSize: 18.sp,
+                        ),
+                        children: <TextSpan>[
+                          TextSpan(text: truncatedText, style: context.text.bodyMedium?.copyWith(overflow: TextOverflow.ellipsis, color: Colors.white)), // Your limited text
+                          TextSpan(
+                            text: '  Show More',
+                            style: context.text.bodyMedium?.copyWith(
+                              height: 1.2,
+                              color: Colors.blue,
+                              fontSize: 14.sp,
+                            ), // Style for 'Show More'
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => FullTextScreen(fullText: widget.about!),
+                                  ),
+                                );
+                              },
+                          ),
+                        ],
                       ),
-                      Container(
-                        width: 240.w,
-                        child: Text("Email: ${widget.email}",
-                          maxLines: 1,
-                          style: context.text.bodyMedium?.copyWith(
-                              overflow: TextOverflow.ellipsis,
-                              color: AppColors.customWhiteTextColor, fontSize: 18
-                              .sp),),
-                      ),
-                      Container(
-                        width: 240.w,
-                        child: Text("Slug: ${widget.slug}",
-                          maxLines: 1,
-                          style: context.text.bodyMedium?.copyWith(
-                              overflow: TextOverflow.ellipsis,
-                              color: AppColors.customWhiteTextColor, fontSize: 18
-                              .sp),),
-                      )
+                    ),
+                  ),
+                      // Container(
+                      //   width: 240.w,
+                      //   child: Text("${widget.name}",
+                      //     maxLines: 1,
+                      //     style: context.text.bodyMedium?.copyWith(
+                      //         overflow: TextOverflow.ellipsis,
+                      //         color: AppColors.customMusicTextColor,
+                      //         fontSize: 18
+                      //             .sp),),
+                      // ),
+                      // Container(
+                      //   width: 240.w,
+                      //   child: Text("${widget.email}",
+                      //     maxLines: 1,
+                      //     style: context.text.bodyMedium?.copyWith(
+                      //         overflow: TextOverflow.ellipsis,
+                      //         color: AppColors.customWhiteTextColor,
+                      //         fontSize: 18
+                      //             .sp),),
+                      // ),
+                      // Container(
+                      //   width: 240.w,
+                      //   child: Text("${widget.slug}",
+                      //     maxLines: 1,
+                      //     style: context.text.bodyMedium?.copyWith(
+                      //         overflow: TextOverflow.ellipsis,
+                      //         color: AppColors.customWhiteTextColor,
+                      //         fontSize: 18
+                      //             .sp),),
+                      // )
+
+
                     ],
                   )
                 ],
@@ -200,7 +248,9 @@ class _EngineerDetailsState extends State<EngineerDetails> {
                 children: [
                   Obx(() {
                     return Padding(
-                      padding: const EdgeInsets.only(left: 16, top: 6, bottom: 6),
+                      padding: const EdgeInsets.only(left: 16,
+                          top: 6,
+                          bottom: 6),
                       child: GestureDetector(
                         onTap: () {
                           String dayOfWeek = 'Monday';
@@ -214,12 +264,15 @@ class _EngineerDetailsState extends State<EngineerDetails> {
                           width: 90.w,
                           padding: EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                              color: logic.indexSelect.value == 1? AppColors.customPinkColor: AppColors.customWebsiteListColor,
+                              color: logic.indexSelect.value == 1 ? AppColors
+                                  .customPinkColor : AppColors
+                                  .customWebsiteListColor,
                               borderRadius: BorderRadius.circular(12.r)
                           ),
                           child: Text("Mon", textAlign: TextAlign.center,
                             style: context.text.bodyMedium?.copyWith(
-                                color: logic.indexSelect.value == 1? Colors.white: AppColors.customWhiteTextColor,
+                                color: logic.indexSelect.value == 1 ? Colors
+                                    .white : AppColors.customWhiteTextColor,
                                 fontSize: 16.sp),),
                         ),
                       ),
@@ -227,7 +280,9 @@ class _EngineerDetailsState extends State<EngineerDetails> {
                   }),
                   Obx(() {
                     return Padding(
-                      padding: const EdgeInsets.only(left: 8, top: 6, bottom: 6),
+                      padding: const EdgeInsets.only(left: 8,
+                          top: 6,
+                          bottom: 6),
                       child: GestureDetector(
                         onTap: () {
                           String dayOfWeek = 'Tuesday';
@@ -241,12 +296,15 @@ class _EngineerDetailsState extends State<EngineerDetails> {
                           width: 90.w,
                           padding: EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                              color: logic.indexSelect.value == 2? AppColors.customPinkColor: AppColors.customWebsiteListColor,
+                              color: logic.indexSelect.value == 2 ? AppColors
+                                  .customPinkColor : AppColors
+                                  .customWebsiteListColor,
                               borderRadius: BorderRadius.circular(12.r)
                           ),
                           child: Text("Tue", textAlign: TextAlign.center,
                             style: context.text.bodyMedium?.copyWith(
-                                color: logic.indexSelect.value == 2? Colors.white: AppColors.customWhiteTextColor,
+                                color: logic.indexSelect.value == 2 ? Colors
+                                    .white : AppColors.customWhiteTextColor,
                                 fontSize: 16.sp),),
                         ),
                       ),
@@ -254,7 +312,9 @@ class _EngineerDetailsState extends State<EngineerDetails> {
                   }),
                   Obx(() {
                     return Padding(
-                      padding: const EdgeInsets.only(left: 8, top: 6, bottom: 6),
+                      padding: const EdgeInsets.only(left: 8,
+                          top: 6,
+                          bottom: 6),
                       child: GestureDetector(
                         onTap: () {
                           String dayOfWeek = 'Wednesday';
@@ -268,12 +328,15 @@ class _EngineerDetailsState extends State<EngineerDetails> {
                           width: 90.w,
                           padding: EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                              color: logic.indexSelect.value == 3? AppColors.customPinkColor: AppColors.customWebsiteListColor,
+                              color: logic.indexSelect.value == 3 ? AppColors
+                                  .customPinkColor : AppColors
+                                  .customWebsiteListColor,
                               borderRadius: BorderRadius.circular(12.r)
                           ),
                           child: Text("Wed", textAlign: TextAlign.center,
                             style: context.text.bodyMedium?.copyWith(
-                                color: logic.indexSelect.value == 3? Colors.white: AppColors.customWhiteTextColor,
+                                color: logic.indexSelect.value == 3 ? Colors
+                                    .white : AppColors.customWhiteTextColor,
                                 fontSize: 16.sp),),
                         ),
                       ),
@@ -281,7 +344,9 @@ class _EngineerDetailsState extends State<EngineerDetails> {
                   }),
                   Obx(() {
                     return Padding(
-                      padding: const EdgeInsets.only(left: 8, top: 6, bottom: 6),
+                      padding: const EdgeInsets.only(left: 8,
+                          top: 6,
+                          bottom: 6),
                       child: GestureDetector(
                         onTap: () {
                           String dayOfWeek = 'Thursday';
@@ -295,12 +360,15 @@ class _EngineerDetailsState extends State<EngineerDetails> {
                           width: 90.w,
                           padding: EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                              color: logic.indexSelect.value == 4? AppColors.customPinkColor: AppColors.customWebsiteListColor,
+                              color: logic.indexSelect.value == 4 ? AppColors
+                                  .customPinkColor : AppColors
+                                  .customWebsiteListColor,
                               borderRadius: BorderRadius.circular(12.r)
                           ),
                           child: Text("Thu", textAlign: TextAlign.center,
                             style: context.text.bodyMedium?.copyWith(
-                                color: logic.indexSelect.value == 4? Colors.white: AppColors.customWhiteTextColor,
+                                color: logic.indexSelect.value == 4 ? Colors
+                                    .white : AppColors.customWhiteTextColor,
                                 fontSize: 16.sp),),
                         ),
                       ),
@@ -308,7 +376,9 @@ class _EngineerDetailsState extends State<EngineerDetails> {
                   }),
                   Obx(() {
                     return Padding(
-                      padding: const EdgeInsets.only(left: 8, top: 6, bottom: 6),
+                      padding: const EdgeInsets.only(left: 8,
+                          top: 6,
+                          bottom: 6),
                       child: GestureDetector(
                         onTap: () {
                           String dayOfWeek = 'Friday';
@@ -322,12 +392,15 @@ class _EngineerDetailsState extends State<EngineerDetails> {
                           width: 90.w,
                           padding: EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                              color: logic.indexSelect.value == 5? AppColors.customPinkColor: AppColors.customWebsiteListColor,
+                              color: logic.indexSelect.value == 5 ? AppColors
+                                  .customPinkColor : AppColors
+                                  .customWebsiteListColor,
                               borderRadius: BorderRadius.circular(12.r)
                           ),
                           child: Text("Fri", textAlign: TextAlign.center,
                             style: context.text.bodyMedium?.copyWith(
-                                color: logic.indexSelect.value == 5? Colors.white: AppColors.customWhiteTextColor,
+                                color: logic.indexSelect.value == 5 ? Colors
+                                    .white : AppColors.customWhiteTextColor,
                                 fontSize: 16.sp),),
                         ),
                       ),
@@ -335,7 +408,9 @@ class _EngineerDetailsState extends State<EngineerDetails> {
                   }),
                   Obx(() {
                     return Padding(
-                      padding: const EdgeInsets.only(left: 8, top: 6, bottom: 6),
+                      padding: const EdgeInsets.only(left: 8,
+                          top: 6,
+                          bottom: 6),
                       child: GestureDetector(
                         onTap: () {
                           String dayOfWeek = 'Saturday';
@@ -349,12 +424,15 @@ class _EngineerDetailsState extends State<EngineerDetails> {
                           width: 90.w,
                           padding: EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                              color: logic.indexSelect.value == 6? AppColors.customPinkColor: AppColors.customWebsiteListColor,
+                              color: logic.indexSelect.value == 6 ? AppColors
+                                  .customPinkColor : AppColors
+                                  .customWebsiteListColor,
                               borderRadius: BorderRadius.circular(12.r)
                           ),
                           child: Text("Sat", textAlign: TextAlign.center,
                             style: context.text.bodyMedium?.copyWith(
-                                color: logic.indexSelect.value == 6? Colors.white: AppColors.customWhiteTextColor,
+                                color: logic.indexSelect.value == 6 ? Colors
+                                    .white : AppColors.customWhiteTextColor,
                                 fontSize: 16.sp),),
                         ),
                       ),
@@ -362,7 +440,9 @@ class _EngineerDetailsState extends State<EngineerDetails> {
                   }),
                   Obx(() {
                     return Padding(
-                      padding: const EdgeInsets.only(left: 8, top: 6, bottom: 6),
+                      padding: const EdgeInsets.only(left: 8,
+                          top: 6,
+                          bottom: 6),
                       child: GestureDetector(
                         onTap: () {
                           String dayOfWeek = 'Sunday';
@@ -376,12 +456,15 @@ class _EngineerDetailsState extends State<EngineerDetails> {
                           width: 90.w,
                           padding: EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                              color: logic.indexSelect.value == 7? AppColors.customPinkColor: AppColors.customWebsiteListColor,
+                              color: logic.indexSelect.value == 7 ? AppColors
+                                  .customPinkColor : AppColors
+                                  .customWebsiteListColor,
                               borderRadius: BorderRadius.circular(12.r)
                           ),
                           child: Text("Sun", textAlign: TextAlign.center,
                             style: context.text.bodyMedium?.copyWith(
-                                color: logic.indexSelect.value == 7? Colors.white: AppColors.customWhiteTextColor,
+                                color: logic.indexSelect.value == 7 ? Colors
+                                    .white : AppColors.customWhiteTextColor,
                                 fontSize: 16.sp),),
                         ),
                       ),
@@ -396,225 +479,266 @@ class _EngineerDetailsState extends State<EngineerDetails> {
               child: logic.loadingSchedule.value == true
                   ? ShimerListviewPage() // Placeholder for loading state
                   : FutureBuilder<void>(
-                    future: logic.fetchRadioShows(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState ==
-                          ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      } else if (snapshot.hasError) {
-                        return Center(
-                            child: Text('Error: ${snapshot.error}'));
-                      } else if(logic.indexSelect.value == 0){
-                        return Center(
-                          child: Text('Select Your Day..',
-                            style: TextStyle(color: Colors.white),),
-                        );
-                      }
-                      else {
-                        if (logic.radioShows.isEmpty) {
-                          return Center(
-                            child: Text('No Schedule Available',
-                              style: TextStyle(color: Colors.white),),
-                          );
-                        } else {
-                          return ListView.builder(
-                            physics: AlwaysScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: logic.radioShows.length,
-                            itemBuilder: (context, index) {
-                              final showName = logic.radioShows[index]
-                                  .name;
-                              final showArtist = logic.radioShows[index].artist;
-                              final showFromTime = logic.radioShows[index]
-                                  .fromTime;
-                              final showToTime = logic.radioShows[index]
-                                  .toTime;
-                              final status = logic.radioShows[index].status;
-                              final formated = DateFormat('hh:mm a')
-                                  .format(DateFormat('hh:mm').parse(
-                                  showFromTime));
-                              final formated1 = DateFormat('hh:mm a')
-                                  .format(
-                                  DateFormat('hh:mm').parse(showToTime));
-                              if (showName != null &&
-                                  showName.isNotEmpty) {
-                                return Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    // horizontal: pageMarginHorizontal,
-                                      vertical: pageMarginVertical / 2),
-                                  child: Container(
-                                    margin: EdgeInsets.symmetric(
-                                        vertical: 4),
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 10, horizontal: 10),
-                                    width: double.maxFinite,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(
-                                          20.r),
-                                      color: AppColors
-                                          .customWebsiteListColor,
-                                    ),
-                                    child: Column(
+                future: logic.fetchRadioShows(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState ==
+                      ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(
+                        child: Text('Error: ${snapshot.error}'));
+                  } else if (logic.indexSelect.value == 0) {
+                    return Center(
+                      child: Text('Select Your Day..',
+                        style: TextStyle(color: Colors.white),),
+                    );
+                  }
+                  else {
+                    if (logic.radioShows.isEmpty) {
+                      return Center(
+                        child: Text('No Schedule Available',
+                          style: TextStyle(color: Colors.white),),
+                      );
+                    } else {
+                      return ListView.builder(
+                        physics: AlwaysScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: logic.radioShows.length,
+                        itemBuilder: (context, index) {
+                          final showName = logic.radioShows[index]
+                              .name;
+                          final showArtist = logic.radioShows[index].artist;
+                          final showFromTime = logic.radioShows[index]
+                              .fromTime;
+                          final showToTime = logic.radioShows[index]
+                              .toTime;
+                          final status = logic.radioShows[index].status;
+                          final formated = DateFormat('hh:mm a')
+                              .format(DateFormat('hh:mm').parse(
+                              showFromTime));
+                          final formated1 = DateFormat('hh:mm a')
+                              .format(
+                              DateFormat('hh:mm').parse(showToTime));
+                          if (showName != null &&
+                              showName.isNotEmpty) {
+                            return Padding(
+                              padding: EdgeInsets.symmetric(
+                                // horizontal: pageMarginHorizontal,
+                                  vertical: pageMarginVertical / 2),
+                              child: Container(
+                                margin: EdgeInsets.symmetric(
+                                    vertical: 4),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 10),
+                                width: double.maxFinite,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(
+                                      20.r),
+                                  color: AppColors
+                                      .customWebsiteListColor,
+                                ),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment
+                                          .start,
+                                      mainAxisAlignment: MainAxisAlignment
+                                          .start,
                                       children: [
-                                        Row(
-                                          crossAxisAlignment: CrossAxisAlignment
-                                              .start,
-                                          mainAxisAlignment: MainAxisAlignment
-                                              .start,
-                                          children: [
-                                            Expanded(
-                                              flex: 2,
-                                              child: Text(showName,
-                                                textAlign: TextAlign.start,
-                                                style: context.text.bodyMedium
-                                                    ?.copyWith(
-                                                    color: AppColors
-                                                        .customWhiteTextColor, fontSize: 16.sp),),
-                                            ),
-
-                                            Expanded(
-                                              child: Text(formated,
-                                                textAlign: TextAlign.center,
-                                                style: context.text.bodyMedium
-                                                    ?.copyWith(
-                                                    color: AppColors
-                                                        .customWhiteTextColor),),
-                                            ),
-
-                                            Expanded(
-                                              child: Text(formated1,
-                                                textAlign: TextAlign.center,
-                                                style: context.text.bodyMedium
-                                                    ?.copyWith(
-                                                    color: AppColors
-                                                        .customWhiteTextColor),),
-                                            ),
-                                          ],
+                                        Expanded(
+                                          flex: 2,
+                                          child: Text(showName,
+                                            textAlign: TextAlign.start,
+                                            style: context.text.bodyMedium
+                                                ?.copyWith(
+                                                color: AppColors
+                                                    .customWhiteTextColor,
+                                                fontSize: 16.sp),),
                                         ),
-                                        10.heightBox,
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment
-                                              .spaceBetween,
-                                          children: [
-                                            Text("Artist: $showArtist",
-                                              textAlign: TextAlign.start,
-                                              style: context.text.bodyMedium
-                                                  ?.copyWith(
-                                                  color: AppColors
-                                                      .customWhiteTextColor),),
-                                            Text("Status: $status",
-                                              textAlign: TextAlign.start,
-                                              style: context.text.bodyMedium
-                                                  ?.copyWith(
-                                                  color: AppColors
-                                                      .customWhiteTextColor),),
-                                          ],
-                                        )
+
+                                        Expanded(
+                                          child: Text(formated,
+                                            textAlign: TextAlign.center,
+                                            style: context.text.bodyMedium
+                                                ?.copyWith(
+                                                color: AppColors
+                                                    .customWhiteTextColor),),
+                                        ),
+
+                                        Expanded(
+                                          child: Text(formated1,
+                                            textAlign: TextAlign.center,
+                                            style: context.text.bodyMedium
+                                                ?.copyWith(
+                                                color: AppColors
+                                                    .customWhiteTextColor),),
+                                        ),
                                       ],
                                     ),
-                                  ),
-                                );
-                              } else {
-                                // If showName is null or empty, return an empty container
-                                return Container();
-                              }
-                            },
-                          );
-                        }
-                      }
-                    },
-                  ),
+                                    10.heightBox,
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment
+                                          .spaceBetween,
+                                      children: [
+                                        Text("$showArtist",
+                                          textAlign: TextAlign.start,
+                                          style: context.text.bodyMedium
+                                              ?.copyWith(
+                                              color: AppColors
+                                                  .customWhiteTextColor),),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            );
+                          } else {
+                            // If showName is null or empty, return an empty container
+                            return Container();
+                          }
+                        },
+                      );
+                    }
+                  }
+                },
+              ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: pageMarginHorizontal,
                   vertical: pageMarginVertical),
-              child: Row(
-                children: [
-                  Text(
-                    "Comments",
-                    style: context.text.titleMedium?.copyWith(
-                        color: AppColors.customWhiteTextColor,
-                        fontSize: 18.sp),
-                  ),
-                ],
-              ),
-            ),
-            10.heightBox,
-            Expanded(
-              child: logic1.getLoadComment.value? ShimerListviewPage(): SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
-                child: Column(
-
-                  children: List.generate(logic1.getComment.value.length, (index){
-                    String dateString = logic1.getComment.value[index]['created_at'];
-                    DateTime dateTime = DateTime.parse(dateString);
-
-                    final formatDate = DateFormat('MMM dd').format(dateTime);
-                    return logic1.getComment.value.isNotEmpty? Padding(
-                      padding: EdgeInsets.symmetric(vertical: pageMarginVertical/2),
-                      child: Container(
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12.r),
-                            color: AppColors.customWebsiteListColor
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Icon(Icons.message, color: AppColors.customWhiteTextColor,),
-                                10.widthBox,
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Name: ${logic1.getComment.value[index]['name']?? ""}",
-                                        style: context.text.titleMedium?.copyWith(
-                                            color: AppColors.customWhiteTextColor,
-                                            fontSize: 16.sp),
-                                      ),
-                                      Text(
-                                        "Email: ${logic1.getComment.value[index]['email']?? ""}",
-                                        style: context.text.titleMedium?.copyWith(
-                                            color: AppColors.customWhiteTextColor,
-                                            fontSize: 16.sp),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                            10.heightBox,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "${logic1.getComment.value[index]['comment']?? ""}",
-                                  style: context.text.titleMedium?.copyWith(
-                                      color: AppColors.customWhiteTextColor,
-                                      fontSize: 20.sp),
-                                ),
-                                Text(
-                                  "$formatDate",
-                                  style: context.text.titleMedium?.copyWith(
-                                      color: AppColors.customWhiteTextColor,
-                                      fontSize: 18.sp),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ):Center(child: Text("No Comments", style: context.text.bodyMedium?.copyWith(color: AppColors.customWhiteTextColor),),);
-                  }),
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  if (logic.showComment.value) {
+                    logic.showComment.value = false;
+                  } else {
+                    logic.showComment.value = true;
+                  }
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Comments",
+                      style: context.text.titleMedium?.copyWith(
+                          color: AppColors.customWhiteTextColor,
+                          fontSize: 18.sp),
+                    ),
+                   logic.showComment.value? Icon(Icons.keyboard_arrow_down_outlined,
+                     color: Colors.white,): Icon(Icons.keyboard_arrow_up_outlined,
+                      color: Colors.white,),
+                  ],
                 ),
               )
-            )
+            ),
+            10.heightBox,
+            Obx(() {
+              return logic.showComment.value == true ? Expanded(
+                  child: logic1.getLoadComment.value
+                      ? ShimerListviewPage()
+                      : SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    child: Column(
+
+                      children: List.generate(
+                          logic1.getComment.value.length, (index) {
+                        String dateString = logic1.getComment
+                            .value[index]['created_at'];
+                        DateTime dateTime = DateTime.parse(dateString);
+
+                        final formatDate = DateFormat('MMM dd yyy hh:mm a')
+                            .format(dateTime);
+                        return logic1.getComment.value.isNotEmpty ? Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: pageMarginVertical / 2),
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12.r),
+                                color: AppColors.customWebsiteListColor
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 40,
+                                      height: 40,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(
+                                            50.r),
+                                        child: CachedNetworkImage(
+                                          imageUrl: widget.avatar!,
+
+                                          // imageUrl: (productDetail?.images ?? []).isNotEmpty
+                                          //     ? productDetail!.images[0].originalSrc
+                                          //     : "",
+                                          fit: BoxFit.cover,
+                                          height: double.infinity,
+                                          width: double.infinity,
+                                          placeholder: (context, url) =>
+                                              productShimmer(),
+                                          errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
+                                        ),
+                                      ),
+                                    ),
+                                    10.widthBox,
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .start,
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .start,
+                                        children: [
+                                          Text(
+                                            "${logic1.getComment
+                                                .value[index]['name'] ?? ""}",
+                                            style: context.text.titleMedium
+                                                ?.copyWith(
+                                                color: AppColors
+                                                    .customWhiteTextColor,
+                                                fontSize: 20.sp),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                10.heightBox,
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment
+                                      .spaceBetween,
+                                  children: [
+                                    Text(
+                                      "${logic1.getComment
+                                          .value[index]['comment'] ?? ""}",
+                                      style: context.text.titleMedium?.copyWith(
+                                          color: AppColors.customWhiteTextColor,
+                                          fontSize: 16.sp),
+                                    ),
+                                    Text(
+                                      "$formatDate",
+                                      style: context.text.titleMedium?.copyWith(
+                                          color: AppColors.customWhiteTextColor,
+                                          fontSize: 14.sp),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ) : Center(child: Text("No Comments",
+                          style: context.text.bodyMedium?.copyWith(
+                              color: AppColors.customWhiteTextColor),),);
+                      }),
+                    ),
+                  )
+              ):SizedBox();
+            })
           ],
         );
       }),
@@ -624,7 +748,14 @@ class _EngineerDetailsState extends State<EngineerDetails> {
           print('Floating action button pressed!');
           Get.to(() => CommentFormScreen(idHost: widget.ID,));
         },
-        child: Icon(Icons.add),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.add),
+            Text("Comment", style: context.text.bodyMedium?.copyWith(color: Colors.black, fontSize: 12.sp),)
+          ],
+        ),
       ),
     );
   }

@@ -3,7 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:gosperadioapp/src/globalVariable/database_controller.dart';
+import 'package:gosperadioapp/src/globalVariable/global_variable.dart';
+import 'package:gosperadioapp/src/module/auth/api_service/api_services.dart';
 import 'package:gosperadioapp/src/module/home/view.dart';
+import 'package:gosperadioapp/src/module/profile/logic.dart';
 import 'package:gosperadioapp/src/utils/extensions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,6 +23,7 @@ import 'music_radio/view.dart';
 import 'music_radio/view1.dart';
 import 'music_radio/view2.dart';
 import 'play_history/view.dart';
+import 'profile/view.dart';
 import 'schedule/view.dart';
 
 class AppDrawer extends StatefulWidget {
@@ -31,15 +35,19 @@ class _AppDrawerState extends State<AppDrawer> {
   //share link for android
   //https://play.google.com/store/apps/details?id=com.pdf.converter.editor.jpgtopdf.maker
 
+  final logic = Get.put(ProfileLogic());
+
   @override
   void initState() {
-    // TODO: implement initState
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      getUserProfileService();
+    });
+    logic.infor.value = LocalDatabase.to.box.read('userInfo') ?? [];
     super.initState();
-    // _initPackageInfo();
-    getloginstatus();
   }
 
   bool islogin = false;
+
   getloginstatus() async {
     SharedPreferences? sp = await SharedPreferences.getInstance();
     // name = sp.getString('name') ?? 'Username';
@@ -49,61 +57,101 @@ class _AppDrawerState extends State<AppDrawer> {
 
   String name = 'Username';
   String email = 'username@gmail.com';
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
       backgroundColor: AppColors.custombackgroundColor,
       elevation: 0,
       child: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+        child: ListView(
+          physics: AlwaysScrollableScrollPhysics(),
+          // mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            25.heightBox,
+            10.heightBox,
             Padding(
               padding: EdgeInsets.symmetric(horizontal: pageMarginVertical + 4),
               child: Align(
-                alignment: Alignment.topLeft,
-                child: Text("Welcome",
-                    textAlign: TextAlign.start,
-                    style: context.text.titleMedium?.copyWith(
-                        color: AppColors.customWhiteTextColor,
-                        fontSize: 24.sp)),
-              ),
+                  alignment: Alignment.center,
+                  child: Image.asset(
+                    "assets/images/Logo.png",
+                    fit: BoxFit.cover,
+                    width: 170.w,
+                    // width: 150,
+                  )),
             ),
-            20.heightBox,
+            // 20.heightBox,
             (LocalDatabase.to.box.read('token') != null)
-                ? Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: pageMarginVertical + 4),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Container(
-                        padding: EdgeInsets.all(10),
-                        width: double.maxFinite,
-                        decoration: BoxDecoration(
-                            color: AppColors.customWebsiteListColor,
-                            borderRadius: BorderRadius.circular(10.r)),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(LocalDatabase.to.box.read('name'),
-                                textAlign: TextAlign.start,
-                                style: context.text.titleMedium?.copyWith(
-                                    color: AppColors.customWhiteTextColor,
-                                    fontSize: 20.sp)),
-                            Text(LocalDatabase.to.box.read('email'),
-                                textAlign: TextAlign.start,
-                                style: context.text.titleMedium?.copyWith(
-                                    color: AppColors.customWhiteTextColor,
-                                    fontSize: 18.sp)),
-                          ],
-                        ),
-                      ),
+                ? Obx(() {
+              return Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: pageMarginVertical + 4),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    width: double.maxFinite,
+                    decoration: BoxDecoration(
+                        color: AppColors.customWebsiteListColor,
+                        borderRadius: BorderRadius.circular(10.r)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(logic.infor.value[0]['nameProfile'],
+                            textAlign: TextAlign.start,
+                            style: context.text.titleMedium?.copyWith(
+                                color: AppColors.customWhiteTextColor,
+                                fontSize: 20.sp)),
+                        Text(logic.infor.value[0]['emailProfile'],
+                            textAlign: TextAlign.start,
+                            style: context.text.titleMedium?.copyWith(
+                                color: AppColors.customWhiteTextColor,
+                                fontSize: 18.sp)),
+                      ],
                     ),
-                  )
+                  ),
+                ),
+              );
+            })
                 : SizedBox(),
-            30.heightBox,
-
+            20.heightBox,
+            LocalDatabase.to.box.read('token') != null
+                ? InkWell(
+              onTap: () {
+                Navigator.of(context).pop();
+                Get.to(() => ProfilePage());
+                // Navigator.of(context).pop();
+                // final Uri params = Uri(
+                //   scheme: 'mailto',
+                //   path: 'advancetechnology982@gmail.com',
+                //   query:
+                //   'subject=Health Calculator & Weight Loss Tracker Feedback', //add subject and body here
+                // );
+                // launchUrl(params);
+              },
+              child: Container(
+                padding:
+                EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.person,
+                      color: AppColors.customPinkColor,
+                      size: 20,
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text("Edit Profile",
+                        style: context.text.titleMedium?.copyWith(
+                            color: AppColors.customWhiteTextColor,
+                            fontSize: 16.sp))
+                  ],
+                ),
+              ),
+            )
+                : SizedBox(),
             InkWell(
               onTap: () {
                 Navigator.pop(context);
@@ -209,40 +257,40 @@ class _AppDrawerState extends State<AppDrawer> {
             ),
             LocalDatabase.to.box.read('token') != null
                 ? InkWell(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                      Get.to(() => DownloadsAlbumPage());
-                      // Navigator.of(context).pop();
-                      // final Uri params = Uri(
-                      //   scheme: 'mailto',
-                      //   path: 'advancetechnology982@gmail.com',
-                      //   query:
-                      //   'subject=Health Calculator & Weight Loss Tracker Feedback', //add subject and body here
-                      // );
-                      // launchUrl(params);
-                    },
-                    child: Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                      margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.download,
-                            color: AppColors.customPinkColor,
-                            size: 20,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Text("Downloads",
-                              style: context.text.titleMedium?.copyWith(
-                                  color: AppColors.customWhiteTextColor,
-                                  fontSize: 16.sp))
-                        ],
-                      ),
+              onTap: () {
+                Navigator.of(context).pop();
+                Get.to(() => DownloadsAlbumPage());
+                // Navigator.of(context).pop();
+                // final Uri params = Uri(
+                //   scheme: 'mailto',
+                //   path: 'advancetechnology982@gmail.com',
+                //   query:
+                //   'subject=Health Calculator & Weight Loss Tracker Feedback', //add subject and body here
+                // );
+                // launchUrl(params);
+              },
+              child: Container(
+                padding:
+                EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.download,
+                      color: AppColors.customPinkColor,
+                      size: 20,
                     ),
-                  )
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text("Downloads",
+                        style: context.text.titleMedium?.copyWith(
+                            color: AppColors.customWhiteTextColor,
+                            fontSize: 16.sp))
+                  ],
+                ),
+              ),
+            )
                 : SizedBox(),
             InkWell(
               onTap: () {
@@ -390,87 +438,86 @@ class _AppDrawerState extends State<AppDrawer> {
             ),
             LocalDatabase.to.box.read('token') == null
                 ? InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                      Get.to(() => AuthPage());
-                    },
-                    child: Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                      margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                      child: Row(
-                        children: [
-                          // Image.asset('assets/images/ic_privacy_policy.webp',height: 20, color: Theme.of(context).colorScheme.inverseSurface,),
-                          SvgPicture.asset(
-                            Assets.icons.logoutIcon,
-                            height: 18,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Text("Login",
-                              style: context.text.titleMedium?.copyWith(
-                                  color: AppColors.customWhiteTextColor,
-                                  fontSize: 16.sp))
-                        ],
-                      ),
+              onTap: () {
+                Navigator.pop(context);
+                Get.to(() => AuthPage());
+              },
+              child: Container(
+                padding:
+                EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                child: Row(
+                  children: [
+                    // Image.asset('assets/images/ic_privacy_policy.webp',height: 20, color: Theme.of(context).colorScheme.inverseSurface,),
+                    SvgPicture.asset(
+                      Assets.icons.logoutIcon,
+                      height: 18,
                     ),
-                  )
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text("Login",
+                        style: context.text.titleMedium?.copyWith(
+                            color: AppColors.customWhiteTextColor,
+                            fontSize: 16.sp))
+                  ],
+                ),
+              ),
+            )
                 : InkWell(
-                    onTap: () async {
-                      Navigator.pop(context);
-                      SharedPreferences pref =
-                          await SharedPreferences.getInstance();
-                      LocalDatabase.to.box.remove('token');
-                      Get.off(() => HomePage());
-                      final snackBar = SnackBar(
-                        content: Text(
-                          'Logout Sussessfully..',
-                          style: context.text.bodyMedium
-                              ?.copyWith(fontSize: 18.sp, color: Colors.white),
-                        ),
-                        margin: EdgeInsets.only(bottom: 8),
-                        behavior: SnackBarBehavior.floating,
-                      );
+              onTap: () async {
+                Navigator.pop(context);
+                SharedPreferences pref =
+                await SharedPreferences.getInstance();
+                LocalDatabase.to.box.remove('token');
+                Get.off(() => HomePage());
+                final snackBar = SnackBar(
+                  content: Text(
+                    'Logout Sussessfully..',
+                    style: context.text.bodyMedium
+                        ?.copyWith(fontSize: 18.sp, color: Colors.white),
+                  ),
+                  margin: EdgeInsets.only(bottom: 8),
+                  behavior: SnackBarBehavior.floating,
+                );
 
 // Find the ScaffoldMessenger in the widget tree
 // and use it to show a SnackBar.
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    },
-                    child: Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                      margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                      child: Row(
-                        children: [
-                          // Image.asset('assets/images/ic_privacy_policy.webp',height: 20, color: Theme.of(context).colorScheme.inverseSurface,),
-                          SvgPicture.asset(
-                            Assets.icons.logoutIcon,
-                            height: 18,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Text("Logout",
-                              style: context.text.titleMedium?.copyWith(
-                                  color: AppColors.customWhiteTextColor,
-                                  fontSize: 16.sp))
-                        ],
-                      ),
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              },
+              child: Container(
+                padding:
+                EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                child: Row(
+                  children: [
+                    // Image.asset('assets/images/ic_privacy_policy.webp',height: 20, color: Theme.of(context).colorScheme.inverseSurface,),
+                    SvgPicture.asset(
+                      Assets.icons.logoutIcon,
+                      height: 18,
                     ),
-                  ),
-            Spacer(),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: pageMarginVertical + 4),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Text("Ver 0.0.2",
-                    textAlign: TextAlign.start,
-                    style: context.text.titleMedium?.copyWith(
-                        color: AppColors.customWhiteTextColor,
-                        fontSize: 14.sp)),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text("Logout",
+                        style: context.text.titleMedium?.copyWith(
+                            color: AppColors.customWhiteTextColor,
+                            fontSize: 16.sp))
+                  ],
+                ),
               ),
             ),
+            // Padding(
+            //   padding: EdgeInsets.symmetric(horizontal: pageMarginVertical + 4),
+            //   child: Align(
+            //     alignment: Alignment.topRight,
+            //     child: Text("Ver 0.0.2",
+            //         textAlign: TextAlign.start,
+            //         style: context.text.titleMedium?.copyWith(
+            //             color: AppColors.customWhiteTextColor,
+            //             fontSize: 14.sp)),
+            //   ),
+            // ),
             16.heightBox,
           ],
         ),

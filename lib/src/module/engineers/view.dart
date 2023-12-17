@@ -27,9 +27,9 @@ class EngineersPage extends StatelessWidget {
         title: Text(
           "Engineers",
           style: context.text.bodySmall?.copyWith(
-              color: AppColors.customWhiteTextColor, fontSize: 14.sp),
+              color: AppColors.customWhiteTextColor, fontSize: 18.sp),
         ),
-        leadingWidth: 170.w,
+        leadingWidth: 180.w,
         leading: Row(
           children: [
             IconButton(
@@ -51,7 +51,7 @@ class EngineersPage extends StatelessWidget {
                 child: Image.asset(
                   "assets/images/hgc.png",
                   fit: BoxFit.cover,
-                  width: 110.w,
+                  width: 120.w,
                   // width: 150,
                 )),
           ],

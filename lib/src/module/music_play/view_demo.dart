@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,23 +27,143 @@ class MusicDemo extends StatefulWidget {
   String? imageSrc;
   String? musicUrl;
   String? duration;
-  MusicDemo({Key? key, this.name, this.artistName, this.imageSrc, this.albumName, this.musicUrl, this.duration})
+
+  MusicDemo(
+      {Key? key, this.name, this.artistName, this.imageSrc, this.albumName, this.musicUrl, this.duration})
       : super(key: key);
 
   @override
   State<MusicDemo> createState() => _MusicDemoState();
 }
 
-class _MusicDemoState extends State<MusicDemo> {
-  final logic = Get.put(MusicPlayLogic());
-  final logic1 = Get.put(HomeLogic());
+class _MusicDemoState extends State<MusicDemo> with SingleTickerProviderStateMixin{
+  AnimationController? _animationController;
 
-  AudioPlayer player =  AudioPlayer();
+  final logic = Get.put(MusicPlayLogic());
+  Duration duration1 = (Duration(seconds: 45));
+  final logic1 = Get.put(HomeLogic());
+  bool isTimerRunning = false;
+  AudioPlayer player = AudioPlayer();
   bool manuallyStopped = false;
   int currentSongIndex = 0;
   bool isAudioPreloaded = false;
   PlayerState? _state;
   bool isPlaying = false;
+
+  Timer? _timer;
+  int _start = 45;
+  bool _isPlaying = false;
+
+  void startTimer1() {
+    if (!isTimerRunning) {
+      // LocalDatabase.to.box.read('seconds');
+      // if (LocalDatabase.to.box.read('seconds') != null) {
+      //   duration1 = Duration(seconds: int.parse(LocalDatabase.to.box.read('seconds').toString()));
+      // }
+      setState(() {
+        _timer = Timer.periodic(const Duration(seconds: 1), (_) => addTime1());
+        isTimerRunning = true;
+        _animationController!.repeat();
+      });
+    }
+  }
+
+  void addTime1() {
+    const addSeconds = 1;
+
+    final seconds = duration1.inSeconds - addSeconds;
+    duration1 = Duration(seconds: seconds);
+    if (seconds <= 0) {
+      _timer?.cancel();
+      if (LocalDatabase.to.box.read('token') == null) {
+        isPlaying = false;
+        player.pause();
+        _playButton;
+        customDialogueBox(context);
+      }
+      setState(() {
+
+      });
+    } else {
+      duration1 = Duration(seconds: seconds);
+      _pauseButton;
+      setState(() {
+
+      });
+    }
+    // storeSeconds(duration1);
+  }
+
+  void pauseTimer() {
+    if (isTimerRunning) {
+      _timer?.cancel();
+      setState(() {
+        isTimerRunning = false;
+        _animationController!.stop();
+      });
+    }
+  }
+
+  void updateTimer() {
+    const addSeconds = -1; // Subtracting 1 second
+    final seconds = duration1.inSeconds + addSeconds;
+
+    if (seconds <= 0) {
+      _timer?.cancel();
+      isTimerRunning = false;
+      // Handle the completion of the timer
+    } else {
+      duration1 = Duration(seconds: seconds);
+      setState(() {
+        // Update the state to reflect the new duration
+      });
+    }
+  }
+
+  // void startOrResumeTimer() {
+  //   if (!isTimerRunning) {
+  //     setState(() {
+  //       _timer = Timer.periodic(const Duration(seconds: 1), (_) => updateTimer());
+  //       isTimerRunning = true;
+  //     });
+  //   }
+  // }
+
+  // void startTimer() {
+  //   const oneSec = Duration(seconds: 1);
+  //   _timer = Timer.periodic(
+  //     oneSec,
+  //         (Timer timer) {
+  //       if (_start == 0) {
+  //         setState(() {
+  //           timer.cancel();
+  //           if (LocalDatabase.to.box.read('token') == null) {
+  //             isPlaying = false;
+  //             player.pause();
+  //             _playButton;
+  //             customDialogueBox(context);
+  //           }
+  //         });
+  //       } else {
+  //         setState(() {
+  //           _start--;
+  //         });
+  //       }
+  //     },
+  //   );
+  // }
+
+  // void toggleTimer() {
+  //   if (_isPlaying) {
+  //     _timer?.cancel();
+  //   } else {
+  //     startTimer();
+  //   }
+  //   setState(() {
+  //     _isPlaying = !_isPlaying;
+  //   });
+  // }
+
 
   Widget _audioStateWidget() {
     if (_state == null) {
@@ -57,41 +179,45 @@ class _MusicDemoState extends State<MusicDemo> {
     }
   }
 
-  Widget get _pauseButton => GestureDetector(
-    onTap: () {
-      isPlaying = false;
-      player.pause();
-    },
-    child: Container(
-      padding: EdgeInsets.all(16),
-      decoration: BoxDecoration(
-          color: AppColors.customPinkColor,
-          shape: BoxShape.circle),
-      child:  Icon(
-        Icons.pause,
-        size: 35,
-        color: Colors.white,
-      ),
-    ),
-  );
+  Widget get _pauseButton =>
+      GestureDetector(
+        onTap: () {
+          isPlaying = false;
+          player.pause();
+          pauseTimer();
+        },
+        child: Container(
+          padding: EdgeInsets.all(16),
+          decoration: BoxDecoration(
+              color: AppColors.customPinkColor,
+              shape: BoxShape.circle),
+          child: Icon(
+            Icons.pause,
+            size: 35,
+            color: Colors.white,
+          ),
+        ),
+      );
 
-  Widget get _playButton => GestureDetector(
-    onTap: () {
-      isPlaying = true;
-      _playAudio();
-    },
-    child: Container(
-      padding: EdgeInsets.all(16),
-      decoration: BoxDecoration(
-          color: AppColors.customPinkColor,
-          shape: BoxShape.circle),
-      child:  Icon(
-        Icons.play_arrow,
-        size: 35,
-        color: Colors.white,
-      ),
-    ),
-  );
+  Widget get _playButton =>
+      GestureDetector(
+        onTap: () {
+          isPlaying = true;
+          _playAudio();
+          startTimer1();
+        },
+        child: Container(
+          padding: EdgeInsets.all(16),
+          decoration: BoxDecoration(
+              color: AppColors.customPinkColor,
+              shape: BoxShape.circle),
+          child: Icon(
+            Icons.play_arrow,
+            size: 35,
+            color: Colors.white,
+          ),
+        ),
+      );
 
   void _updateSongDetails() {
     if (currentSongIndex >= 0 &&
@@ -100,7 +226,8 @@ class _MusicDemoState extends State<MusicDemo> {
         widget.name = logic1.albumsListMusicConstant[currentSongIndex]['title'];
         widget.albumName =
         logic1.albumsListMusicConstant[currentSongIndex]['artist_name'];
-        widget.musicUrl = logic1.albumsListMusicConstant[currentSongIndex]['sample_url'];
+        widget.musicUrl =
+        logic1.albumsListMusicConstant[currentSongIndex]['sample_url'];
       });
     }
   }
@@ -152,21 +279,10 @@ class _MusicDemoState extends State<MusicDemo> {
     isPlaying = true;
     //_player.dynamicSetAll(sources);
 
-    Future.delayed(Duration(seconds: 1),(){
+    Future.delayed(Duration(seconds: 1), () {
       _playAudio();
-      _pauseButton;
+      startTimer1();
     });
-    if(LocalDatabase.to.box.read('token') == null){
-      Future.delayed(Duration(seconds: 15),(){
-        setState(() {
-          isPlaying = false;
-          player.pause();
-          _playButton;
-        });
-        customDialogueBox(context);
-
-      });
-    }
   }
 
   @override
@@ -181,19 +297,34 @@ class _MusicDemoState extends State<MusicDemo> {
       });
       print(state);
     });
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 1), // Duration can be adjusted
+    );
+
+    _animationController!.addListener(() {
+      setState(() {
+        // Update your animation based on the music's amplitude
+        // You can use flutter_fft to get real-time music amplitude
+      });
+    });
+
     super.initState();
   }
 
   @override
   void dispose() {
     player.dispose();
+    _timer?.cancel();
+    _animationController!.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     print(
-        "name of artist: ${widget.name}------${widget.albumName}------${widget.musicUrl}");
+        "name of artist: ${widget.name}------${widget.albumName}------${widget
+            .musicUrl}");
     return WillPopScope(
       onWillPop: () async {
         // Prevent the music from stopping when clicking on the back button
@@ -219,10 +350,20 @@ class _MusicDemoState extends State<MusicDemo> {
             Positioned.fill(
               child: Opacity(
                 opacity: 0.9,
-                child: Image.asset(
-                  Assets.images.frameIcon,
-                  width: 458,
-                  height: 448,
+                child: AnimatedBuilder(
+                  animation: _animationController!,
+                  builder: (context, child) {
+                    // Customize your animation here
+                    return Transform.scale(
+                      scale: 1 + _animationController!.value * 0.5,
+                      // Example scaling effect
+                      child: Image.asset(
+                        Assets.images.frameIcon,
+                        width: 458,
+                        height: 448,
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
@@ -291,12 +432,7 @@ class _MusicDemoState extends State<MusicDemo> {
                           ),
                         ),
                         Expanded(
-                            child: IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.favorite,
-                                  color: AppColors.customPinkColor,
-                                )))
+                            child: SizedBox())
                       ],
                     ),
                     Container(
@@ -354,35 +490,13 @@ class _MusicDemoState extends State<MusicDemo> {
                 right: 50.0,
                 child: Column(
                   children: [
-                    Container(
-                      alignment: Alignment.topRight,
-                      child: Text(
-                        "Top 20",
-                        textAlign: TextAlign.start,
-                        style: context.text.titleMedium?.copyWith(
-                            fontSize: 20.sp,
-                            color: Colors.white,
-                            height: 1.2,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.topRight,
-                      child: Text(
-                        "Best Music",
-                        textAlign: TextAlign.end,
-                        style: context.text.titleMedium?.copyWith(
-                            fontSize: 18.sp,
-                            color: AppColors.customMusicTextDescriptionColor,
-                            height: 1.2,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
                     100.heightBox,
                     Container(
                       width: double.maxFinite,
                       alignment: Alignment.center,
-                      child: Text("${widget.duration}", style: context.text.bodyMedium?.copyWith(color: AppColors.customWhiteTextColor),),
+                      child: Text("${duration1.inSeconds}s",
+                        style: context.text.bodyMedium?.copyWith(
+                            color: AppColors.customWhiteTextColor),),
                     ),
                     20.heightBox,
                     Row(
@@ -442,7 +556,9 @@ class _MusicDemoState extends State<MusicDemo> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     // Detect when the music screen is re-entered and stop the audio playback.
-    if (ModalRoute.of(context)?.isCurrent == true && isPlaying) {
+    if (ModalRoute
+        .of(context)
+        ?.isCurrent == true && isPlaying) {
       // Check the flag to determine if the music was manually stopped
       if (!manuallyStopped) {
         player.pause();

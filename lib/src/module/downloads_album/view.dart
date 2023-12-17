@@ -46,9 +46,9 @@ class _DownloadsAlbumPageState extends State<DownloadsAlbumPage> {
           title: Text(
             "Downloads Album",
             style: context.text.bodySmall?.copyWith(
-                color: AppColors.customWhiteTextColor, fontSize: 14.sp),
+                color: AppColors.customWhiteTextColor, fontSize: 18.sp),
           ),
-          leadingWidth: 170.w,
+          leadingWidth: 180.w,
           leading: Row(
             children: [
               IconButton(
@@ -70,17 +70,17 @@ class _DownloadsAlbumPageState extends State<DownloadsAlbumPage> {
                   child: Image.asset(
                     "assets/images/hgc.png",
                     fit: BoxFit.cover,
-                    width: 110.w,
+                    width: 120.w,
                     // width: 150,
                   )),
             ],
           ),
         ),
         body: Obx(() {
-          return Column(
+          return logic.downloadAlbumsShow.value.isNotEmpty ? Column(
             children: List.generate(
                 logic.downloadAlbumsShow.value.length, (index) {
-              return logic.downloadAlbumsShow.value.isNotEmpty ? GestureDetector(
+              return GestureDetector(
                 onTap: (){
                   Get.to(() => DownloadSongs(
                     id: logic.downloadAlbumsShow.value[index]['item']['id'],
@@ -145,11 +145,11 @@ class _DownloadsAlbumPageState extends State<DownloadsAlbumPage> {
                     ),
                   ),
                 ),
-              ) : Center(child: Text("Data Not Available",
-                style: context.text.bodyMedium?.copyWith(
-                    color: AppColors.customWhiteTextColor, fontSize: 16.sp),),);
+              );
             }),
-          );
+          ): Center(child: Text("Not Purchased Data Available",
+            style: context.text.bodyMedium?.copyWith(
+                color: Colors.white, fontSize: 16.sp),),);
         }),
       );
   }

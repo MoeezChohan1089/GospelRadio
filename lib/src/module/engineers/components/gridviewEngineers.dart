@@ -72,6 +72,7 @@ class _GridViewScreenEnginnersState extends State<GridViewScreenEnginners> {
                           name: logic.albumsList.value[index]['name'],
                           email: logic.albumsList.value[index]['email'],
                           slug: logic.albumsList.value[index]['slug'],
+                          about: logic.albumsList.value[index]['about'],
                         ));
                     // Navigator.push(
                     //     context,
@@ -149,6 +150,7 @@ class _GridViewScreenEnginnersState extends State<GridViewScreenEnginners> {
                                 name: logic.albumsList.value[index]['name'],
                                 email: logic.albumsList.value[index]['email'],
                                 slug: logic.albumsList.value[index]['slug'],
+                                about: logic.albumsList.value[index]['about'],
                               ));
                         },
                         child: Container(
@@ -195,6 +197,7 @@ class _GridViewScreenEnginnersState extends State<GridViewScreenEnginners> {
                           name: logic.albumsList.value[index]['name'],
                           email: logic.albumsList.value[index]['email'],
                           slug: logic.albumsList.value[index]['slug'],
+                      about: logic.albumsList.value[index]['about'],
                         ));
                     // Navigator.push(
                     //     context,
