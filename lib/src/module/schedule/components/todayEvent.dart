@@ -24,7 +24,7 @@ class _TodayEventSectionState extends State<TodayEventSection> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // logic.getScheduleList(context);
       // logic.getScheduleListEngineers(context);
-      logic.fetchRadioShows();
+      logic.fetchTodayEvent();
       String currentDay = DateFormat('EEEE').format(DateTime.now());
     });
     super.initState();
@@ -64,16 +64,16 @@ class _TodayEventSectionState extends State<TodayEventSection> {
           ListView.builder(
             physics: AlwaysScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: logic.radioShows.length,
+            itemCount: logic.radioTodayShows.length,
             itemBuilder: (context, index) {
-              final showName = logic.radioShows[index]
+              final showName = logic.radioTodayShows[index]
                   .name;
-              final showArtist = logic.radioShows[index].artist;
-              final showFromTime = logic.radioShows[index]
+              final showArtist = logic.radioTodayShows[index].artist;
+              final showFromTime = logic.radioTodayShows[index]
                   .fromTime;
-              final showToTime = logic.radioShows[index]
+              final showToTime = logic.radioTodayShows[index]
                   .toTime;
-              final status = logic.radioShows[index].status;
+              final status = logic.radioTodayShows[index].status;
               final formated = DateFormat('hh:mm a')
                   .format(DateFormat('hh:mm').parse(
                   showFromTime));
@@ -84,8 +84,8 @@ class _TodayEventSectionState extends State<TodayEventSection> {
                   .now()
                   .weekday;
               String weekdayName = getWeekdayName(weekdayNumber);
-              print("Today is ${logic.filterweekday.value} $weekdayName");
-              if (logic.filterweekday.value == weekdayName) {
+              print("Today is ${logic.filterTodayEvent.value} $weekdayName");
+              if (logic.filterTodayEvent.value == weekdayName) {
                 return Padding(
                   padding: EdgeInsets.symmetric(
                       horizontal: pageMarginHorizontal,

@@ -163,7 +163,7 @@ class _MusicListCatalogScreenState extends State<MusicListCatalogScreen> {
                                       color: AppColors.customWhiteTextColor,
                                       fontSize: 14.sp),
                                 ),
-                                40.widthBox,
+                                35.widthBox,
                                 LocalDatabase.to.box.read('token') != null
                                     ? LocalDatabase.to.box.read('paid') != null
                                         ? GetBuilder<Music_catalogLogic>(

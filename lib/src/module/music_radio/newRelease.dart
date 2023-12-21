@@ -11,6 +11,7 @@ import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../custom_widgets/webview_custom.dart';
+import '../music_catalog/components/music_listCatalog.dart';
 import 'logic.dart';
 
 
@@ -122,9 +123,13 @@ class _NewReleaseScreenState extends State<NewReleaseScreen> {
                   onTap: (){
                     // launchURL(
                     //     "${logic.newRelease.value[index]['view_url']}");
-                    Get.to(WebViewCustom(
-                      productUrl: '${logic.newRelease.value[index]['view_url']}',
-                      title: logic.newRelease.value[index]['title'],
+                    // Get.to(WebViewCustom(
+                    //   productUrl: '${logic.newRelease.value[index]['view_url']}',
+                    //   title: logic.newRelease.value[index]['title'],
+                    // ));
+
+                    Get.to(() => MusicListCatalogScreen(
+                      ID: logic.newRelease.value[index]['id'],
                     ));
                   },
                   child: Padding(
@@ -255,9 +260,13 @@ class _NewReleaseScreenState extends State<NewReleaseScreen> {
                      //   ID: logic.topAlbums.value[index]['model_id'],
                      // ));
 
-                     Get.to(WebViewCustom(
-                       productUrl: '${logic.newRelease.value[index]['view_url']}',
-                       title: logic.newRelease.value[index]['title'],
+                     // Get.to(WebViewCustom(
+                     //   productUrl: '${logic.newRelease.value[index]['view_url']}',
+                     //   title: logic.newRelease.value[index]['title'],
+                     // ));
+
+                     Get.to(() => MusicListCatalogScreen(
+                       ID: logic.newRelease.value[index]['id'],
                      ));
                    },
                    child: Padding(

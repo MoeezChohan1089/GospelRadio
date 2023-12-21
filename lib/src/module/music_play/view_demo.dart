@@ -494,7 +494,7 @@ class _MusicDemoState extends State<MusicDemo> with SingleTickerProviderStateMix
                     Container(
                       width: double.maxFinite,
                       alignment: Alignment.center,
-                      child: Text("${duration1.inSeconds}s",
+                      child: Text( LocalDatabase.to.box.read('token') == null ? "${duration1.inSeconds}s": "${widget.duration}",
                         style: context.text.bodyMedium?.copyWith(
                             color: AppColors.customWhiteTextColor),),
                     ),

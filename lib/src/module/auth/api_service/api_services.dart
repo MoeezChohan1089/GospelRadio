@@ -173,9 +173,16 @@ otpSignInApiService({required String email, otp, otp1, otp2, otp3}) async {
       log("==>> Sign In response data -> $responseData =====");
       sp.setString('token', responseData['data']['token']);
 
-      LocalDatabase.to.box.write('name', responseData['data']['user']['name']);
-      LocalDatabase.to.box
-          .write('email', responseData['data']['user']['email']);
+      // LocalDatabase.to.box.write('name', responseData['data']['user']['name']);
+      // LocalDatabase.to.box
+      //     .write('email', responseData['data']['user']['email']);
+
+      List userInfo = [{
+        "nameProfile": "${responseData['data']['user']['name']}",
+  "emailProfile": "${responseData['data']['user']['email']}",
+  "aboutProfile": "${responseData['data']['user']['about']}"
+}];
+      LocalDatabase.to.box.write("userInfo", userInfo);
       LocalDatabase.to.box.write('token', responseData['data']['token']);
 
       sp.setBool('islogin', true);

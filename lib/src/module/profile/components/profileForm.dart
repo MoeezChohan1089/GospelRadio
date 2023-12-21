@@ -40,7 +40,7 @@ class _EditProfileFormScreenState extends State<EditProfileFormScreen> {
         logic.editEmailController.text =
         logic.personalInformation.value[0]['emailProfile'];
         logic.editAboutController.text =
-        logic.personalInformation.value[0]['aboutProfile'];
+        logic.personalInformation.value[0]['aboutProfile'] != null ? logic.personalInformation.value[0]['aboutProfile']: "";
       }
     });
     // logic.getDynamicHomeView();

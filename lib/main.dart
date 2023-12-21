@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -22,6 +23,11 @@ void main() async {
       // 'pk_test_51N9OPdFZIhHk42tP1p5CVwfKn9H4HCjLJBrUHuzUIxMi6x3EooRoIHYoIhoihHvaoIyyykunZD7kSMGgkk9SFmZV00F60MIjc1';
   await GetStorage.init();
   await DependencyInjection.init();
+
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
 
   runApp(const MyApp());
 }

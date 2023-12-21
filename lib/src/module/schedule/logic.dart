@@ -17,7 +17,9 @@ class ScheduleLogic extends GetxController {
   RxBool loadingSchedule = false.obs;
   RxBool showComment = false.obs;
   RxString filterweekday = 'Monday'.obs;
+  RxString filterTodayEvent = 'Monday'.obs;
   final radioShows = <RadioShow>[].obs;
+  final radioTodayShows = <RadioShow>[].obs;
   RxInt indexSelect = 0.obs;
 
 
@@ -128,6 +130,47 @@ class ScheduleLogic extends GetxController {
             }
           } else {
             radioShows.clear(); // Clear the list when selected day has no shows
+          }
+        }
+      }
+    } catch (error) {
+      print('Error fetching data: $error');
+    }
+  }
+
+  Future<void> fetchTodayEvent() async {
+    final dio = Dio();
+    try {
+      final response = await dio.get('https://hgcradio.org/api/schedule');
+
+      if (response.statusCode == 200) {
+        final responseData = response.data;
+        final schedules = responseData['data']['schedules'];
+
+        final selectedDayShows = schedules.firstWhere(
+              (schedule) => schedule['day_name'] == filterTodayEvent.value,
+          orElse: () => null,
+        );
+
+        print("abcdef====$selectedDayShows");
+
+        if (selectedDayShows != null) {
+          final shows = selectedDayShows['shows'];
+
+          if (selectedDayShows != null) {
+            final shows = selectedDayShows['shows'];
+
+            if (shows != null && shows.isNotEmpty) {
+              radioTodayShows.assignAll(
+                shows.map<RadioShow>(
+                      (show) => RadioShow(show['show']['name'], show['host']['name'], show['from_time'], show['to_time'], show['show']['status']),
+                ),
+              );
+            } else {
+              radioTodayShows.clear(); // Clear the list when no shows are available
+            }
+          } else {
+            radioTodayShows.clear(); // Clear the list when selected day has no shows
           }
         }
       }

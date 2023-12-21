@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:gosperadioapp/src/utils/extensions.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../utils/constants/assets.dart';
 import '../../../utils/constants/colors.dart';
@@ -31,10 +32,12 @@ class UModel3 {
 class Gospelwebsitemodel {
   String? title;
   String? body;
+  String? link;
 
   Gospelwebsitemodel({
     this.title,
     this.body,
+    this.link
   });
 }
 
@@ -70,30 +73,37 @@ class _GospelWebsiteSectionState extends State<GospelWebsiteSection> {
   List<Gospelwebsitemodel> gospelwebsitelist = [
     Gospelwebsitemodel(
         title: 'Halelujah Glospel Globally',
+        link: "https://hallelujahgospel.org/",
         body:
             'This will lets you explore seamlessly the exciting array of Gospel music, events, news. Biblical truths, people, interactions, projects, concepts, and efforts whiel giving you a glipse of what Hallelujah Gospel is behind the name.'),
     Gospelwebsitemodel(
         title: 'Gospel Pipeline',
+        link: "https://hgpipeline.com/",
         body:
             'Are you in search of better-quality faith-building videos? This is the venue to stram family-friendly videos or make one youself. Watch and share top videos and inspiring movies or upload your own Christian-themed content.'),
     Gospelwebsitemodel(
         title: 'Gospel Store',
+        link: "https://store.hallelujahgospel.org",
         body:
             'Shop smarter at Hallelujah Gospel Online. Enjoy irresistible prices and exclusive deals. Discover a wider selection of top-grade goods. Take delight n terrific gift ideas for a variety of occasions. Save more on bundled products. Browse personalized promotional merchandise.'),
     Gospelwebsitemodel(
         title: 'Gospel Scroll Pages(Social Media)',
+        link: "https://hgspages.com/",
         body:
             "If you're ready for something different, what are offering is the best new alternative to social media as we know it. We've made Scroll Pages like a breath of fresh air - with less ad targeting and more secure sharing so that you can communicate with the people in your life in every sense of the word."),
     Gospelwebsitemodel(
         title: 'Gospel Classified',
+        link: "https://ads.hallelujahgospel.org/",
         body:
             "Hallelujah Classifieds promise to find the perfect match for the ad you are looking for and to house your next cost-free campaign with only a few clicks of the mouse. This is the ultimate marketplace to advertise or check out location-based listings for practically everything you need. If you want to connect with prospective your company, you can't go wrong with Hallelujah Classifieds"),
     Gospelwebsitemodel(
         title: 'Gospel Forum',
+        link: "https://forum.hallelujahgospel.org/",
         body:
             "Our Gospel Forum is a wonderful avenue for you to connect and find fellowship with like-minded individuals. We have numerous forums, sub forums and several topics that will encourage you and meet your need for a supportive community no matter where you are in your Christian walk."),
     Gospelwebsitemodel(
         title: 'Gospel Shopping & Coaching Tips',
+        link: "https://answers.hallelujahgospel.org/",
         body:
             "This is another knowledge-sharing tool on Hallelujah Gospel featuring a user-friendly interface, broad topical throughout. Our community-powered Q&A lets you ask questions and get quality answers, or answer other users questions posted here based on either facts or your opinion."),
     Gospelwebsitemodel(
@@ -106,6 +116,7 @@ class _GospelWebsiteSectionState extends State<GospelWebsiteSection> {
             'Create a professional website for your business or church without paying anything. Hallelujah Gospel has hunderds (and counting) of stunning templates you can customize to your heart content. Domain name, web hosting and e-commerce solutions are also available for next to nothing with our premium plans'),
     Gospelwebsitemodel(
         title: 'Gospel Sing Along',
+        link: "https://hgsingalong.com/",
         body:
             "This Web conferencing platform makes your online meetings as good as face-to-face communications. We've redefined the process of hosting and joining so that everything is simple and straightforward. Connect seamlessly with anybody in the world in the comfort of your preferred location to launch your conference or group discussion, or just catch up with family and firends blissfully."),
   ];
@@ -146,6 +157,22 @@ class _GospelWebsiteSectionState extends State<GospelWebsiteSection> {
                           ),
                           onExpansionChanged: (value) {
                             logic.expandedContainer.value = index;
+                            if(index == 7 || index == 8){
+                              // Code for showing snackbar
+                              final snackBar = SnackBar(
+                                duration: Duration(seconds: 2),
+                                content: Text(
+                                  'Coming soon',
+                                  style: context.text.bodyMedium?.copyWith(fontSize: 18.sp, color: Colors.white),
+                                ),
+                                margin: EdgeInsets.only(bottom: 8),
+                                behavior: SnackBarBehavior.floating,
+                              );
+                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                            } else {
+                              // Code for launching URL
+                              launchUrl(Uri.parse(gospelwebsitelist[index].link.toString()));
+                            }
                           },
                           title: Text(
                             gospelwebsitelist[index].title.toString(),
