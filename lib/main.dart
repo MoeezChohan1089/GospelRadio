@@ -14,10 +14,10 @@ import 'src/utils/theme/theme_config.dart';
 void main() async {
   Get.put(LocalDatabase());
   WidgetsFlutterBinding.ensureInitialized();
-  await FlutterDownloader.initialize(
-      debug: true, // optional: set to false to disable printing logs to console (default: true)
-      ignoreSsl: true // option: set to false to disable working with http links (default: false)
-  );
+  //await FlutterDownloader.initialize(
+   //   debug: true, // optional: set to false to disable printing logs to console (default: true)
+   //   ignoreSsl: true // option: set to false to disable working with http links (default: false)
+ // );
   Stripe.publishableKey =
       'pk_live_51HDlCsEAGys7uBYAIxj7ksoznlq0DFBzIolyG8iKjgP16AbLXPRAAQyePu0u9sBjAc5ogNeSHYvCcUTmuN0yuEWm00Z8t89mNU';
       // 'pk_test_51N9OPdFZIhHk42tP1p5CVwfKn9H4HCjLJBrUHuzUIxMi6x3EooRoIHYoIhoihHvaoIyyykunZD7kSMGgkk9SFmZV00F60MIjc1';
