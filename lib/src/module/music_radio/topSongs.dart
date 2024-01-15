@@ -418,7 +418,7 @@ class _TopSongsScreenState extends State<TopSongsScreen> {
                                 10.heightBox,
                                 Container(
                                   child: Text(
-                                    "Views: ${logic.topSongs.value[index]['count']}",
+                                    "Downloads: ${logic.topSongs.value[index]['count']}",
                                     maxLines: 2,
                                     textAlign: TextAlign.start,
                                     style: context.text.titleMedium?.copyWith(
