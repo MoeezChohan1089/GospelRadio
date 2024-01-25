@@ -18,7 +18,7 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      // resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height,
@@ -92,9 +92,9 @@ class SignUpScreen extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  bottom: 350.0,
-                  left: 30.0,
-                  right: 30.0,
+                  bottom: 450.h,
+                  left: 30.w,
+                  right: 30.w,
                   // bottom: 300.0.h,
                   // left: 35.0.w,
                   // right: 30.0,
@@ -152,9 +152,9 @@ class SignUpScreen extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                    bottom: 250.0,
-                    left: 30.0,
-                    right: 30.0,
+                    bottom: 320.h,
+                    left: 30.w,
+                    right: 30.w,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -211,9 +211,9 @@ class SignUpScreen extends StatelessWidget {
                       ],
                     )),
                 Positioned(
-                    bottom: 150.0,
-                    left: 30.0,
-                    right: 30.0,
+                    bottom: 190.h,
+                    left: 30.w,
+                    right: 30.w,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -271,9 +271,9 @@ class SignUpScreen extends StatelessWidget {
                       ],
                     )),
                 Positioned(
-                  bottom: 55.0,
-                  left: 30.0,
-                  right: 30.0,
+                  bottom: 75.h,
+                  left: 30.w,
+                  right: 30.w,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -321,9 +321,9 @@ class SignUpScreen extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                    top: 30,
-                    left: 20,
-                    right: 20,
+                    top: 30.h,
+                    left: 20.w,
+                    right: 20.w,
                     child: Container(
                       child: Row(
                         children: [

@@ -79,7 +79,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                 ),
               ),
               Positioned(
-                bottom: 200.0,
+                bottom: 240.0,
                 left: 30.0,
                 right: 30.0,
                 child: Column(
