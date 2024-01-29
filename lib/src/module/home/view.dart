@@ -185,25 +185,27 @@ class HomePage extends StatelessWidget {
             ],
           ),
         ),
-          bottomNavigationBar: Padding(
-            padding: const EdgeInsets.only(left: 16),
-            child: Container(
-                margin: EdgeInsets.only(bottom: 10, top: 10),
-                height: 130,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Advertise us",
-                      style: context.text.titleMedium?.copyWith(
-                          color: AppColors.customWhiteTextColor,
-                          fontSize: 18.sp),
-                    ),
-                    Container(
-                        height: 100,
-                        child: HorizontalVideoList1()),
-                  ],
-                )),
+          bottomNavigationBar: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: Container(
+                  margin: EdgeInsets.only(bottom: 10, top: 10),
+                  height: 130,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Advertise us",
+                        style: context.text.titleMedium?.copyWith(
+                            color: AppColors.customWhiteTextColor,
+                            fontSize: 18.sp),
+                      ),
+                      Container(
+                          height: 100,
+                          child: HorizontalVideoList1()),
+                    ],
+                  )),
+            ),
           ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: AppColors.customPinkColor,

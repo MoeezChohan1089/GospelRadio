@@ -184,7 +184,7 @@ class _Music_radioPageState extends State<Music_radioPage> {
                                 "now on air".toUpperCase(),
                                 textAlign: TextAlign.center,
                                 style: context.text.bodyMedium?.copyWith(
-                                    color: AppColors.customWhiteTextColor, fontSize: 18.sp),
+                                    color: AppColors.customWhiteTextColor, fontSize: 16.sp),
                               ),
                             ),
                             Expanded(

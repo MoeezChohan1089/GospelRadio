@@ -99,12 +99,14 @@ class GridViewScreen extends StatelessWidget {
                 6.heightBox,
                 Text(
                   logic.albumsList.value[index]['title'],
+                  textAlign: TextAlign.center,
                   style: context.text.bodySmall?.copyWith(
                       color: AppColors.customWhiteTextColor, fontSize: 14.sp),
                 ),
                 3.heightBox,
                 Text(
                   logic.albumsList.value[index]['artist_name'],
+                  textAlign: TextAlign.center,
                   style: context.text.titleMedium?.copyWith(
                       color: AppColors.customPinkColor, fontSize: 16.sp),
                 ),
