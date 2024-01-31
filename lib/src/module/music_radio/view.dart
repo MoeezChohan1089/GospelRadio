@@ -36,13 +36,12 @@ class _Music_radioPageState extends State<Music_radioPage> {
     'assets/images/HgcBanner.jpeg',
     'assets/images/hgctt.png'
   ];
-  AudioPlayer player1 = AudioPlayer();
   PlayerState? _state;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    player1.onPlayerStateChanged.listen((PlayerState state) {
+    logic.player1.onPlayerStateChanged.listen((PlayerState state) {
       if (state == PlayerState.STOPPED && !manuallyStopped) {
         setState(() {
           logic.loadingStreamMusic.value = false;
@@ -59,7 +58,7 @@ class _Music_radioPageState extends State<Music_radioPage> {
         logic.loadingStreamMusic.value) {
       // Check the flag to determine if the music was manually stopped
       if (!manuallyStopped) {
-        player1.resume();
+        logic.player1.resume();
         setState(() {
           logic.loadingStreamMusic.value = false;
         });
@@ -68,12 +67,12 @@ class _Music_radioPageState extends State<Music_radioPage> {
   }
 
   initializedB() async {
-    await player1.setUrl('https://my.hgcradio.org:8000/radio.mp3');
+    await logic.player1.setUrl('https://my.hgcradio.org:8000/radio.mp3');
   }
 
   void stopSong() {
     if (logic.loadingStreamMusic.value) {
-      player1.pause();
+      logic.player1.pause();
       logic.loadingStreamMusic.value = false;
       manuallyStopped = true; // Set the manuallyStopped flag to true
     }
@@ -81,7 +80,7 @@ class _Music_radioPageState extends State<Music_radioPage> {
 
   @override
   void dispose() {
-    player1.dispose();
+    logic.player1.dispose();
     super.dispose();
   }
 
@@ -202,8 +201,8 @@ class _Music_radioPageState extends State<Music_radioPage> {
                                 children: [
                                   GestureDetector(
                                     onTap:(){
-                                      logic.loadingStreamMusic.value = false;
-                                      player1.pause();
+                                      // logic.loadingStreamMusic.value = false;
+                                      // logic.player1.pause();
                   Get.to(TopAlbumsScreen());
                   },
                                     child: Transform.rotate(
@@ -213,8 +212,8 @@ class _Music_radioPageState extends State<Music_radioPage> {
 
                                   GestureDetector(
                                     onTap: (){
-                                      logic.loadingStreamMusic.value = false;
-                                      player1.pause();
+                                      // logic.loadingStreamMusic.value = false;
+                                      // logic.player1.pause();
                                         Get.to(TopSongsScreen());
                                     },
                                     child: Transform.rotate(
@@ -243,10 +242,10 @@ class _Music_radioPageState extends State<Music_radioPage> {
                                 child: GestureDetector(
                                   onTap: () {
                                     if (logic.loadingStreamMusic.value == true) {
-                                      player1.pause();
+                                      logic.player1.pause();
                                       logic.loadingStreamMusic.value = false;
                                     } else {
-                                      player1.play(
+                                      logic.player1.play(
                                           'https://my.hgcradio.org:8000/radio.mp3');
                                       logic.loadingStreamMusic.value = true;
                                     }
@@ -265,8 +264,8 @@ class _Music_radioPageState extends State<Music_radioPage> {
                                 children: [
                                   GestureDetector(
                                     onTap: (){
-                                      logic.loadingStreamMusic.value = false;
-                                      player1.pause();
+                                      // logic.loadingStreamMusic.value = false;
+                                      // logic.player1.pause();
                                       Get.to(LatestNewsScreen());
                                     },
                                     child: Transform.rotate(
@@ -276,8 +275,8 @@ class _Music_radioPageState extends State<Music_radioPage> {
 
                                   GestureDetector(
                                     onTap: (){
-                                      logic.loadingStreamMusic.value = false;
-                                      player1.pause();
+                                      // logic.loadingStreamMusic.value = false;
+                                      // logic.player1.pause();
                                       Get.to(NewReleaseScreen());
                                     },
                                     child: Transform.rotate(

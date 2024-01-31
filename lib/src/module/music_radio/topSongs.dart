@@ -127,7 +127,8 @@ class _TopSongsScreenState extends State<TopSongsScreen> {
                   onTap: (){
                     // launchURL(
                     //     "${logic.topSongs.value[index]['view_url']}");
-
+                    logic.loadingStreamMusic.value = false;
+                    logic.player1.pause();
                     Get.to(() => MusicListCatalogScreen(
                       ID: logic.topSongs.value[index]['album_id'],
                       modelID: logic.topSongs.value[index]['model_id'],
@@ -215,7 +216,7 @@ class _TopSongsScreenState extends State<TopSongsScreen> {
                                         ),
                                       ),
                                       Container(
-                                        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                        margin: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
                                         // width: double.maxFinite,
                                         child: Text(
                                           "Downloads: ${logic.topSongs.value[index]['count']}",
@@ -341,7 +342,8 @@ class _TopSongsScreenState extends State<TopSongsScreen> {
                     onTap: (){
                       // launchURL(
                       //     "${logic.topSongs.value[index]['view_url']}");
-
+                      logic.loadingStreamMusic.value = false;
+                      logic.player1.pause();
                       Get.to(() => MusicListCatalogScreen(
                         ID: logic.topSongs.value[index]['album_id'],
                         modelID: logic.topSongs.value[index]['model_id'],

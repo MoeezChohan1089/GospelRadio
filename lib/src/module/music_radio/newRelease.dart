@@ -127,7 +127,8 @@ class _NewReleaseScreenState extends State<NewReleaseScreen> {
                     //   productUrl: '${logic.newRelease.value[index]['view_url']}',
                     //   title: logic.newRelease.value[index]['title'],
                     // ));
-
+                    logic.loadingStreamMusic.value = false;
+                    logic.player1.pause();
                     Get.to(() => MusicListCatalogScreen(
                       ID: logic.newRelease.value[index]['id'],
                     ));
@@ -264,7 +265,8 @@ class _NewReleaseScreenState extends State<NewReleaseScreen> {
                      //   productUrl: '${logic.newRelease.value[index]['view_url']}',
                      //   title: logic.newRelease.value[index]['title'],
                      // ));
-
+                     logic.loadingStreamMusic.value = false;
+                     logic.player1.pause();
                      Get.to(() => MusicListCatalogScreen(
                        ID: logic.newRelease.value[index]['id'],
                      ));

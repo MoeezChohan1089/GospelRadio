@@ -117,6 +117,8 @@ class _TopAlbumsScreenState extends State<TopAlbumsScreen> {
                   onTap: (){
                     // launchURL(
                     //     "${logic.topAlbums.value[index]['view_url']}");
+                    logic.loadingStreamMusic.value = false;
+                    logic.player1.pause();
                     Get.to(() => MusicListCatalogScreen(
                       ID: logic.topAlbums.value[index]['model_id'],
                     ));
@@ -259,7 +261,8 @@ class _TopAlbumsScreenState extends State<TopAlbumsScreen> {
                     onTap: (){
                       // launchURL(
                       //     "${logic.topAlbums.value[index]['view_url']}");
-
+                      logic.loadingStreamMusic.value = false;
+                      logic.player1.pause();
                       Get.to(() => MusicListCatalogScreen(
                         ID: logic.topAlbums.value[index]['model_id'],
                       ));

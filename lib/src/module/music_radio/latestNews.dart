@@ -108,6 +108,8 @@ class _LatestNewsScreenState extends State<LatestNewsScreen> {
                         return
                           GestureDetector(
                             onTap: (){
+                              logic.loadingStreamMusic.value = false;
+                              logic.player1.pause();
                               Get.to(NewsContentPageScreen(
                                 heading: logic.featureNews.value[index]['title'],
                                 imgSrc: logic.featureNews.value[index]['image_url'],
@@ -364,6 +366,8 @@ class _LatestNewsScreenState extends State<LatestNewsScreen> {
                         ),
                         child: GestureDetector(
                           onTap: (){
+                            logic.loadingStreamMusic.value = false;
+                            logic.player1.pause();
                             Get.to(NewsContentPageScreen(
                               heading: logic.latestNews.value[index]['title'],
                               imgSrc: logic.latestNews.value[index]['image_url'],
